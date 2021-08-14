@@ -1,6 +1,7 @@
 ### SubFire 4
 
 A refactoring of SubFire 3 to a 'monorepo', able to handle the library and the applications at the same time. This project will divide the code into packages.
+
 - core - the main access libraries and radio generator systems, converted to typescript.
 - hooks - react contexts and hooks for building apps
 - components - material-ui based components for re-use
