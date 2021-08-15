@@ -784,53 +784,6 @@ class Subsonic {
     return songs;
   }
 
-  // // they recursively (bredth first search) try to find all songs under a particular artist/index/Folder
-  // getMusicDirectorySongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
-  //   // console.log(id, 'fetching...');
-  //   const that = this;
-  //   const songs: SubsonicTypes.Song[] = [];
-  //   return new Promise((rs, rj) => {
-  //     that
-  //       .getMusicDirectory(id)
-  //       .then((data) => {
-  //         // console.log(id, 'returned', data);
-  //         const children = data.child || [];
-  //         const dirloaders = [];
-  //         for (let i = 0; i < children.length; ++i) {
-  //           if (children[i].isDir) {
-  //             dirloaders.push(that.getMusicDirectorySongs(children[i].id));
-  //           } else {
-  //             // console.log('adding song', children[i]);
-  //             songs.push(children[i]);
-  //           }
-  //         }
-  //         if (dirloaders.length) {
-  //           // console.log(id, 'more', dirloaders.length);
-  //           Promise.all(dirloaders)
-  //             .then((res) => {
-  //               res.forEach((md) => {
-  //                 md.musicDirectory.song.forEach((s) => {
-  //                   songs.push(s);
-  //                 });
-  //               });
-  //               rs({ musicDirectory: { song: songs } });
-  //             })
-  //             .catch((err2) => {
-  //               console.error(err2);
-  //               rj(err2);
-  //             });
-  //         } else {
-  //           // console.log(id, 'done', children.length, songs.length);
-  //           rs({ musicDirectory: { song: songs } });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //         rj(err);
-  //       });
-  //   });
-  // },
-
   getMusicDirectoryAlbums = async (id: string): Promise<SubsonicTypes.Song[][]> => {
     const md = await this.getMusicDirectory(id);
     const children = md.child || [];
