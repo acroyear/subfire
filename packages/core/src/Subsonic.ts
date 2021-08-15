@@ -3,20 +3,7 @@ import md5 from '../js/utils/md5';
 import { versionCompare, arrayUnique, hexEncode } from '../js/utils/utils';
 import SubsonicCache from './SubsonicCache';
 import { SubsonicTypes } from '.';
-import { CompleteAlbum, PodcastEpisode } from './SubsonicTypes';
-
-/* temp */
-/*eslint no-extend-native: "off" */
-// Array.prototype.unique = (stripEmpty) {
-//   let a = [];
-//   for (let i = 0, l = this.length; i < l; i++) {
-//     if (stripEmpty && (this[i] === null || this[i] === undefined)) continue;
-//     if (a.indexOf(this[i]) === -1) {
-//       a.push(this[i]);
-//     }
-//   }
-//   return a;
-// };
+import { Album, MusicDirectory } from './SubsonicTypes';
 
 export const empty = (v: any) => {
   return (
@@ -31,7 +18,6 @@ export const empty = (v: any) => {
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
 type CoverArtCache = { [key: string]: string }
-
 
 class Subsonic {
   constructor() {
@@ -312,11 +298,11 @@ class Subsonic {
     return SubsonicCache.MusicFolders;
   }
 
-  async getMusicFolder = (id: string): Promise<SubsonicTypes.MusicFolder> => {
+  getMusicFolder = async (id: string): Promise<SubsonicTypes.MusicFolder> => {
     const mf = await this.getMusicFolders();
     const m = mf.find(f => f.id + '' === id + '');
     if (m === undefined) throw ('Music Folder Not Found');
-    return Promise.resolve(m);
+    return m;
   }
 
   getIndexes = async (id: number): Promise<SubsonicTypes.MusicDirectoryIndex[]> => {
@@ -414,7 +400,7 @@ class Subsonic {
       return CurrentPromises[promiseKey];
     }
     // console.log('return new');
-    const p = await this._execute('getArtist', {
+    const p = this._execute('getArtist', {
       id: id
     }).then(res => {
       // console.log('updated', res);
@@ -451,13 +437,14 @@ class Subsonic {
     return p;
   }
 
-  async getTopSongs = (name: string, count?: number): Promise<SubsonicTypes.Song[]> => {
+  getTopSongs = async (name: string, count?: number): Promise<SubsonicTypes.Song[]> => {
+    if (!name || name.length === 0) return [];
     const res = await this._execute('getTopSongs', {
       artist: name,
       count: count || 50
     });
     const songs = Array.isArray(res.topSongs.song) ? res.topSongs.song : [res.topSongs.song];
-    return Promise.resolve(songs);
+    return songs;
   }
 
   getTopArtistSongs = (id: string, count?: number): Promise<SubsonicTypes.Song[]> => {
@@ -471,14 +458,14 @@ class Subsonic {
     return (res.song);
   }
 
-  async getStarred = (musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
+  getStarred = async (musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
     const [star1, star2] = await Promise.all([this.getStarred1(musicFolderId), this.getStarred2(musicFolderId)])
     const rv: SubsonicTypes.SearchResult = {
       ...star2
     };
     if (star1.album) rv.albumDirectories = star1.album;
     if (star1.artist) rv.artistDirectories = star1.artist;
-    return Promise.resolve(rv);
+    return rv;
   }
 
   getStarred1 = async (musicFolderId: number): Promise<SubsonicTypes.SearchResult2> => {
@@ -493,14 +480,14 @@ class Subsonic {
     return res ? res.starred2 : {};
   }
 
-  async search = (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
+  search = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
     const [srch1, srch2] = await Promise.all([this.search2(s, params, musicFolderId), this.search3(s, params, musicFolderId)])
     const rv: SubsonicTypes.SearchResult = {
       ...srch2
     };
     if (srch1.album) rv.albumDirectories = srch1.album;
     if (srch1.artist) rv.artistDirectories = srch1.artist;
-    return Promise.resolve(rv);
+    return rv;
   }
 
   search2 = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SubsonicTypes.SearchResult2> => {
@@ -545,40 +532,47 @@ class Subsonic {
     return this._execute('getRandomSongs', params);
   }
 
-  // getArtistInfo2 = (id, similarArtistCount) => {
-  //   return this.getArtistInfo(id, true, similarArtistCount);
-  // },
-  // getArtistInfo = (id, useID3, similarArtistCount = 20) => {
-  //   const key = 'getArtistInfo' + (id || -1) + '';
-  //   if (!empty(SubsonicCache.ArtistInfoById[key])) {
-  //     console.log('return cache');
-  //     return Promise.resolve(SubsonicCache.ArtistInfoById[key]);
-  //   }
-  //   // existing promise
-  //   if (CurrentPromises[key]) {
-  //     console.log('return existing');
-  //     return CurrentPromises[key];
-  //   }
-  //   const method = useID3 ? 'getArtistInfo2' : 'getArtistInfo';
-  //   const params = {
-  //     id: id,
-  //     count: similarArtistCount
-  //   };
-  //   const p = this._execute(method, params).then(res => {
-  //     const ai = res.artistInfo || res.artistInfo2;
-  //     const linkIndex = ai?.biography?.indexOf('<a') || -1;
-  //     if (linkIndex >= -1) {
-  //       ai.link = ai.biography.substring(linkIndex);
-  //       ai.biography = ai.biography.substring(0, linkIndex);
-  //     }
-  //     SubsonicCache.ArtistInfoById[key] = ai;
-  //     delete CurrentPromises[key];
-  //     console.log('return fetch');
-  //     return ai;
-  //   });
-  //   CurrentPromises[key] = p;
-  //   return p;
-  // },
+  getArtistInfo = (id: string, useID3: boolean, similarArtistCount: number = 20): Promise<SubsonicTypes.ArtistInfo> => {
+    const key = 'getArtistInfo' + (id || -1) + '';
+    if (!empty(SubsonicCache.ArtistInfoById[key])) {
+      console.log('return cache');
+      return Promise.resolve(SubsonicCache.ArtistInfoById[key]);
+    }
+    // existing promise
+    if (CurrentPromises[key]) {
+      console.log('return existing');
+      return CurrentPromises[key];
+    }
+    const method = useID3 ? 'getArtistInfo2' : 'getArtistInfo';
+    const params = {
+      id: id,
+      count: similarArtistCount
+    };
+    const p = this._execute(method, params).then(res => {
+      const ai = res.artistInfo || res.artistInfo2;
+      const linkIndex = ai?.biography?.indexOf('<a') || -1;
+      if (linkIndex >= -1) {
+        ai.link = ai.biography.substring(linkIndex);
+        ai.biography = ai.biography.substring(0, linkIndex);
+      }
+      SubsonicCache.ArtistInfoById[key] = ai;
+      delete CurrentPromises[key];
+      console.log('return fetch');
+      return ai;
+    });
+    CurrentPromises[key] = p;
+    return p;
+  }
+
+  getArtistInfo1 = (id: string, similarArtistCount?: number): Promise<SubsonicTypes.ArtistInfo> => {
+    return this.getArtistInfo(id, false, similarArtistCount);
+  }
+
+  getArtistInfo2 = (id: string, similarArtistCount?: number): Promise<SubsonicTypes.ArtistInfo> => {
+    return this.getArtistInfo(id, true, similarArtistCount);
+  }
+
+
   // getAlbumInfo2 = (id) => {
   //   return this.getAlbumInfo(id, true);
   // },
@@ -708,7 +702,7 @@ class Subsonic {
   //   });
   // },
 
-  getPodcasts = async (includeEpisodes?: boolean, id: string): Promise<SubsonicTypes.Podcasts> => {
+  getPodcasts = async (includeEpisodes?: boolean, id?: string): Promise<SubsonicTypes.Podcasts> => {
     const params: any = {};
     if (includeEpisodes) params.includeEpisodes = true;
     if (id) params.id = id;
@@ -749,329 +743,181 @@ class Subsonic {
 
   getCompleteAlbum = async (id: string): Promise<SubsonicTypes.CompleteAlbum> => {
     const album = await this.getAlbum(id);
-    const rv: CompleteAlbum = {
+    const rv: SubsonicTypes.CompleteAlbum = {
       ...album,
       song: [album.song]
     };
     return rv;
   }
 
-  getSimilarArtists = (id, count, depth) => {
-    const that = this;
-    let c = empty(count) ? '10' : count,
-      d = empty(depth) ? '2' : depth;
-    c = c * 1;
-    d = d * 1;
-    let similarArtists = ['' + id];
-    return new Promise((rs, rj) => {
-      const key = 'getArtistInfo' + (id || -1) + '';
-      console.log('cached', SubsonicCache.ArtistInfoById[key]);
-      const pinit = SubsonicCache.ArtistInfoById[id]
-        ? Promise.resolve({
-          artistInfo2: SubsonicCache.ArtistInfoById[key]
-        })
-        : that.getArtistInfo2(id, count);
-      pinit
-        .then((data) => {
-          const nextloaders = [];
-          const info = (SubsonicCache.ArtistInfoById[id] = data);
-          if (info.similarArtist) => {
-            info.similarArtist.forEach((a) => {
-              // cache artist name, because it may not be cached in station mode
-              if (!SubsonicCache.ArtistsById[a.id]) SubsonicCache.ArtistsById[a.id] = a;
-              if (d) nextloaders.push(that.getSimilarArtists(a.id, c, d - 1));
-              similarArtists.push(a.id);
-            });
+  getSimilarArtists = async (id: string, count?: number, depth?: number): Promise<string[]> => {
+    let c = empty(count) ? 10 : count,
+      d = empty(depth) ? 2 : depth;
+    let similarArtistsIds = ['' + id];
+    const key = 'getArtistInfo' + id + '';
+    console.log('cached', SubsonicCache.ArtistInfoById[key]);
+    const info = SubsonicCache.ArtistInfoById[id] || await this.getArtistInfo2(id, count);
+    if (info.similarArtist) {
+      for (const a of info.similarArtist) {
+        // cache artist name, because it may not be cached in station mode
+        if (!SubsonicCache.ArtistsById[a.id]) SubsonicCache.ArtistsById[a.id] = a;
+        similarArtistsIds.push(a.id);
+        if (d) {
+          const nextArtistsIds = await this.getSimilarArtists(a.id, c, d - 1);
+          for (const naid of nextArtistsIds) {
+            similarArtistsIds.push(naid);
           }
-          // console.log('similar to', id, similarArtists, nextloaders.length);
-          if (!nextloaders.length) => {
-            rs(arrayUnique(similarArtists));
-            return;
-          }
-          Promise.all(nextloaders)
-            .then((res) => {
-              res.forEach((sa) => {
-                // console.log('sa', sa);
-                sa.forEach((s) => {
-                  // console.log(similarArtists, s);
-                  similarArtists = similarArtists.concat(s);
-                });
-              });
-              // console.log('similar to', id, similarArtists);
-              rs(arrayUnique(similarArtists));
-            })
-            .catch((err2) => {
-              console.error(err2);
-              rj(err2);
-            });
-        })
-        .catch((err) => {
-          rj(err);
-        });
-    });
-  },
+        }
+      };
+    }
+    return similarArtistsIds;
+  }
 
-  getTopSimilarSongs = (id, count, depth) => {
-    const that = this;
-    count = empty(count) ? '10' : count;
-    depth = empty(depth) ? '2' : depth;
-    return new Promise((rs, rj) => {
-      that
-        .getSimilarArtists(id, count, depth)
-        .then((data: any) => {
-          console.log('sa', data);
-          const nextloaders: any[] = [];
-          data.forEach((i) => {
-            const a = SubsonicCache.ArtistsById[i] ? SubsonicCache.ArtistsById[i].name : null;
-            if (a) nextloaders.push(that.getTopSongs(a));
-          });
-          return Promise.all(nextloaders);
-        })
-        .then((data) => {
-          console.warn('all', data);
-          data = data
-            .map((d) => {
-              return d.topSongs.song;
-            })
-            .flat();
-          // .unique(true);
-          console.log('rs', data);
-          rs(data);
-        })
-        .catch((err) => {
-          console.log('rj', err);
-          rj(err);
-        });
-    });
-  },
+  getTopSimilarSongs = async (id: string, count?: number, depth?: number): Promise<SubsonicTypes.Song[]> => {
+    let songs: SubsonicTypes.Song[] = [];
+    const similarArtists = await this.getSimilarArtists(id, count, depth);
+    for (const sa of similarArtists) {
+      const ts = await this.getTopArtistSongs(sa);
+      songs = [...songs, ...ts];
+    }
+    songs = arrayUnique(songs);
+    return songs;
+  }
 
-  // TODO: rewrite these as async/await in order to be able to run them synchronously and reduce
-  // risk of resource expiration
+  // // they recursively (bredth first search) try to find all songs under a particular artist/index/Folder
+  // getMusicDirectorySongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
+  //   // console.log(id, 'fetching...');
+  //   const that = this;
+  //   const songs: SubsonicTypes.Song[] = [];
+  //   return new Promise((rs, rj) => {
+  //     that
+  //       .getMusicDirectory(id)
+  //       .then((data) => {
+  //         // console.log(id, 'returned', data);
+  //         const children = data.child || [];
+  //         const dirloaders = [];
+  //         for (let i = 0; i < children.length; ++i) {
+  //           if (children[i].isDir) {
+  //             dirloaders.push(that.getMusicDirectorySongs(children[i].id));
+  //           } else {
+  //             // console.log('adding song', children[i]);
+  //             songs.push(children[i]);
+  //           }
+  //         }
+  //         if (dirloaders.length) {
+  //           // console.log(id, 'more', dirloaders.length);
+  //           Promise.all(dirloaders)
+  //             .then((res) => {
+  //               res.forEach((md) => {
+  //                 md.musicDirectory.song.forEach((s) => {
+  //                   songs.push(s);
+  //                 });
+  //               });
+  //               rs({ musicDirectory: { song: songs } });
+  //             })
+  //             .catch((err2) => {
+  //               console.error(err2);
+  //               rj(err2);
+  //             });
+  //         } else {
+  //           // console.log(id, 'done', children.length, songs.length);
+  //           rs({ musicDirectory: { song: songs } });
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //         rj(err);
+  //       });
+  //   });
+  // },
 
-  // the following are needed only for the radio-generator. they recursively (bredth first search) try to find all songs under a particular artist/index/Folder
-  getMusicDirectorySongs = (id) => {
-    // console.log(id, 'fetching...');
-    const that = this;
-    const songs = [];
-    return new Promise((rs, rj) => {
-      that
-        .getMusicDirectory(id)
-        .then((data) => {
-          // console.log(id, 'returned', data);
-          const children = data.child || [];
-          const dirloaders = [];
-          for (let i = 0; i < children.length; ++i) {
-            if (children[i].isDir) {
-              dirloaders.push(that.getMusicDirectorySongs(children[i].id));
-            } else {
-              // console.log('adding song', children[i]);
-              songs.push(children[i]);
-            }
-          }
-          if (dirloaders.length) {
-            // console.log(id, 'more', dirloaders.length);
-            Promise.all(dirloaders)
-              .then((res) => {
-                res.forEach((md) => {
-                  md.musicDirectory.song.forEach((s) => {
-                    songs.push(s);
-                  });
-                });
-                rs({ musicDirectory: { song: songs } });
-              })
-              .catch((err2) => {
-                console.error(err2);
-                rj(err2);
-              });
-          } else {
-            // console.log(id, 'done', children.length, songs.length);
-            rs({ musicDirectory: { song: songs } });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          rj(err);
-        });
-    });
-  },
-  getMusicDirectoryAlbums = (id) => {
-    //console.log(id, "fetching...");
-    const that = this;
-    return new Promise((rs, rj) => {
-      that
-        .getMusicDirectory(id)
-        .then((data) => {
-          const albums = [];
-          //console.log(id, "returned", data);
-          const children = data.child || [];
-          const dirloaders = [];
-          const songs = [];
-          for (let i = 0; i < children.length; ++i) {
-            if (children[i].isDir) {
-              //console.log("fetching folder", children[i]);
-              dirloaders.push(that.getMusicDirectoryAlbums(children[i].id));
-            } else {
-              //console.log("adding song", id, children[i]);
-              songs.push(children[i]);
-            }
-          }
-          if (songs.length) albums.push(songs);
-          if (dirloaders.length) {
-            //console.log(id, "more", dirloaders.length);
-            Promise.all(dirloaders)
-              .then((res) => {
-                res.forEach((md) => {
-                  //console.log(md);
-                  md.musicDirectoryAlbums.album.forEach((s) => {
-                    //console.log('appending album length', s.length, s);
-                    albums.push(s);
-                  });
-                });
-                rs({ musicDirectoryAlbums: { album: albums } });
-              })
-              .catch((err2) => {
-                console.error(err2);
-                rj(err2);
-              });
-          } else {
-            //console.log(id, "done", albums.length);
-            rs({ musicDirectoryAlbums: { album: albums } });
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          rj(err);
-        });
-    });
-  },
-  getArtistSongs = (id) => {
-    const that = this;
-    return new Promise((rs, rj) {
-      that
-        .getArtist(id)
-        .then((data) {
-          // console.log(data);
-          const album = data && data.album ? data.album : [];
-          const albumloaders = album.map((a) {
-            return that.getAlbum(a.id);
-          });
-          // console.log(albumloaders);
-          Promise.all(albumloaders)
-            .then((albums) {
-              const rv = {
-                albumCollection: {
-                  song: []
-                }
-              };
-              albums.forEach((al) {
-                // console.log(al);
-                al.song.forEach((s) {
-                  rv.albumCollection.song.push(s);
-                });
-              });
-              // // console.log('rv', rv);
-              rs(rv);
-            })
-            .catch((err) {
-              rj(err);
-            });
-        })
-        .catch((err) {
-          console.error(err);
-          rj(err);
-        });
-    });
-  },
-  getArtistAlbums = (id) {
-    const that = this;
-    return new Promise((rs, rj) {
-      that
-        .getArtist(id)
-        .then((data) {
-          // console.log(data);
-          const albumloaders = data.album.map((a) {
-            return that.getAlbum(a.id);
-          });
-          // console.log(albumloaders);
-          Promise.all(albumloaders)
-            .then((albums) {
-              const rv = {
-                albumCollection: {
-                  albums: []
-                }
-              };
-              albums.forEach((al) {
-                const alSongs = [];
-                al.song.forEach((s) {
-                  alSongs.push(s);
-                });
-                rv.albumCollection.albums.push(alSongs);
-              });
-              // console.log('rv', rv);
-              rs(rv);
-            })
-            .catch((err) {
-              rj(err);
-            });
-        })
-        .catch((err) {
-          console.error(err);
-          rj(err);
-        });
-    });
-  },
-  getPlaylistAsAlbumList(id, id3) {
-    const that = this;
-    return new Promise((rs, rj) {
-      that.getPlaylist(id).then((res) {
-        rs(that.convertPlaylistToAlbumList(res.playlist, id3));
-      });
-    });
-  },
-  convertPlaylistToAlbumList(pl, id3) {
-    const init = {
-      done: {},
-      result: []
-    };
-    pl = pl || { entry: [] };
-    pl.entry = pl.entry || [];
-    const res = pl.entry.reduce((v, p, idx, a) {
-      let r;
+  getMusicDirectoryAlbums = async (id: string): Promise<SubsonicTypes.Song[][]> => {
+    const md = await this.getMusicDirectory(id);
+    const children = md.child || [];
+    const songs: SubsonicTypes.Song[] = [];
+    let rv: SubsonicTypes.Song[][] = [];
+    for (const c of children) {
+      if (c.isDir) {
+        const cs: SubsonicTypes.Song[][] = await this.getMusicDirectoryAlbums(c.id);
+        rv = [...rv, ...cs];
+      } else {
+        songs.push(c as SubsonicTypes.Song);
+      }
+    }
+    rv = [songs, ...rv];
+    return rv;
+  }
+
+  getMusicDirectorySongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
+    const md = await this.getMusicDirectory(id);
+    const children = md.child || [];
+    const songs: SubsonicTypes.Song[] = [];
+    let rv: SubsonicTypes.Song[] = [];
+    for (const c of children) {
+      if (c.isDir) {
+        const cs: SubsonicTypes.Song[] = await this.getMusicDirectorySongs(c.id);
+        rv = [...rv, ...cs];
+      } else {
+        songs.push(c as SubsonicTypes.Song);
+      }
+    }
+    rv = [...songs, ...rv];
+    return rv;
+  }
+
+  getArtistAlbums = async (id: string): Promise<SubsonicTypes.Song[][]> => {
+    let rv: SubsonicTypes.Song[][] = [];
+    const ar = await this.getArtist(id);
+    if (!ar.album) return rv;
+    for (const al of ar.album) {
+      const a = await this.getAlbum(al.id);
+      rv = [...rv, a.song];
+    }
+    return rv;
+  }
+
+  getArtistSongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
+    let rv: SubsonicTypes.Song[] = [];
+    const ar = await this.getArtist(id);
+    if (!ar.album) return rv;
+    for (const al of ar.album) {
+      const a = await this.getAlbum(al.id);
+      rv = [...rv, ...a.song];
+    }
+    return rv;
+  }
+
+  getPlaylistAsAlbumList = async (id: string, id3: boolean): Promise<SubsonicTypes.MusicDirectory[] | SubsonicTypes.Album[]> => {
+    const pl = await this.getPlaylist(id);
+    const rvM: SubsonicTypes.MusicDirectory[] = [];
+    const rvA: | SubsonicTypes.Album[] = [];
+    if (!pl.entry) return [];
+    for (const p of pl.entry) {
       if (id3) {
-        // <album id="1768" name="Duets" coverArt="al-1768" songCount="2" created="2002-11-09T15:44:40"
-        //  duration="514" artist="Nik Kershaw" artistId="829"/>
-        r = {
+        const a = {
           coverArt: p.coverArt,
           name: p.album,
           artist: p.artist,
           id: p.albumId,
           artistId: p.artistId,
           created: p.created
-        };
+        } as Album;
+        rvA.push(a);
       } else {
-        // <album id="11" parent="1" title="Arrival" artist="ABBA" isDir="true" coverArt="22"
-        //  userRating="4" averageRating="4.5"/>
-        r = {
+        const md = {
           coverArt: p.coverArt,
           name: p.album,
           artist: p.artist,
           id: p.parent
-        };
+        } as MusicDirectory;
+        rvM.push(md);
       }
-      if (v.done[r.id]) return v;
-      v.done[r.id] = r;
-      v.result.push(r);
-      return v;
-    }, init);
-    // console.log(res);
-    const rv = {};
-    rv[id3 ? 'albumList2' : 'albumList'] = {
-      album: res.result
-    };
-    return rv;
-  },
+    }
+    if (id3) return rvA;
+    return rvM;
+  }
 
-  getAvatarURL = (username: string) {
+  getAvatarURL = (username: string) => {
     username = username || this._u;
     const key = 'av-' + username;
     let url;
@@ -1086,7 +932,7 @@ class Subsonic {
     return url;
   }
 
-  getCoverArtURL = (id: string, size: number) {
+  getCoverArtURL = (id: string, size: number) => {
     const params: any = {
       id: id || -1
     };
@@ -1104,7 +950,7 @@ class Subsonic {
     return url;
   }
 
-  getHLSURL = (id: string, params: any) {
+  getHLSURL = (id: string, params: any) => {
     params = Object.assign(
       {
         id: id,
@@ -1115,7 +961,7 @@ class Subsonic {
     return this._buildURI('hls', params);
   }
 
-  getStreamingURL = (id: string, params: any) {
+  getStreamingURL = (id: string, params: any) => {
     params = Object.assign(
       {
         id: id,
@@ -1126,7 +972,7 @@ class Subsonic {
     return this._buildURI('stream', params);
   }
 
-  getDownloadURL = (id: string) {
+  getDownloadURL = (id: string) => {
     return this._buildURI('download', {
       id: id
     });
@@ -1170,7 +1016,6 @@ class Subsonic {
     }
   }
 };
-// temp hack for those still not quite getting it.
-// window['fetcher'] = Subsonic;
 const s = new Subsonic();
+(window as any)['fetcher'] = s;
 export default s;

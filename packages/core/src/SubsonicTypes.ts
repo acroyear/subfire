@@ -80,7 +80,7 @@ export interface ArtistIndexes {
 export interface MusicDirectory {
   id: string;
   name: string;
-  child: (MusicDirectory | Song)[];
+  child?: (MusicDirectory | Song)[];
   starred?: Date;
   isDir?: boolean;
   title?: string;
@@ -251,6 +251,16 @@ export interface ChatMessageEntity {
   username: string;
   time: number;
   message: string;
+}
+
+export interface ArtistInfo {
+  biography: string;
+  musicBrainzId: string;
+  lastFmUrl: string;
+  smallImageUrl: string;
+  mediumImageUrl: string;
+  largeImageUrl: string;
+  similarArtist?: (Artist | MusicDirectory)[] | null;
 }
 
 /* everything below here is for Radio Generation */
