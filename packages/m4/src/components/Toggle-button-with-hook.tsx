@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "my-monorepo-ui-lib";
+import { Button } from "@subfire/components";
 import { useState } from "react";
 
 export const ToggleButtonWithHook = () => {

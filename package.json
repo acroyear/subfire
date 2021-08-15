@@ -1,17 +1,18 @@
 {
-  "name": "lerna-typescript-cra-uilib-starter",
-  "version": "2.0.0",
-  "description": "Starter for Monorepos: Lerna, TypeScript, CRA and Storybook",
+  "name": "SubFire4",
+  "version": "4.0.0",
+  "description": "Monorepo of SubFire 4",
   "main": "index.js",
-  "repository": "https://github.com/shnydercom/lerna-typescript-cra-uilib-starter.git",
-  "author": "shnyder.com",
+  "repository": "https://github.com/acroyear/subfire",
+  "author": "JWS",
   "license": "MIT",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "babel-loader": "8.1.0"
   },
   "scripts": {
     "story": "lerna run storybook --stream",

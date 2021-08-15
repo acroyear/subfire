@@ -1,5 +1,5 @@
 import React from "react";
-import { Header } from "my-monorepo-ui-lib";
+import {Header} from "@subfire/components";
 
 export const HeaderFromUILib = () => {
   return (

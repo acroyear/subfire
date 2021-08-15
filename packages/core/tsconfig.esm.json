@@ -1,6 +1,7 @@
 {
     "include": [
-      "src"
+      "src",
+      "js"
     ],
     "extends": "./tsconfig.json",
     "compilerOptions": {
@@ -8,7 +9,6 @@
       "module": "esnext",
       "target": "esnext",
       "moduleResolution": "node",
-      "lib": ["dom", "esnext"],
-      "declaration": false
+      "declaration": true
     }
   }

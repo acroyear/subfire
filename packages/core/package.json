@@ -1,0 +1,18 @@
+{
+  "name": "@subfire/core",
+  "type": "module",
+  "version": "4.0.0",
+  "main": "./lib/src/index.js",
+  "module": "./lib-ems/src/index.js",
+  "types": "./lib/src/index.d.ts",
+  "scripts": {
+    "test": "test",
+    "libbuild": "tsc && tsc --build tsconfig.esm.json && yarn compcss",
+    "compcss": "yarn sass src/:lib/ && yarn sass src/:lib-esm/"
+  },
+  "author": "Joe Shelby",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}

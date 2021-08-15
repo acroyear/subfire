@@ -3,6 +3,10 @@ import React from 'react';
 import { Header } from './Header';
 import './page.css';
 
+import { utils, SubsonicTypes } from "@subfire/core";
+
+const { toHHMMSS, hexEncode } = utils;
+
 export interface PageProps {
   user?: {};
   onLogin: () => void;
@@ -16,6 +20,11 @@ export const Page: React.FC<PageProps> = ({ user, onLogin, onLogout, onCreateAcc
 
     <section>
       <h2>Pages in Storybook</h2>
+      <p>
+        {toHHMMSS(53232, true)}
+        <br />
+        {hexEncode('hi mom')}
+      </p>
       <p>
         We recommend building UIs with a{' '}
         <a href="https://componentdriven.org" target="_blank" rel="noopener noreferrer">
