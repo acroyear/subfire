@@ -169,6 +169,14 @@ export interface NowPlaying {
   entry?: (NowPlayingEntry)[] | null;
 }
 
+export interface SearchResult {
+  song?: (Song)[] | null;
+  albumDirectories?: (MusicDirectory)[] | null;
+  artistDirectories?: (MusicDirectory)[] | null;
+  album?: (Album)[] | null;
+  artist?: (Artist)[] | null;
+}
+
 export interface SearchResult2 {
   song?: (Song)[] | null;
   album?: (MusicDirectory)[] | null;
@@ -210,4 +218,62 @@ export interface Genre {
   songCount: number;
   albumCount: number;
   value: string;
+}
+
+export interface SearchCriteria {
+  query: string,
+  musicFolderId?: number,
+  artistCount?: number,
+  artistOffset?: number,
+  albumCount?: number,
+  albumOffset?: number,
+  songCount?: number,
+  songOffset?: number
+}
+
+export type AlbumListCriteriaType = 'random' | 'newest' | 'highest' | 'frequent' | 'recent' | 'alphabeticalByName' | 'alphabeticalByArtist' | 'starred' | 'byYear' | 'byGenre';
+
+export interface AlbumListCriteria {
+  type: AlbumListCriteriaType,
+  size?: number,
+  offset?: number,
+  fromYear?: number,
+  toYear?: number,
+  genre?: string,
+  musicFolderId?: number
+}
+
+export interface ChatMessages {
+  chatMessage?: (ChatMessageEntity)[] | null;
+}
+
+export interface ChatMessageEntity {
+  username: string;
+  time: number;
+  message: string;
+}
+
+/* everything below here is for Radio Generation */
+
+export interface CategorizedPlaylists {
+  allPlaylists: Playlist[]
+  playlists: Playlist[]
+  stationPlaylists: Playlist[]
+  receivers: Playlist[]
+  myPlaylists: Playlist[]
+}
+
+export interface CompleteAlbum {
+  id: string;
+  name: string;
+  artist: string;
+  artistId: string;
+  coverArt: string;
+  songCount: number;
+  duration: number;
+  playCount: number;
+  created: Date;
+  year: number;
+  genre: string;
+  song: Song[][];
 }
