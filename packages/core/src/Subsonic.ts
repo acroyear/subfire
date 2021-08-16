@@ -198,7 +198,7 @@ class Subsonic {
     return res.playlist;
   }
 
-  createPlaylist = (name: string, id: string): Promise<SubsonicTypes.Playlist | null> => {
+  createPlaylist = (name: string, id?: string | null): Promise<SubsonicTypes.Playlist | null> => {
     const that = this;
     const promiseKey = 'createPlaylist' + name;
     if (CurrentPromises[promiseKey]) {

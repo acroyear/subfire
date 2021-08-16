@@ -192,14 +192,14 @@ export interface SearchResult3 {
 export interface Playlist {
   id: string;
   name: string;
-  owner: string;
+  owner?: string;
   public: boolean;
-  songCount: number;
-  duration: number;
-  comment: string;
-  created: Date;
-  changed: Date;
-  coverArt: string;
+  songCount?: number;
+  duration?: number;
+  comment?: string;
+  created?: Date;
+  changed?: Date;
+  coverArt?: string;
   entry?: Song[]
 }
 
@@ -271,6 +271,7 @@ export interface CategorizedPlaylists {
   stationPlaylists: Playlist[]
   receivers: Playlist[]
   myPlaylists: Playlist[]
+  stations: SubfireStation[]
 }
 
 export interface CompleteAlbum {
@@ -286,4 +287,10 @@ export interface CompleteAlbum {
   year: number;
   genre: string;
   song: Song[][];
+}
+
+export interface SubfireStation {
+  generate: any
+  generateAll: any
+  generateAllAndSave: any
 }
