@@ -47,7 +47,7 @@ interface StationData {
     o: {
       m?: number | string // max
       t?: string // tag
-      b?: boolean | string // block
+      b?: number | string // block
     }
     g: Generator[]
   }
@@ -434,7 +434,7 @@ export class Station implements SubsonicTypes.SubfireStation {
     }
   }
 
-  generateAll = async () => {
+  generateAll = async (): Promise<SubsonicTypes.Song[]> => {
     const gs = await this.generators();
     const values = [];
     for (let g of gs) {
@@ -446,8 +446,8 @@ export class Station implements SubsonicTypes.SubfireStation {
       }
       values.push(nextValues);
     }
-    let buckets = [],
-      rest = [],
+    let buckets: any[] = [],
+      rest: any[] = [],
       nextStart = 0;
     for (const v of values) {
       let weight = parseInt(v.g.p.w || 0, 10);
@@ -460,7 +460,7 @@ export class Station implements SubsonicTypes.SubfireStation {
           values: v.songs,
           count: 0,
           /*jshint -W083 */
-          match: function (r) {
+          match: function (r: number) {
             //console.log(this.name, "do i match", this.min, r, this.max, this.min <= r && r < this.max);
             return this.min <= r && r < this.max;
           },
@@ -483,7 +483,7 @@ export class Station implements SubsonicTypes.SubfireStation {
       values: rest,
       count: 0,
       /*jshint -W083 */
-      match: function (r) {
+      match: function (r: number) {
         //console.log(this.name, "do i match", this.min, r, this.max, this.min <= r && r < this.max);
         return this.min <= r && r < this.max;
       },
@@ -491,10 +491,10 @@ export class Station implements SubsonicTypes.SubfireStation {
         this.count++;
         return this.values.length ? this.values.shift() : null;
       }
-    };
+    } as any;
     buckets.push(rest);
 
-    let songs = [];
+    let songs: any[] = [];
     let i = 0;
     while (moreSongs(buckets) && songs.length < 2000 && i < 10000) {
       const s = grabSong(buckets);
@@ -504,13 +504,13 @@ export class Station implements SubsonicTypes.SubfireStation {
     if (buckets.length === 1) {
       Array.from({ length: 5 }, () => arrayShuffle(songs));
     }
-    let block = parseInt(this.block, 10);
+    let block = parseInt(this.block + "", 10);
     if (!block || isNaN(block)) block = 0;
     if (block) {
       songs = this.blockParty(songs, block);
     }
 
-    let max = parseInt(this.max, 10);
+    let max = parseInt(this.max + "", 10);
     if (!max || isNaN(max)) max = 900;
 
     songs = songs.flat(1000).slice(0, max);
@@ -519,18 +519,12 @@ export class Station implements SubsonicTypes.SubfireStation {
   }
 
   // block party mode
-  pluckSongs(a) {
-    const sl = this.keySongs[a];
-    for (let i = 0; i < this.block; ++i) {
-      if (sl.length === 0) break;
-      this.newSongs.push(sl.shift());
-    }
-  }
-  blockParty(songs, block) {
-    const keySongs = {};
+
+  blockParty(songs: any, block: any) {
+    const keySongs:any = {};
     let keys = [];
-    const newSongs = [];
-    songs.forEach(function (s) {
+    const newSongs: any[] = [];
+    songs.forEach(function (s: any) {
       const s1 = Array.isArray(s) ? s[0] : s;
       //console.log(s, s1);
       let a = s1.artistId;
@@ -542,19 +536,23 @@ export class Station implements SubsonicTypes.SubfireStation {
       }
       keySongs[a].push(s);
     });
-    const pluck = this.pluckSongs.bind({
-      keySongs: keySongs,
-      block: block,
-      newSongs: newSongs
-    });
+
+    const pluckSongs = (a: any) => {
+      const sl = keySongs[a];
+      for (let i = 0; i < block; ++i) {
+        if (sl.length === 0) break;
+        newSongs.push(sl.shift());
+      }
+    }
+
     do {
       // shuffle the keys
       keys = arrayShuffle(keys);
       // and pluck a 'block' of songs out
-      keys.forEach(pluck);
+      keys.forEach(pluckSongs);
     } while (songs.length > newSongs.length);
 
-    return newSongs;
+    return newSongs as SubsonicTypes.Song[];
   }
 
   saveStation = async (): Promise<Station | null> => {

@@ -271,7 +271,7 @@ export interface CategorizedPlaylists {
   stationPlaylists: Playlist[]
   receivers: Playlist[]
   myPlaylists: Playlist[]
-  stations: SubfireStation[]
+  stations?: SubfireStation[]
 }
 
 export interface CompleteAlbum {
