@@ -31,7 +31,7 @@ const AuthExchangeActions = {
     }
   },
 
-  clientRequest: function (code) {
+  clientRequest: function (code: string) {
     const transmissionDigits = code.substring(0, 5);
 
     const myHeaders = new Headers();
