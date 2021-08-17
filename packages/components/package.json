@@ -18,8 +18,9 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.4",
-    "react-use": "^17.2.4",
-    "@subfire/core": "*"
+    "@subfire/core": "*",
+    "react-singleton-hook": "^3.2.1",
+    "react-use": "^17.2.4"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^6.1.17",
