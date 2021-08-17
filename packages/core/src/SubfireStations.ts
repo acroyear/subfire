@@ -1,4 +1,4 @@
-import Subsonic from './Subsonic';
+import { Subsonic } from './Subsonic';
 import * as SubsonicTypes from './SubsonicTypes';
 import { getRandomIntInclusive, arrayShuffle, arrayRemove, format as f } from '../js/utils/utils';
 
@@ -521,7 +521,7 @@ export class Station implements SubsonicTypes.SubfireStation {
   // block party mode
 
   blockParty(songs: any, block: any) {
-    const keySongs:any = {};
+    const keySongs: any = {};
     let keys = [];
     const newSongs: any[] = [];
     songs.forEach(function (s: any) {
@@ -591,9 +591,8 @@ export class Station implements SubsonicTypes.SubfireStation {
   // }
 }
 
-const createStations = async function (pls: SubsonicTypes.CategorizedPlaylists) {
+export const createStations = async function (pls: SubsonicTypes.CategorizedPlaylists) {
   pls.stations = (pls.stationPlaylists || []).map(pl => new Station(pl));
   return pls;
 };
 
-export default createStations;

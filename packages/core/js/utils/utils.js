@@ -291,7 +291,18 @@ export const loadJS = function(url, implementationCode, location){
     location.appendChild(scriptTag);
 };
 
+export const empty = (v) => {
+  return (
+    v === undefined ||
+    v === null ||
+    v === "" ||
+    (Array.isArray(v) && v.length === 0) ||
+    (typeof v === "object" && Object.entries(v).length === 0)
+  );
+};
+
 export default { // eslint-disable-line
+  empty,
   versionCompare,
   getRandomIntInclusive,
   arrayShuffle,

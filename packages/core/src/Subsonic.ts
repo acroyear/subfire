@@ -1,25 +1,15 @@
 import URI from '../js/utils/URI';
 import md5 from '../js/utils/md5';
-import { versionCompare, arrayUnique, hexEncode } from '../js/utils/utils';
-import SubsonicCache from './SubsonicCache';
+import { versionCompare, arrayUnique, hexEncode, empty } from '../js/utils/utils';
+import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
 import { Album, MusicDirectory } from './SubsonicTypes';
-
-export const empty = (v: any) => {
-  return (
-    v === undefined ||
-    v === null ||
-    v === '' ||
-    (Array.isArray(v) && v.length === 0) ||
-    (typeof v === 'object' && Object.entries(v).length === 0)
-  );
-};
 
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
 type CoverArtCache = { [key: string]: string }
 
-class Subsonic {
+export class SubsonicClass {
   constructor() {
 
   }
@@ -34,7 +24,7 @@ class Subsonic {
   connected: boolean = false
   coverArtCache: CoverArtCache = {}
 
-  _initFromExisting = (s: Subsonic) => {
+  _initFromExisting = (s: SubsonicClass) => {
     this.serverAPIVersion = s.serverAPIVersion;
     this._u = s._u;
     this._s = s._s;
@@ -56,9 +46,10 @@ class Subsonic {
       u: that._u
     });
     if (that._p && versionCompare(that.serverAPIVersion, '1.13.0') >= 0) {
-      const s = Math.random()
-        .toString(36)
-        .replace(/[^a-z]+/g, '');
+      // const s = Math.random()
+      //   .toString(36)
+      //   .replace(/[^a-z]+/g, '');
+      const s = '555';
       const t = md5(that._p + s);
       uri.addQuery({
         s: s,
@@ -80,13 +71,13 @@ class Subsonic {
   _execute = (method: string, params: any = {}): Promise<any> => {
     const that = this;
     return new Promise((rs, rj) => {
-      if (that.connected === false) {
+      if (method !== 'ping'  && that.connected === false) {
         rj({
           'subsonic-response': {
             status: 'failed',
             error: {
-              code: '40',
-              message: 'INTERNAL Wrong username or password'
+              code: '0',
+              message: 'INTERNAL Not yet opened/verified.'
             }
           }
         });
@@ -969,6 +960,10 @@ class Subsonic {
     }
   }
 };
-const s = new Subsonic();
-(window as any)['fetcher'] = s;
-export default s;
+export const Subsonic = new SubsonicClass();
+(window as any)['fetcher'] = Subsonic;
+
+export default {
+  Subsonic,
+  SubsonicClass
+}

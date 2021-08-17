@@ -70,3 +70,7 @@ lib-esm
 
 # v4 version upgrade additions:
 storybook-static
+
+subsonic.credentials.js
+.DS_Store
+*~

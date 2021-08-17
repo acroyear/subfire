@@ -60,5 +60,3 @@ export const SubsonicCache = {
     this.Podcasts = [];
   },
 };
-
-export default SubsonicCache;

@@ -5,7 +5,7 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import { Button, ButtonProps } from './Button';
 
 export default {
-  title: 'Example/Button',
+  title: 'ZOriginal/Button',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -17,7 +17,7 @@ const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
   primary: true,
-  label: 'Button',
+  label: process.env.sf_server,
 };
 
 export const Secondary = Template.bind({});
