@@ -301,7 +301,13 @@ export const empty = (v) => {
   );
 };
 
+// not for use in production - just used to delay things in stories.
+export function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default { // eslint-disable-line
+  sleep,
   empty,
   versionCompare,
   getRandomIntInclusive,

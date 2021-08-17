@@ -1,6 +1,6 @@
 import Tea from '../js/utils/Tea';
 
-const AuthExchangeActions = {
+export const AuthExchangeActions = {
   sourceSubmit: function (code: string) {
     try {
       const transmissionDigits = code.substring(0, 5);
@@ -52,5 +52,3 @@ const AuthExchangeActions = {
     return digits;
   }
 };
-
-export default AuthExchangeActions;
