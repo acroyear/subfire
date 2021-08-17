@@ -499,14 +499,14 @@ export class SubsonicClass {
   // }
 
   getAlbumList = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.MusicDirectory[]> => {
-    params = params || {};
+    params = params || { type: type };
     params.type = type;
     const res = await this._execute('getAlbumList', params);
     return res.albumList || [];
   }
 
   getAlbumList2 = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.Album[]> => {
-    params = params || {};
+    params = params || { type: type };
     params.type = type;
     const res = await this._execute('getAlbumList2', params);
     return res.albumList2 || [];

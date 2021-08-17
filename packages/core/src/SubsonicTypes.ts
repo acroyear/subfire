@@ -32,6 +32,7 @@ export interface Song {
   artistId: string;
   type: string;
   bookmarkPosition: number;
+  name?: string // ignore me
 }
 
 export interface Bookmark {
@@ -56,6 +57,7 @@ export interface Album {
   year: number;
   genre: string;
   song: Song[];
+  title?: string; // ignore me
 }
 
 export interface Artist {
@@ -65,6 +67,7 @@ export interface Artist {
   albumCount: number;
   album?: Album[];
   starred?: Date;
+  title?: string; // ignore me
 }
 
 export interface ArtistsIndex {
@@ -147,6 +150,7 @@ export interface PodcastEpisode {
   track?: number | null;
   discNumber?: number | null;
   artistId?: string | null;
+  name?: string; // ignore me
 }
 
 export interface PlayQueue {
@@ -200,7 +204,8 @@ export interface Playlist {
   created?: Date;
   changed?: Date;
   coverArt?: string;
-  entry?: Song[]
+  entry?: Song[];
+  title?: string; // ignore me
 }
 
 export interface InternetRadioStation {
@@ -294,3 +299,5 @@ export interface SubfireStation {
   generateAll: any
   generateAllAndSave: any
 }
+
+export type Generic = Song | Album | Artist | Playlist | MusicDirectory | PodcastEpisode;

@@ -8,6 +8,7 @@ import PlayArrow from '@material-ui/icons/PlayArrow';
 import { SvgIcon } from '@material-ui/core';
 
 import { Subsonic } from '@subfire/core';
+import { IdItemClick } from '../../SubfireTypes';
 
 export interface CoverImageListItemProps {
   name: string
@@ -15,8 +16,8 @@ export interface CoverImageListItemProps {
   subTitle?: string // populated by wrapper defaults to artist for id3 album
   artist?: string // album or isDir album music directory
   id: string
-  onClick?: (id: string) => void
-  onImageClick?: (id: string) => void
+  onClick?: IdItemClick
+  onImageClick?: IdItemClick
   size?: number
   Icon?: typeof SvgIcon
   variant?: string
