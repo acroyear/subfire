@@ -11,9 +11,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "lerna": "^3.22.1"
-  },
-  "resolutions": {
+    "lerna": "^3.22.1",
     "babel-loader": "8.1.0"
   },
   "scripts": {

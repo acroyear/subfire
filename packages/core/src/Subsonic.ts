@@ -46,10 +46,9 @@ export class SubsonicClass {
       u: that._u
     });
     if (that._p && versionCompare(that.serverAPIVersion, '1.13.0') >= 0) {
-      // const s = Math.random()
-      //   .toString(36)
-      //   .replace(/[^a-z]+/g, '');
-      const s = '555';
+      const s = Math.random()
+        .toString(36)
+        .replace(/[^a-z]+/g, '');
       const t = md5(that._p + s);
       uri.addQuery({
         s: s,
@@ -71,7 +70,7 @@ export class SubsonicClass {
   _execute = (method: string, params: any = {}): Promise<any> => {
     const that = this;
     return new Promise((rs, rj) => {
-      if (method !== 'ping'  && that.connected === false) {
+      if (method !== 'ping' && that.connected === false) {
         rj({
           'subsonic-response': {
             status: 'failed',
