@@ -19,6 +19,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.4",
     "@subfire/core": "*",
+    "mdi-material-ui": "^6.22.1",
     "react-singleton-hook": "^3.2.1",
     "react-use": "^17.2.4"
   },
