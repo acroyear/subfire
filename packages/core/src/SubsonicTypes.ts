@@ -11,7 +11,7 @@ export interface MusicFolder {
 export interface Song {
   id: string;
   parent: string;
-  isDir: boolean;
+  isDir?: boolean;
   title: string;
   album: string;
   artist: string;
@@ -27,20 +27,21 @@ export interface Song {
   path: string;
   playCount: number;
   discNumber: number;
-  created: Date;
+  created: string;
   albumId: string;
   artistId: string;
   type: string;
-  bookmarkPosition: number;
+  bookmarkPosition?: number;
   name?: string // ignore me
+  [key: string]: string | number | boolean
 }
 
 export interface Bookmark {
   position: number;
   username: string;
   comment: string;
-  created: Date;
-  changed: Date;
+  created: string;
+  changed: string;
   entry: Song;
 }
 
@@ -53,7 +54,7 @@ export interface Album {
   songCount: number;
   duration: number;
   playCount: number;
-  created: Date;
+  created: string;
   year: number;
   genre: string;
   song: Song[];
@@ -66,7 +67,7 @@ export interface Artist {
   coverArt: string;
   albumCount: number;
   album?: Album[];
-  starred?: Date;
+  starred?: string;
   title?: string; // ignore me
 }
 
@@ -84,7 +85,7 @@ export interface MusicDirectory {
   id: string;
   name: string;
   child?: (MusicDirectory | Song)[];
-  starred?: Date;
+  starred?: string;
   isDir?: boolean;
   title?: string;
   album?: string;
@@ -93,7 +94,7 @@ export interface MusicDirectory {
   genre?: string;
   coverArt?: string;
   playCount?: number;
-  created?: Date;
+  created?: string;
 }
 
 export interface MusicDirectoryIndex {
@@ -201,8 +202,8 @@ export interface Playlist {
   songCount?: number;
   duration?: number;
   comment?: string;
-  created?: Date;
-  changed?: Date;
+  created?: string;
+  changed?: string;
   coverArt?: string;
   entry?: Song[];
   title?: string; // ignore me
@@ -288,7 +289,7 @@ export interface CompleteAlbum {
   songCount: number;
   duration: number;
   playCount: number;
-  created: Date;
+  created: string;
   year: number;
   genre: string;
   song: Song[][];
