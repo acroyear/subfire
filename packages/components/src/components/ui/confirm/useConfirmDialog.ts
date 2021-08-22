@@ -5,21 +5,21 @@ function useConfirmDialogImpl() {
   const [confirmTitle, setConfirmTitle] = useState('Confirm');
   const [confirmContent, setConfirmContent] = useState('Are you sure?');
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [applyConfirm, setApplyConfirm] = useState(() => () => {}); // default no-op
-  const [applyCancel, setApplyCancel] = useState(() => () => {}); // default no-op
+  const [applyConfirm, setApplyConfirm] = useState(() => () => { }); // default no-op
+  const [applyCancel, setApplyCancel] = useState(() => () => { }); // default no-op
   const [button1Label, setButton1Label] = useState('Yes');
   const [button2Label, setButton2Label] = useState('Yes');
-  const [autoApplyTimeout, setAutoApplyTimeout] = useState(null);
+  const [autoApplyTimeout, setAutoApplyTimeout] = useState<number>(null);
   // passing in a funtion to return a function is from
   // https://medium.com/swlh/how-to-store-a-function-with-the-usestate-hook-in-react-8a88dd4eede1
   const confirmUserAction = (
-    title,
-    content,
-    action,
-    cancelAction,
+    title: string,
+    content: string,
+    action: string,
+    cancelAction: string,
     button1Label = 'Yes',
     button2Label = 'No',
-    autoApplyTimeout = null
+    autoApplyTimeout = null as number
   ) => {
     setConfirmTitle(title);
     setConfirmContent(content);
@@ -45,6 +45,6 @@ function useConfirmDialogImpl() {
   };
 }
 
-const useConfirmDialog = singletonHook({}, useConfirmDialogImpl);
+const useConfirmDialog = singletonHook({} as any, useConfirmDialogImpl);
 
 export default useConfirmDialog;

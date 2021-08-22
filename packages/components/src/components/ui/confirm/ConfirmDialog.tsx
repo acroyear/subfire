@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,8 +8,19 @@ import Typography from '@material-ui/core/Typography';
 
 import useConfirmDialog from './useConfirmDialog';
 
+interface BaseConfirmDialogPropTypes {
+  title: string
+  open: boolean
+  setOpen: (o:boolean) => void
+  onConfirm: () => void,
+  onCancel: () => void
+  confirmText: string
+  cancelText: string
+  applyTimeout: number
+};
+
 // from https://medium.com/javascript-in-plain-english/creating-a-confirm-dialog-in-react-and-material-ui-3d7aaea1d799
-const ConfirmDialog = props => {
+const BaseConfirmDialog: React.FC<BaseConfirmDialogPropTypes> = props => {
   const {
     title,
     open = false,
@@ -78,20 +88,8 @@ const ConfirmDialog = props => {
     </Dialog>
   );
 };
-export default ConfirmDialog;
 
-ConfirmDialog.propTypes = {
-  title: PropTypes.string,
-  open: PropTypes.bool,
-  setOpen: PropTypes.func,
-  onConfirm: PropTypes.func,
-  onCancel: PropTypes.func,
-  confirmText: PropTypes.string,
-  cancelText: PropTypes.string,
-  applyTimeout: PropTypes.number
-}
-
-export const ManagedConfirmDialog = props => {
+export const ConfirmDialog = () => {
   const {
     confirmTitle,
     confirmContent,
@@ -116,5 +114,7 @@ export const ManagedConfirmDialog = props => {
     applyTimeout: autoApplyTimeout
   };
 
-  return confirmOpen ? <ConfirmDialog {...hookProps} /> : <span />;
+  return confirmOpen ? <BaseConfirmDialog {...hookProps} /> : <span />;
 };
+
+export default ConfirmDialog;
