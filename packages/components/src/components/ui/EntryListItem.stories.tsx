@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { action } from '@storybook/addon-actions';
@@ -23,41 +23,48 @@ export default {
 };
 
 export const EntryList = () => {
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(true);
+  const [dense, setDense] = useState(false);
+  const [secondary, setSecondary] = useState(true);
+  const p = useRef(null);
 
   async function f() {
-    const { server, username, password, bitrate, clientName = 'SubsonicStorybook' } = credentials;
-    const p = Subsonic.open(server, username, password, bitrate, clientName);
-    await p;
-    const pl = await Subsonic.getPlaylist("5");
-    const ar = await Subsonic.getArtist("33");
-    const al = await Subsonic.getAlbum("44");
-    const ar2 = await Subsonic.getArtist(al.artistId);
+    try {
+      const { server, username, password, bitrate, clientName = 'SubsonicStorybook' } = credentials;
+      p.current = p.current || await Subsonic.open(server, username, password, bitrate, clientName);
+      const pl = await Subsonic.getPlaylist("5", true);
+      const ar = await Subsonic.getArtist("33");
+      const al = await Subsonic.getAlbum("44");
+      const ar2 = await Subsonic.getArtist(al.artistId);
 
-    const evt = (id: string) => {
-      console.log('calling action', id);
-      action(id, { clearOnStoryChange: true });
+      const evt = (id: string) => {
+        console.log('calling action', id);
+        action(id, { clearOnStoryChange: true });
+      }
+
+      const newContent = (<List dense={dense}>
+        <EntryListItem subsonic={Subsonic} item={pl} index={pl} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
+          SecondaryIcon={Shuffle}
+          secondaryActionLabel="Shuffle"
+        />
+        <EntryListItem subsonic={Subsonic} item={ar} index={ar} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
+          SecondaryIcon={Shuffle}
+          secondaryActionLabel="Shuffle"
+        />
+        <EntryListItem subsonic={Subsonic} item={al} index={ar2} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
+          SecondaryIcon={Shuffle}
+          secondaryActionLabel="Shuffle"
+          showIndexText={secondary}
+        />
+      </List>);
+      ReactDOM.render(newContent, document.getElementById('list-goes-here'));
+    } catch (err: any) {
+      console.error(err);
+      throw err;
     }
+  };
 
-    const newContent = (<List dense={dense}>
-      <EntryListItem subsonic={Subsonic} item={pl} index={pl} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
-        SecondaryIcon={Shuffle}
-        secondaryActionLabel="Shuffle"
-      />
-      <EntryListItem subsonic={Subsonic} item={ar} index={ar} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
-        SecondaryIcon={Shuffle}
-        secondaryActionLabel="Shuffle"
-      />
-      <EntryListItem subsonic={Subsonic} item={al} index={ar2} useAvatar onEntryClick={evt} onEntrySecondaryClick={evt}
-        SecondaryIcon={Shuffle}
-        secondaryActionLabel="Shuffle"
-        showIndexText={secondary}
-      />
-    </List>);
-    ReactDOM.render(newContent, document.getElementById('list-goes-here'));
-  }
   f().catch((err: any) => {
+    console.error(err);
     const newContent = (
       <>
         <span>oops? Check the console logs, dude.</span>

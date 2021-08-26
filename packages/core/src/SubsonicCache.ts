@@ -21,9 +21,7 @@ export const SubsonicCache = {
   ArtistInfoById: {} as { [key: string]: any },
   AlbumInfoById: {} as { [key: string]: any },
 
-  Playlists: [] as SubsonicTypes.Playlist[],
-  NormalPlaylists: [] as SubsonicTypes.Playlist[],
-  Stations: [] as SubsonicTypes.Playlist[], // this may change
+  Playlists: {} as { [key: string]: SubsonicTypes.Playlist },
 
   Genres: [] as SubsonicTypes.Genre[],
 
@@ -52,11 +50,6 @@ export const SubsonicCache = {
     this.ArtistInfoById = {};
     this.AlbumInfoById = {};
 
-    // only used for radio and other things to get the names. use context for everything else.
-    this.Playlists = [];
-
-    this.Genres = [];
-
-    this.Podcasts = [];
+    this.Playlists = {};
   },
 };

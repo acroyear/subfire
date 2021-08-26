@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { Subsonic, SubsonicTypes, SubsonicCache, createStations } from "@subfire/core";
+import {
+  Subsonic,
+  SubsonicTypes,
+  SubsonicCache,
+  createStations,
+} from "@subfire/core";
 console.log(Subsonic);
 
 export default {
@@ -13,7 +18,7 @@ const credentials = {
   username: process.env.sf_username,
   password: process.env.sf_password,
   bitrate: process.env.sf_bitrate,
-  clientName: "SubFire4Storybook"
+  clientName: "SubFire4Storybook",
 };
 
 export const basic = () => {
@@ -252,6 +257,94 @@ export const MusicDirectory = (props) => {
         <li id="md-3"></li>
         <li id="md-4"></li>
         <li id="md-5"></li>
+      </ul>
+    </div>
+  );
+};
+
+export const Playlist = (props) => {
+  async function f() {
+    const id = "5";
+    console.warn("init");
+    const {
+      server,
+      username,
+      password,
+      bitrate,
+      clientName = "SubsonicStorybook",
+    } = credentials;
+    const p = Subsonic.open(server, username, password, bitrate, clientName);
+    const res = await p;
+    console.warn("asking 3 copies right away");
+    Subsonic.getPlaylist(id, true).then(
+      (res) => (document.getElementById("md-1").innerText = res.name)
+    );
+    Subsonic.getPlaylist(id, true).then(
+      (res) => (document.getElementById("md-2").innerText = res.name)
+    );
+    Subsonic.getPlaylist(id, true).then(
+      (res) => (document.getElementById("md-3").innerText = res.name)
+    );
+    console.warn("delay 4 barely");
+    setTimeout(() => {
+      Subsonic.getPlaylist(id, true).then(
+        (res) => (document.getElementById("md-4").innerText = res.name)
+      );
+    }, 10);
+    console.warn("delay 5 quite a bit");
+    setTimeout(() => {
+      Subsonic.getPlaylist(id, true).then(
+        (res) => (document.getElementById("md-5").innerText = res.name)
+      );
+    }, 3000);
+    console.warn("delay 6 quite a bit and no cache!");
+    setTimeout(() => {
+      Subsonic.getPlaylist(id).then(
+        (res) => (document.getElementById("md-6").innerText = res.name)
+      );
+    }, 15000);
+        console.warn("delay 7 same time but but from cache");
+        setTimeout(() => {
+          Subsonic.getPlaylist(id, true).then(
+            (res) => (document.getElementById("md-7").innerText = res.name)
+          );
+        }, 15000);
+  }
+  f().catch((err) => {
+    console.error(err);
+    const newContent = (
+      <>
+        <span>oops? Check the console logs, dude.</span>
+        <br />
+        <span>{JSON.stringify(err)}</span>
+      </>
+    );
+    ReactDOM.render(newContent, document.getElementById("wrapper-id"));
+  });
+  return (
+    <div id="wrapper-id">
+      <ul>
+        <li>instant and cache
+          <span id="md-1" />
+        </li>
+        <li>instant and cache
+          <span id="md-2" />
+        </li>
+        <li>instant and cache
+          <span id="md-3" />
+        </li>
+        <li>very slight delay and cache
+          <span id="md-4" />
+        </li>
+        <li>delay and cache
+          <span id="md-5" />
+        </li>
+        <li>delay and no cache, so always fetch
+          <span id="md-6" />
+        </li>
+        <li>delay but from cache
+          <span id="md-7" />
+        </li>
       </ul>
     </div>
   );

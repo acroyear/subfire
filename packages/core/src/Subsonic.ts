@@ -180,11 +180,32 @@ export class SubsonicClass {
     return res.playlists.playlist;
   }
 
-  getPlaylist = async (id: string): Promise<SubsonicTypes.Playlist> => {
+  getPlaylist = async (id: string, fromCache?: boolean): Promise<SubsonicTypes.Playlist> => {
+    console.debug(id, fromCache);
     if (!id) return Promise.reject("no id");
-    const res = await this._execute('getPlaylist', {
+    if (fromCache && SubsonicCache.Playlists[id]) {
+      console.debug('returning from cache', SubsonicCache.Playlists[id]);
+      return Promise.resolve(SubsonicCache.Playlists[id]);
+    }
+
+    const promiseKey = 'getPlaylist' + id;
+    if (CurrentPromises[promiseKey]) {
+      console.debug('returing existing promise', CurrentPromises[promiseKey]);
+      const res = await CurrentPromises[promiseKey];
+      return res.playlist;
+    }
+
+    const p = this._execute('getPlaylist', {
       id: id
     });
+    console.debug('returning new fetch');
+    CurrentPromises[promiseKey] = p;
+    const res = await p;
+    CurrentPromises[promiseKey] = null;
+    if (fromCache) {
+      console.log('caching');
+      SubsonicCache.Playlists[id] = res.playlist;
+    };
     return res.playlist;
   }
 
@@ -926,9 +947,7 @@ export class SubsonicClass {
     switch (type) {
       case 'playlist':
       case 'station':
-        const p = SubsonicCache.Playlists.find(x => {
-          return x.id === id;
-        });
+        const p = SubsonicCache.Playlists[id as string];
         return Promise.resolve(p);
       case 'albumID3':
       case 'albumAction':
