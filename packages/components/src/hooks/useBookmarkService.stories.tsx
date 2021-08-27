@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { buildProcessEnvCredentials } from './SubsonicContext';
 
 type Bookmark = SubsonicTypes.Bookmark;
 
@@ -12,20 +13,13 @@ export default {
   title: 'hooks/useBookmarkService'
 };
 
-const credentials = {
-  server: process.env.sf_server,
-  username: process.env.sf_username,
-  password: process.env.sf_password,
-  bitrate: process.env.sf_bitrate,
-  clientName: "SubFire4Storybook"
-};
 const {
   server,
   username,
   password,
   bitrate,
-  clientName = "SubsonicStorybook",
-} = credentials;
+  name = "SubsonicStorybook"
+} = buildProcessEnvCredentials();
 
 
 const BookmarkButton = (p: any) => {
@@ -37,7 +31,7 @@ const BookmarkButton = (p: any) => {
   );
 };
 
-Subsonic.configure(server, username, password, bitrate, clientName, false);
+Subsonic.configure(server, username, password, bitrate, name, false);
 Subsonic.connected = true;
 
 const BookmarksTest = (props: any) => {

@@ -5,33 +5,23 @@ import { action } from '@storybook/addon-actions';
 import { Subsonic, utils } from '@subfire/core';
 import { useAlbum, useBookmarks } from './useSubsonicLoader';
 
+import { buildProcessEnvCredentials } from './SubsonicContext';
 const { sleep } = utils;
 
-const credentials = {
-  server: process.env.sf_server,
-  username: process.env.sf_username,
-  password: process.env.sf_password,
-  bitrate: process.env.sf_bitrate,
-  clientName: "SubFire4Storybook"
-};
 const {
   server,
   username,
   password,
   bitrate,
-  clientName = "SubsonicStorybook",
-} = credentials;
-
+  name = "SubsonicStorybook"
+} = buildProcessEnvCredentials();
 
 export default {
   title: 'hooks/useSubsonicLoader'
 };
 
-Subsonic.configure(server, username, password, bitrate, clientName, false);
-Subsonic.connected = true;
-
 export const BookmarksLoadingTest = (_props: any) => {
-  Subsonic.configure(server, username, password, bitrate, clientName, false);
+  Subsonic.configure(server, username, password, bitrate, name, false);
   Subsonic.connected = true;
 
   const [idx, setIdx] = useState(1);
@@ -46,7 +36,7 @@ export const BookmarksLoadingTest = (_props: any) => {
 }
 
 export const AlbumLoadingTestId = (_props: any) => {
-  Subsonic.configure(server, username, password, bitrate, clientName, false);
+  Subsonic.configure(server, username, password, bitrate, name, false);
   Subsonic.connected = true;
 
   const [idx, setIdx] = useState(1);
@@ -60,8 +50,8 @@ export const AlbumLoadingTestId = (_props: any) => {
   </p>;
 }
 
-export const AlbumLoadingTestParial = (_props: any) => {
-  Subsonic.configure(server, username, password, bitrate, clientName, false);
+export const AlbumLoadingTestPartial = (_props: any) => {
+  Subsonic.configure(server, username, password, bitrate, name, false);
   Subsonic.connected = true;
 
   const [idx, setIdx] = useState(1);
