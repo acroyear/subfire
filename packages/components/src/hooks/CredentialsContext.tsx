@@ -1,5 +1,4 @@
 import React, { createContext, useContext } from 'react';
-import PropTypes from 'prop-types';
 import { useLocalStorage } from "react-use";
 import { v4 as uuidv4 } from "uuid";
 
@@ -98,10 +97,6 @@ export const CredentialsProvider: React.FC = ({ children }) => (
     {children}
   </CredentialsContext.Provider>
 );
-
-CredentialsProvider.propTypes = {
-  children: PropTypes.any,
-};
 
 export const useCredentials = () => useContext<CredentialsContextContent>(CredentialsContext);
 
