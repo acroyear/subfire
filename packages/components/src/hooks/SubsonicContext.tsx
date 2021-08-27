@@ -36,8 +36,11 @@ export function buildProcessEnvCredentials(): SubfireCredentials {
 
 export const SubsonicContext = createContext<SubsonicContextContent>(null);
 export const SubsonicProvider: React.FC<SubsonicContextInit> = ({ children, clientName, embeddedCredentials }) => {
-  const value = useCredentials();
+  const value = useCredentials() || [];
+  console.warn(value);
+  console.warn(embeddedCredentials);
   const [current] = embeddedCredentials ? [embeddedCredentials] : value;
+  console.warn(current);
 
   // storing the folder - eventually i want to move this to a subfire prefix
   const [musicFolderId, setMusicFolderId] = useLocalStorage<number>('initMusicFolder', -1);
