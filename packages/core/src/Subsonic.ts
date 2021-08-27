@@ -298,7 +298,6 @@ export class SubsonicClass {
     return this._execute('deletePlaylist', { id: id });
   }
 
-
   getMusicFolders = async (): Promise<SubsonicTypes.MusicFolders> => {
     if (!empty(SubsonicCache.MusicFolders)) {
       return Promise.resolve(SubsonicCache.MusicFolders);
