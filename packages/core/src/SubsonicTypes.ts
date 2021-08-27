@@ -1,12 +1,10 @@
 
-export interface MusicFolders {
-  musicFolder?: (MusicFolder)[] | null;
-}
-
 export interface MusicFolder {
   id: number;
   name: string;
 }
+
+export type MusicFolders = MusicFolder[] | null;
 
 export interface Song {
   id: string;
@@ -36,14 +34,19 @@ export interface Song {
   [key: string]: string | number | boolean
 }
 
-export interface Bookmark {
+export class Bookmark {
   position: number;
   username: string;
   comment: string;
   created: string;
   changed: string;
   entry: Song;
+
+  get id() {return this.entry.id;}
+  get title() { return this.entry.title; }
 }
+
+export type Bookmarks = Bookmark[];
 
 export interface Album {
   id: string;
@@ -108,6 +111,8 @@ export interface MusicDirectoryIndexes {
   index: MusicDirectoryIndex[];
 }
 
+export type AlbumListType = Album | MusicDirectory;
+
 export interface Podcasts {
   channel?: (Channel)[] | null;
 }
@@ -157,10 +162,10 @@ export interface PodcastEpisode {
 export interface PlayQueue {
   current: number;
   position: number;
-  username: string;
-  changed: string;
-  changedBy: string;
-  entry?: (Song)[] | null;
+  username?: string;
+  changed?: string;
+  changedBy?: string;
+  entry?: (Song)[];
 }
 
 export interface NowPlayingEntry extends Song {
@@ -216,9 +221,7 @@ export interface InternetRadioStation {
   homePageUrl: string;
 }
 
-export interface Genres {
-  genre?: (Genre)[] | null;
-}
+export type Genres = Genre[] | null;
 
 export interface Genre {
   songCount: number;

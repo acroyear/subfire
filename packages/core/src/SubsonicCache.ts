@@ -1,7 +1,7 @@
 import { SubsonicTypes } from '.';
 
 export const SubsonicCache = {
-  MusicFolders: [] as SubsonicTypes.MusicFolder[],
+  MusicFolders: [] as SubsonicTypes.MusicFolders,
 
   // map of id to indexes as string of the number, cached as you go, -1 for all
   MusicDirectoryIndexes: {} as { [key: string]: SubsonicTypes.MusicDirectoryIndex[] },
@@ -23,7 +23,7 @@ export const SubsonicCache = {
 
   Playlists: {} as { [key: string]: SubsonicTypes.Playlist },
 
-  Genres: [] as SubsonicTypes.Genre[],
+  Genres: [] as SubsonicTypes.Genres,
 
   Podcasts: [] as SubsonicTypes.Channel[],
   Bookmarks: [] as SubsonicTypes.Bookmark[],

@@ -299,14 +299,21 @@ export class SubsonicClass {
   }
 
 
-  getMusicFolders = async (): Promise<SubsonicTypes.MusicFolder[]> => {
+  getMusicFolders = async (): Promise<SubsonicTypes.MusicFolders> => {
     if (!empty(SubsonicCache.MusicFolders)) {
       return Promise.resolve(SubsonicCache.MusicFolders);
     }
     const res = await this._execute('getMusicFolders');
-    SubsonicCache.MusicFolders = res.musicFolders.musicFolder;
+    SubsonicCache.MusicFolders = res.musicFolders.musicFolder || [];
     SubsonicCache.MusicFolders.unshift({ id: -1, name: 'All Music Folders' });
     return SubsonicCache.MusicFolders;
+  }
+
+  getMusicFolderCached = (id: string): SubsonicTypes.MusicFolder => {
+    const mf = SubsonicCache.MusicFolders;
+    const m = mf.find(f => f.id + '' === id + '');
+    if (m === undefined) throw ('Music Folder Not Found');
+    return m;
   }
 
   getMusicFolder = async (id: string): Promise<SubsonicTypes.MusicFolder> => {
@@ -358,13 +365,13 @@ export class SubsonicClass {
     return thisPromise;
   }
 
-  getGenres = async (): Promise<SubsonicTypes.Genre[]> => {
+  getGenres = async (): Promise<SubsonicTypes.Genres> => {
     if (!empty(SubsonicCache.Genres)) {
       return Promise.resolve(SubsonicCache.Genres);
     }
     const res = await this._execute('getGenres');
-    SubsonicCache.Genres = res.genres.genre;
-    return res.genres.genre;
+    SubsonicCache.Genres = res.genres?.genre || [];
+    return SubsonicCache.Genres;
   }
 
   getArtists = async (id: number): Promise<SubsonicTypes.ArtistsIndex[]> => {
@@ -519,7 +526,12 @@ export class SubsonicClass {
   //   return this._execute('getVideos');
   // }
 
-  getAlbumList = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.MusicDirectory[]> => {
+  getAlbumList = async (id3: boolean, type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.AlbumListType[]> => {
+    if (id3) return this.getAlbumList2(type, params);
+    return this.getAlbumList1(type, params);
+  }
+
+  getAlbumList1 = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.MusicDirectory[]> => {
     params = params || { type: type };
     params.type = type;
     const res = await this._execute('getAlbumList', params);
@@ -684,9 +696,9 @@ export class SubsonicClass {
     return this._execute('deleteBookmark', params);
   }
 
-  getBookmarks = async (): Promise<SubsonicTypes.Bookmark> => {
+  getBookmarks = async (): Promise<SubsonicTypes.Bookmarks> => {
     const res = await this._execute('getBookmarks', null);
-    return res.bookmarks;
+    return res.bookmarks?.bookmark || [];
   }
 
   // getInternetRadioStations = () => {
