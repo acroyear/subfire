@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // import useComponentSize from '@rehooks/component-size';
-import { useWindowSize, useComponentSize } from 'subfirelib/ui/orientation';
+import { useWindowSize, useComponentSize } from './orientation';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -15,8 +15,8 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import PlayArrow from '@material-ui/icons/PlayArrow';
 import { makeStyles } from '@material-ui/core/styles';
 
-import CoverGridTile from 'subfirelib/ui/CoverGridTile';
-import ScrollToTopFab from 'subfirelib/ui/ScrollToTopFab';
+import CoverGridTile from './CoverGridTile';
+import ScrollToTopFab from './ScrollToTopFab';
 
 const scrollIntoView = i => {
   const next = 'grid-category-header' + (i * 1 + 1);
