@@ -6,10 +6,10 @@ import {
   SubsonicTypes,
   SubsonicCache,
   createStations,
-  utils
+  utils,
 } from "@subfire/core";
 
-const {sleep} = utils;
+const { sleep } = utils;
 
 const credentials = {
   server: process.env.sf_server,
@@ -103,16 +103,23 @@ export const updatePlaylist = () => {
       document.getElementById("basic-id")
     );
   }
-  f().catch((err) => {
-    console.error(err);
-    const newContent = (
-      <>
-        <span>oops? Check the console logs, dude.</span>
-        <br />
-        <span>{JSON.stringify(err)}</span>
-      </>
-    );
-    ReactDOM.render(newContent, document.getElementById("basic-id"));
-  });
-  return <div id="basic-id">Loading...</div>;
+  const doF = () => {
+    f().catch((err) => {
+      console.error(err);
+      const newContent = (
+        <>
+          <span>oops? Check the console logs, dude.</span>
+          <br />
+          <span>{JSON.stringify(err)}</span>
+        </>
+      );
+      ReactDOM.render(newContent, document.getElementById("basic-id"));
+    });
+  };
+  return (
+    <>
+      <button onClick={doF}>Run test</button>
+      <div id="basic-id">Content will go here...</div>
+    </>
+  );
 };
