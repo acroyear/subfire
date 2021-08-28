@@ -4,7 +4,7 @@ export const SubsonicCache = {
   MusicFolders: [] as SubsonicTypes.MusicFolders,
 
   // map of id to indexes as string of the number, cached as you go, -1 for all
-  MusicDirectoryIndexes: {} as { [key: string]: SubsonicTypes.MusicDirectoryIndex[] },
+  MusicDirectoryIndexes: {} as { [key: number]: SubsonicTypes.MusicDirectoryIndex[] },
 
   MusicPaths: {} as { [key: string]: SubsonicTypes.MusicDirectory }, // full path for id
 

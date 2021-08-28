@@ -323,7 +323,7 @@ export class SubsonicClass {
   }
 
   getIndexes = async (id: number): Promise<SubsonicTypes.MusicDirectoryIndex[]> => {
-    const key = (id || -1) + '';
+    const key = id || -1;
     if (!empty(SubsonicCache.MusicDirectoryIndexes[key])) {
       return SubsonicCache.MusicDirectoryIndexes[key];
     }
@@ -334,7 +334,7 @@ export class SubsonicClass {
           musicFolderId: id
         };
     const res = await this._execute('getIndexes', params);
-    const indexes = res.indexes.index as SubsonicTypes.MusicDirectoryIndexes;
+    const indexes = res.indexes as SubsonicTypes.MusicDirectoryIndexes;
     if (!Array.isArray(indexes.index))
       indexes.index = [indexes.index];
     SubsonicCache.MusicDirectoryIndexes[key] = indexes.index;
