@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 
 // TODO: turn this into some sort of decorator
-import { Subsonic, utils } from '@subfire/core';
+import { Subsonic } from '@subfire/core';
 import { useAlbum, useBookmarks } from './useSubsonicLoader';
 
 import { buildProcessEnvCredentials } from './SubsonicContext';
-const { sleep } = utils;
 
 const {
   server,
