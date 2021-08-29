@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSubsonic } from './SubsonicContext';
 import { createGlobalState, useInterval } from 'react-use';
 import { SubsonicTypes } from '@subfire/core';
@@ -17,6 +18,12 @@ export const usePlaylistsScanner = (delay: number = 3000) => {
     useInterval(() => {
         loadPlaylists().then((cp) => { console.log(cp);});
     }, isLoggedIn ? delay : null);
+
+    useEffect(() => {
+      if (isLoggedIn && !delay) {
+        loadPlaylists().then((cp) => { console.log(cp); });
+      }
+    }, [isLoggedIn, delay]);
 
     return pl;
 };
