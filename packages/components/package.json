@@ -20,6 +20,7 @@
     "@material-ui/styles": "^4.11.4",
     "@subfire/core": "*",
     "@types/uuid": "^8.3.1",
+    "classnames": "^2.3.1",
     "mdi-material-ui": "^6.22.1",
     "notistack": "^1.0.10",
     "react-singleton-hook": "^3.2.1",
