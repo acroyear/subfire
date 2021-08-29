@@ -525,23 +525,19 @@ export class SubsonicClass {
   //   return this._execute('getVideos');
   // }
 
-  getAlbumList = async (id3: boolean, type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.AlbumListType[]> => {
-    if (id3) return this.getAlbumList2(type, params);
-    return this.getAlbumList1(type, params);
+  getAlbumList = async (id3: boolean, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.AlbumListType[]> => {
+    if (id3) return this.getAlbumList2(params);
+    return this.getAlbumList1(params);
   }
 
-  getAlbumList1 = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.MusicDirectory[]> => {
-    params = params || { type: type };
-    params.type = type;
+  getAlbumList1 = async (params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.MusicDirectory[]> => {
     const res = await this._execute('getAlbumList', params);
-    return res.albumList || [];
+    return res.albumList?.album || [];
   }
 
-  getAlbumList2 = async (type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.Album[]> => {
-    params = params || { type: type };
-    params.type = type;
+  getAlbumList2 = async (params: SubsonicTypes.AlbumListCriteria): Promise<SubsonicTypes.Album[]> => {
     const res = await this._execute('getAlbumList2', params);
-    return res.albumList2 || [];
+    return res.albumList2?.album || [];
   }
 
   getRandomSongs = (genre: string, fromYear: number, toYear: number, musicFolderId: number, size: number): Promise<SubsonicTypes.Song> => {

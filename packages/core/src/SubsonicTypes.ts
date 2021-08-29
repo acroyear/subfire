@@ -240,7 +240,7 @@ export interface SearchCriteria {
   songOffset?: number
 }
 
-export type AlbumListCriteriaType = 'random' | 'newest' | 'highest' | 'frequent' | 'recent' | 'alphabeticalByName' | 'alphabeticalByArtist' | 'starred' | 'byYear' | 'byGenre';
+export type AlbumListCriteriaType = 'random' | 'newest' | 'highest' | 'frequent' | 'recent' | 'alphabeticalByName' | 'alphabeticalByArtist' | 'starred' | 'byYear' | 'byYear reversed' | 'byGenre';
 
 export interface AlbumListCriteria {
   type: AlbumListCriteriaType,

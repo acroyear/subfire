@@ -1,4 +1,6 @@
 import { useAsync } from 'react-use';
+import { useCounter, useDeepCompareEffect } from 'react-use';
+
 import { SubsonicTypes, Subsonic } from '@subfire/core';
 
 import LoadingCard from '../components/ui/loader/LoadingCard';
@@ -125,8 +127,13 @@ export function useSearch(s: string, params: SubsonicTypes.SearchCriteria, id: n
   return useSubsonicLoader(() => Subsonic.search(s, params, id), v);
 }
 
-export function useAlbumList(id3: boolean, type: SubsonicTypes.AlbumListCriteriaType, params: SubsonicTypes.AlbumListCriteria): SubsonicLoaderResult<SubsonicTypes.AlbumListType[]> {
-  return useSubsonicLoader(() => Subsonic.getAlbumList(id3, type, params));
+export function useAlbumList(id3: boolean, params: SubsonicTypes.AlbumListCriteria): SubsonicLoaderResult<SubsonicTypes.AlbumListType[]> {
+  const [count, { inc: inc }] = useCounter(0);
+  useDeepCompareEffect(() => {
+    console.log("changed", count);
+    inc();
+  }, [params, id3]);
+  return useSubsonicLoader(() => Subsonic.getAlbumList(id3, params), { id: count + "", title: "Albums", coverArt: "-1" });
 }
 
 // increment fetch count to force server reload
