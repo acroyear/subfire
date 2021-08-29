@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import common from '@material-ui/core/colors/common';
 
 const styles = {
@@ -14,17 +13,17 @@ const styles = {
   }
 };
 
-const HollowCard = props => {
+const useStyles = makeStyles((_t) => {
+  return styles;
+})
+
+export const HollowCard: React.FC = props => {
+  const classes = useStyles();
   return (
-    <Card raised className={props.classes.paper}>
+    <Card raised className={classes.paper}>
       {props.children}
     </Card>
   );
 };
 
-HollowCard.propTypes = {
-  classes: PropTypes.any,
-  children: PropTypes.any
-}
-
-export default withStyles(styles)(HollowCard);
+export default HollowCard;

@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSubsonic } from 'subfirelib/hooks';
+import { useSubsonic } from '../../hooks/SubsonicContext';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -10,9 +10,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function SubsonicAvatar(props) {
+export interface SubsonicAvatarProps {
+  user?: string
+}
+
+export const SubsonicAvatar: React.FC<SubsonicAvatarProps> = (props) => {
   const classes = useStyles();
-  const { subsonic } = useSubsonic();
+  const { Subsonic: subsonic } = useSubsonic();
 
   const username = props.user || subsonic._u || 'X'; // eslint-disable-line
   const avatarURL = username === 'X' ? null : subsonic.getAvatarURL(username) || null;

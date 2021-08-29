@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // import useComponentSize from '@rehooks/component-size';
 import { useWindowSize, useComponentSize } from './orientation';
 
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+import GridList from '@material-ui/core/ImageList';
+import GridListTile from '@material-ui/core/ImageListItem';
 import Typography from '@material-ui/core/Typography';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -100,10 +100,10 @@ const SubsonicGridList = props => {
   return (
     <div style={{ width: '100%' }}>
       <GridList
-        cellHeight={cellSize}
+        rowHeight={cellSize}
         width={widthAfterPadding}
         cols={cols}
-        spacing={spacing}
+        gap={spacing}
         style={ScrollToTop ? { paddingBottom: 75 } : {}}
       >
         {sectionHeader}
