@@ -4,26 +4,29 @@ import { createGlobalState, useInterval } from 'react-use';
 import { SubsonicTypes } from '@subfire/core';
 
 export const usePlaylists = createGlobalState<SubsonicTypes.CategorizedPlaylists>();
+export const usePlaylistScannerDelay = createGlobalState<number>();
 
-export const usePlaylistsScanner = (delay: number = 3000) => {
-    const { isLoggedIn, Subsonic } = useSubsonic();
-    const [pl, setPlaylists] = usePlaylists();
-    const loadPlaylists = async () => {
-        const p = await Subsonic.getPlaylists();
-        const cp = Subsonic.categorizePlaylists(p);
-        setPlaylists(cp);
-        return cp;
-    };
+export const usePlaylistsScanner = (): [SubsonicTypes.CategorizedPlaylists, number, (i: number) => void] => {
+  const { isLoggedIn, Subsonic } = useSubsonic();
+  const [pl, setPlaylists] = usePlaylists();
+  const [delay, setDelay] = usePlaylistScannerDelay();
 
-    useInterval(() => {
-        loadPlaylists().then((cp) => { console.log(cp);});
-    }, isLoggedIn ? delay : null);
+  const loadPlaylists = async () => {
+    const p = await Subsonic.getPlaylists();
+    const cp = Subsonic.categorizePlaylists(p);
+    setPlaylists(cp);
+    return cp;
+  };
 
-    useEffect(() => {
-      if (isLoggedIn && !delay) {
-        loadPlaylists().then((cp) => { console.log(cp); });
-      }
-    }, [isLoggedIn, delay]);
+  useInterval(() => {
+    loadPlaylists().then((cp) => { console.log(cp); });
+  }, isLoggedIn ? delay : null);
 
-    return pl;
+  useEffect(() => {
+    if (isLoggedIn && !delay) {
+      loadPlaylists().then((cp) => { console.log(cp); });
+    }
+  }, [isLoggedIn, delay]);
+
+  return [pl, delay, setDelay];
 };
