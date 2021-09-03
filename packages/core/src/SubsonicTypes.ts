@@ -274,7 +274,7 @@ export interface ArtistInfo {
 
 /* everything below here is for Radio Generation */
 
-export type PlaylistsType = 'allPlaylists' | 'playlists' | 'stationPlaylists' | 'receivers' | 'myPlaylists';
+export type PlaylistsType = 'allPlaylists' | 'playlists' | 'stationPlaylists' | 'receivers' | 'myPlaylists' | 'stations';
 
 export interface CategorizedPlaylists {
   allPlaylists: Playlist[]
@@ -302,6 +302,13 @@ export interface CompleteAlbum {
 }
 
 export interface SubfireStation {
+  id: string
+  name: string
+  tag: string
+  coverArt: string
+  songCount: number
+  comment: string
+  owner: string
   generate: any
   generateAll: any
   generateAllAndSave: any

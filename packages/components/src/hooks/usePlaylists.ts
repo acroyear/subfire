@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSubsonic } from './SubsonicContext';
 import { createGlobalState, useInterval } from 'react-use';
-import { SubsonicTypes } from '@subfire/core';
+import { createStations, SubsonicTypes } from '@subfire/core';
 
 export const usePlaylists = createGlobalState<SubsonicTypes.CategorizedPlaylists>();
 export const usePlaylistScannerDelay = createGlobalState<number>();
@@ -13,16 +13,18 @@ export const usePlaylistsScanner = (): [SubsonicTypes.CategorizedPlaylists, numb
 
   const loadPlaylists = async () => {
     const p = await Subsonic.getPlaylists();
-    const cp = Subsonic.categorizePlaylists(p);
+    let cp = Subsonic.categorizePlaylists(p);
+    cp = createStations(cp);
     setPlaylists(cp);
     return cp;
   };
 
   useInterval(() => {
     loadPlaylists().then((cp) => { console.log(cp); });
-  }, isLoggedIn ? delay : null);
+  }, isLoggedIn && delay ? delay : null);
 
   useEffect(() => {
+    // console.warn(isLoggedIn, !delay, delay);
     if (isLoggedIn && !delay) {
       loadPlaylists().then((cp) => { console.log(cp); });
     }

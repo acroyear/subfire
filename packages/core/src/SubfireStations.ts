@@ -591,7 +591,7 @@ export class Station implements SubsonicTypes.SubfireStation {
   // }
 }
 
-export const createStations = async function (pls: SubsonicTypes.CategorizedPlaylists) {
+export const createStations = function (pls: SubsonicTypes.CategorizedPlaylists) {
   pls.stations = (pls.stationPlaylists || []).map(pl => new Station(pl));
   return pls;
 };

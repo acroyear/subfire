@@ -15,11 +15,12 @@ export interface PlaylistGridPropTypes {
   onClick?: any
   onImageClick?: any
   playlistType: SubsonicTypes.PlaylistsType
+  actionIcon: typeof PlayArrow
   scrollSelector: string
 }
 
 export const PlaylistGrid: FC<PlaylistGridPropTypes> = (props) => {
-  const { onClick, onImageClick, scrollSelector, playlistType } = props;
+  const { onClick, onImageClick, scrollSelector, playlistType, actionIcon } = props;
   const hasSeenWarningRef = useRef(false);
   const [pls, delay] = usePlaylistsScanner(); // eslint-disable-line
   
@@ -28,12 +29,12 @@ export const PlaylistGrid: FC<PlaylistGridPropTypes> = (props) => {
     console.warn('Warning: playlists are not being refreshed regularly.');
   }
 
-  const pl = pls[playlistType || 'playlists'];
+  const pl = (pls ? pls[playlistType || 'playlists'] : []) as SubsonicTypes.Playlist[]
 
   return (
     <SubsonicGridList
       getSubTitle={getSubTitle}
-      Icon={PlayArrow}
+      Icon={actionIcon || PlayArrow}
       content={pl}
       onClick={onClick}
       onImageClick={onImageClick}

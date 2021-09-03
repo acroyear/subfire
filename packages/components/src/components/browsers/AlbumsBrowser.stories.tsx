@@ -11,7 +11,7 @@ export default {
 };
 
 const SubsonicWrapper: React.FC<any> = (props) => {
-  console.warn(props);
+  console.log(props);
   return (
     <SubsonicProvider
       clientName="SubfireStorybook"
