@@ -69,7 +69,7 @@ const SubsonicGridList = props => {
     sectionHeaderLabel,
     sectionHeaderIndex,
     sectionHeaderCount,
-    content,
+    content = [],
     scrollSelector
   } = props;
 
