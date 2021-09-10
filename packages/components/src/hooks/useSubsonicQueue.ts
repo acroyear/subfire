@@ -29,6 +29,7 @@ export const useSubsonicQueue = () => {
         prev: SubsonicQueue.prev,
         skipAlbum: SubsonicQueue.skipAlbum,
         skipTo: SubsonicQueue.skipTo,
+        shuffle: SubsonicQueue.shuffle,
         set: SubsonicQueue.set
     }
 }

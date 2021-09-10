@@ -1,3 +1,4 @@
+import { arrayShuffle } from '../js/utils/utils';
 import { Song } from './SubsonicTypes';
 
 export interface HasId {
@@ -166,6 +167,20 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
         this.idx = i;
         this._checkCurrent();
         this._checkAndDispatchEvents();
+    }
+
+    shuffle = (preserveCurrent: boolean = true): void => {
+        const current = this.current;
+        let a = arrayShuffle(this.queue);
+        a = arrayShuffle(this.queue);
+        a = arrayShuffle(this.queue);
+        a = arrayShuffle(this.queue);
+        a = arrayShuffle(this.queue);
+        const idx = preserveCurrent ? a.findIndex((s:HasId) => s.id === current.id) : 0;
+        this.idx = idx;
+        this.queue = a;
+        this._checkCurrent();
+        this._checkAndDispatchEvents(); 
     }
 
     getState = (): QueueModel<T> => {

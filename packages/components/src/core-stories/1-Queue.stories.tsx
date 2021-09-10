@@ -30,13 +30,13 @@ export const SubsonicQueueTest = (_p: any) => {
         const q1 = (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
             appendEvent('on queue ' + evt.data.queue.length);
         }
-        const i1 =  (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
+        const i1 = (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
             appendEvent('on idx - ' + evt.data.idx);
         }
-        const c1 =  (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
+        const c1 = (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
             appendEvent('on current - ' + evt.data.current?.title);
         }
-        const all1 =  (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
+        const all1 = (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
             appendEvent('on change');
         }
         SubsonicQueue.addEventListener('queue', q1);
@@ -68,6 +68,10 @@ export const SubsonicQueueTest = (_p: any) => {
         SubsonicQueue.skipAlbum();
     }
 
+    const shuffle = (preserve?: boolean) => {
+        SubsonicQueue.shuffle(preserve);
+    }
+
     const state = SubsonicQueue.getState();
 
     return (<>
@@ -75,11 +79,13 @@ export const SubsonicQueueTest = (_p: any) => {
         <button onClick={next}>Next</button>
         <button onClick={prev}>Prev</button>
         <button onClick={skipAlbum}>Skip</button>
+        <button onClick={() => shuffle(false)}>Shuffle (reset)</button>
+        <button onClick={() => shuffle()}>Shuffle (keep)</button>
         <hr />
-        Current: {state.idx } -- { state.current?.title }
-        <ol>
-            { state.queue.map(s => <li key={s.id}>{s.title}</li>)}
-        </ol>
+        Current: { state.idx } --{ state.current?.title }
+        < ol >
+        { state.queue.map(s => <li key={s.id}>{s.title}</li>) }
+        </ol >
         <hr />
         <textarea rows={10} cols={70} readOnly value={events}></textarea>
         <button onClick={clearEvents}>Clear</button>
