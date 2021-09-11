@@ -289,7 +289,7 @@ export class CastTs {
         }
         return this
     }
-    trigger(event: string, ...tail: any[]) {
+    trigger(event: string, ...tail: any[]):CastTs {
         // Slice arguments into array
         // If event exist, call callback with callback data
         for (var i in this._events[event]) {
