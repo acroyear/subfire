@@ -1,4 +1,4 @@
-export class MediaTs {
+export class HtmlMediaTs {
     src: string
 
     title: string
@@ -36,7 +36,7 @@ export class MediaTs {
 
     }
 
-    on = (event: string, cb: any): MediaTs => {
+    on = (event: string, cb: any): HtmlMediaTs => {
         // If event is not registered, create array to store callbacks
         if (!this._events[event]) {
             this._events[event] = [];
@@ -45,7 +45,7 @@ export class MediaTs {
         this._events[event].push(cb);
         return this
     }
-    off = (event: string, cb: any): MediaTs => {
+    off = (event: string, cb: any): HtmlMediaTs => {
         if (!event) {
             // if no event name was given, reset all events
             this._events = {};
@@ -55,7 +55,7 @@ export class MediaTs {
         }
         return this
     }
-    trigger(event: string, ...tail: any[]): MediaTs {
+    trigger(event: string, ...tail: any[]): HtmlMediaTs {
         // Slice arguments into array
         // If event exist, call callback with callback data
         for (var i in this._events[event]) {
@@ -71,7 +71,7 @@ export class MediaTs {
         }
         return this
     }
-    seek = (seconds: number, isPercentage = false): MediaTs => {
+    seek = (seconds: number, isPercentage = false): HtmlMediaTs => {
         if (isPercentage) {
             const d = this.duration;
             const s = this.duration * seconds;
@@ -81,12 +81,12 @@ export class MediaTs {
         }
         return this;
     }
-    volume = (v: number): MediaTs => {
+    volume = (v: number): HtmlMediaTs => {
         this.volumeLevel = v;
         this.lastVolumeLevel = v;
         return this;
     }
-    muteOrUnmute = (): MediaTs => {
+    muteOrUnmute = (): HtmlMediaTs => {
         if (this.volumeLevel) {
             this.lastVolumeLevel = this.e.volume;
             this.e.volume = 0;
@@ -99,16 +99,16 @@ export class MediaTs {
         }
         return this;
     }
-    mute = (): MediaTs => {
+    mute = (): HtmlMediaTs => {
         this.lastVolumeLevel = this.e.volume;
         this.muteOrUnmute();
         return this;
     }
-    unmute = (): MediaTs => {
+    unmute = (): HtmlMediaTs => {
         this.muteOrUnmute();
         return this;
     }
-    playOrPause = (): MediaTs => {
+    playOrPause = (): HtmlMediaTs => {
         if (this.e.paused) {
             this.e.play().then(e => {
                 console.debug(e);
@@ -118,11 +118,11 @@ export class MediaTs {
         }
         return this;
     }
-    play = (): MediaTs => {
+    play = (): HtmlMediaTs => {
         this.playOrPause();
         return this;
     }
-    pause = (): MediaTs => {
+    pause = (): HtmlMediaTs => {
         this.playOrPause();
         return this;
     }
