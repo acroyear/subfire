@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Slider from '@material-ui/core/Slider';
 
 import {
   Subsonic,
@@ -25,15 +26,24 @@ const initQueue: Song[] = [{ "id": "22766", "parent": "22730", "isDir": false, "
 export const Player = (_props: any) => {
   const [idx, setIdx] = useState(-1);
   const [url, setUrl] = useState(null);
+  const [timeValue, setTimeValue] = useState(0);
+  const [draggingTime, setDraggingTime] = useState(0);
   const [time, setTime] = useState('');
+  const [durValue, setDurValue] = useState(0);
   const [dur, setDur] = useState('');
   const [playPauseLabel, setPlayPauseLabel] = useState('...');
   const playerRef = useRef<HtmlMedia>(null);
+
+  const next = () => {
+    setIdx((idx) => idx + 1 >= initQueue.length ? 0 : idx + 1);
+  }
 
   useEffect(() => {
     playerRef.current = new HtmlMedia();
     const h = playerRef.current;
     h.on('timeupdate', () => {
+      setTimeValue(h.time);
+      setDurValue(h.duration);
       setTime(h.timePretty);
       setDur(h.durationPretty);
     });
@@ -48,6 +58,9 @@ export const Player = (_props: any) => {
       } else {
         setPlayPauseLabel('...');
       }
+    });
+    h.on('end', () => {
+      next();
     });
     return () => {
       h.destroy(true);
@@ -72,19 +85,34 @@ export const Player = (_props: any) => {
     }
   }, [url]);
 
-  const next = () => {
-    setIdx((idx) => idx + 1 >= initQueue.length ? 0 : idx + 1);
-  }
-
   const playpause = () => {
     playerRef.current.playOrPause();
   }
+
+  const sliderSeekTo = (_evt: any, value: number | number[]) => {
+    setDraggingTime(value as number);
+  };
+
+  const sliderLockTo = (_event: any, value: number | Array<number>) => {
+    playerRef.current.seek(value as number);
+    setDraggingTime(0);
+  };
 
   return <div>
     Idx: {idx}<br />
     Time: {time}<br />
     Dur: {dur}<br />
     <button onClick={next}>Next</button><br />
-    <button onClick={playpause}>{playPauseLabel}</button>
+    <button onClick={playpause}>{playPauseLabel}</button><br/>
+    DTime: {draggingTime || time}<br/>
+
+    <Slider
+        min={0}
+        max={durValue || 100}
+        value={draggingTime || timeValue || 0}
+        onChange={sliderSeekTo}
+        onChangeCommitted={sliderLockTo}
+      />
+
   </div>;
 }
