@@ -1,3 +1,17 @@
+import { toHHMMSS } from "../js/utils/utils";
+
+export enum PlayerState {
+    IDLE = 'IDLE',
+    PLAYING = 'PLAYING',
+    PAUSED = 'PAUSED',
+    BUFFERING = 'BUFFERING',
+    ENDED = 'ENDED'
+}
+
+export type MediaTriggerEvents = 'error' | 'available' | 'statechange' | 'connect' | 'disconnect' |
+    'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
+    | 'subtitlechange' | 'duration' | 'event';
+
 export class HtmlMediaTs {
     src: string
 
@@ -5,18 +19,18 @@ export class HtmlMediaTs {
     description: string
     poster: string
 
-    time: number
-    timePretty: string
-    duration: number
-    durationPretty: string
-    progress: number
+    time: number = 0
+    timePretty: string = '00:00'
+    duration: number = 1
+    durationPretty: string = '00:00'
+    progress: number = 0;
+    volumeLevel: number = 1
+    muted: boolean = false
+    paused: boolean = true
+    state: PlayerState = PlayerState.IDLE
 
-    volumeLevel: number
     lastVolumeLevel: number
-    muted: boolean
-    paused: boolean
-
-    _events: { [key: string]: any[] }
+    _events: Map<MediaTriggerEvents, any[]>
     e: HTMLMediaElement
 
     constructor(selector?: string) {
@@ -32,44 +46,100 @@ export class HtmlMediaTs {
             }
         }
 
-        var e = this.e;
-
+        const e = this.e;
+        e.addEventListener('duration', this._durationChanged);
+        e.addEventListener('volumechange', this._volumeChanged);
+        e.addEventListener('pause', this._pauseChanged);
+        e.addEventListener('timeupdate', this._currentTimeChanged);
+        e.addEventListener('ended', this._ended);
     }
 
-    on = (event: string, cb: any): HtmlMediaTs => {
+    _checkPlayerState = () => {
+        if (!this.e.src) {
+            this.state = PlayerState.IDLE;
+        } else if (this.e.paused) {
+            this.state = PlayerState.PAUSED;
+        } else {
+            this.state = PlayerState.PLAYING;
+        }
+        // TODO: identify buffering - needs to monitor src change and then canplay events
+        // TODO: identify ended
+        this.trigger('statechange');
+        if (this.state === PlayerState.PAUSED) {
+            this.trigger('pause');
+        } else if (this.state === PlayerState.PLAYING) {
+            this.trigger('playing');
+        // } else if (this.state === PlayerState.BUFFERING) {
+        //     this.trigger('buffering');
+        }
+    }
+    _ended = (_evt: Event) => {
+        this._checkPlayerState();
+        this.trigger('end');
+    }
+    _durationChanged = (_evt: Event) => {
+        this.duration = this.e.duration;
+        this.durationPretty = toHHMMSS(this.duration);
+        this.progress = this.time / (this.duration || 1) * 100;
+        this.trigger('duration');
+    }
+    _volumeChanged = (_evt: Event) => {
+        this.volumeLevel = this.e.volume;
+        this.muted = this.e.muted;
+        this.trigger('volumechange');
+    }
+    _pauseChanged = (_evt: Event) => {
+        this.paused = this.e.paused;
+        this._checkPlayerState();
+    }
+    _currentTimeChanged = (_evt: Event) => {
+        this.time = this.e.currentTime;
+        this.duration = this.e.duration;
+        this.progress = this.time / (this.duration || 1) * 100;
+        this.timePretty = toHHMMSS(this.time);
+        this.durationPretty = toHHMMSS(this.duration);
+        this.trigger('timeupdate');
+    }
+
+    on = (event: MediaTriggerEvents, cb: any): HtmlMediaTs => {
         // If event is not registered, create array to store callbacks
-        if (!this._events[event]) {
-            this._events[event] = [];
+        if (!this._events.get(event)) {
+            this._events.set(event, []);
         }
         // Push callback into event array
-        this._events[event].push(cb);
+        this._events.get(event).push(cb);
         return this
     }
-    off = (event: string, cb: any): HtmlMediaTs => {
+    off = (event: MediaTriggerEvents, cb: any): HtmlMediaTs => {
         if (!event) {
             // if no event name was given, reset all events
-            this._events = {};
-        } else if (this._events[event]) {
-            // remove all callbacks from event
-            this._events[event] = [];
+            this._events = new Map();
+        } else if (!this._events.get(event)) {
+            this._events.set(event, []);
         }
         return this
     }
-    trigger(event: string, ...tail: any[]): HtmlMediaTs {
+    trigger(event: MediaTriggerEvents, ...tail: any[]): HtmlMediaTs {
         // Slice arguments into array
         // If event exist, call callback with callback data
-        for (var i in this._events[event]) {
-            this._events[event][i].apply(this, tail);
+        for (const cb of this._events.get(event) || []) {
+            cb.apply(this, tail);
         }
         // dont call global event if error
         if (event === 'error') {
             return this
         }
         // call global event handler if exist
-        for (var i in this._events['event']) {
-            this._events['event'][i].apply(this, [event]);
+        for (const cb of this._events.get('event') || []) {
+            cb.apply(this, tail);
         }
         return this
+    }
+    load = (src: string, metadata: any = {}): HtmlMediaTs => {
+        this.src = src;
+        this.e.src = src;
+        this.e.currentTime = 0;
+        return this;
     }
     seek = (seconds: number, isPercentage = false): HtmlMediaTs => {
         if (isPercentage) {
@@ -82,14 +152,13 @@ export class HtmlMediaTs {
         return this;
     }
     volume = (v: number): HtmlMediaTs => {
-        this.volumeLevel = v;
-        this.lastVolumeLevel = v;
+        this.lastVolumeLevel = this.e.volume || this.lastVolumeLevel || v;
+        this.e.volume = v;
         return this;
     }
     muteOrUnmute = (): HtmlMediaTs => {
-        if (this.volumeLevel) {
-            this.lastVolumeLevel = this.e.volume;
-            this.e.volume = 0;
+        if (this.e.volume) {
+            this.volume(0);
         } else {
             if (this.lastVolumeLevel) {
                 this.volume(this.lastVolumeLevel);

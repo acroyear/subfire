@@ -29,7 +29,7 @@ type ConnectedPlayerState = ConnectedState | chrome.cast.media.PlayerState;
 
 type CastTriggerEvents = 'error' | 'available' | 'statechange' | 'connect' | 'disconnect' |
     'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
-    | 'subtitlechange' | 'event';
+    | 'subtitlechange' | 'duration' | 'event';
 
 // Castjs
 export class CastTs {
@@ -232,6 +232,7 @@ export class CastTs {
     }
     _durationChanged = () => {
         this.duration = this._player.duration;
+        this.trigger('duration');
     }
     _volumeLevelChanged = () => {
         this.volumeLevel = Number((this._player.volumeLevel).toFixed(1));
