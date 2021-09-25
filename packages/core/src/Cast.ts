@@ -19,6 +19,18 @@ interface CastSubtitleType {
     active: boolean
 }
 
+enum ConnectedState {
+    CONNECTED = 'CONNECTED',
+    DISCONNECTED = 'DISCONNECTED',
+    ENDED = 'ENDED'
+}
+
+type ConnectedPlayerState = ConnectedState | chrome.cast.media.PlayerState;
+
+type CastTriggerEvents = 'error' | 'available' | 'statechange' | 'connect' | 'disconnect' |
+    'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
+    | 'subtitlechange' | 'event';
+
 // Castjs
 export class CastTs {
     [key: string]: any
@@ -41,9 +53,10 @@ export class CastTs {
     duration: number
     durationPretty: string
     progress: number
-    state: string // this should have an enum
+    state: ConnectedPlayerState
 
-    _events: {[key: string]: any[]}
+    _events: Map<CastTriggerEvents, any[]>;
+
     _player: cast.framework.RemotePlayer // this should have a type
     _controller: cast.framework.RemotePlayerController // this should have a type
     initTriesTimeout: number
@@ -68,7 +81,7 @@ export class CastTs {
         }
 
         // private variables
-        this._events = {}
+        this._events = new Map();
         this._player = null;
         this._controller = null;
 
@@ -92,7 +105,7 @@ export class CastTs {
         this.duration = 0;
         this.durationPretty = '00:00:00';
         this.progress = 0;
-        this.state = 'disconnected';
+        this.state = ConnectedState.DISCONNECTED;
 
         // initialize chromecast framework
         this._init()
@@ -131,15 +144,16 @@ export class CastTs {
         this._player = new cast.framework.RemotePlayer();
         this._controller = new cast.framework.RemotePlayerController(this._player);
 
+        const rpt = cast.framework.RemotePlayerEventType;
         // register callback events
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED, this._isConnectedChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.IS_MEDIA_LOADED_CHANGED, this._isMediaLoadedChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.IS_MUTED_CHANGED, this._isMutedChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.IS_PAUSED_CHANGED, this._isPausedChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.CURRENT_TIME_CHANGED, this._currentTimeChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.DURATION_CHANGED, this._durationChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.VOLUME_LEVEL_CHANGED, this._volumeLevelChanged);
-        this._controller.addEventListener(cast.framework.RemotePlayerEventType.PLAYER_STATE_CHANGED, this._playerStateChanged);
+        this._controller.addEventListener(rpt.IS_CONNECTED_CHANGED, this._isConnectedChanged);
+        this._controller.addEventListener(rpt.IS_MEDIA_LOADED_CHANGED, this._isMediaLoadedChanged);
+        this._controller.addEventListener(rpt.IS_MUTED_CHANGED, this._isMutedChanged);
+        this._controller.addEventListener(rpt.IS_PAUSED_CHANGED, this._isPausedChanged);
+        this._controller.addEventListener(rpt.CURRENT_TIME_CHANGED, this._currentTimeChanged);
+        this._controller.addEventListener(rpt.DURATION_CHANGED, this._durationChanged);
+        this._controller.addEventListener(rpt.VOLUME_LEVEL_CHANGED, this._volumeLevelChanged);
+        this._controller.addEventListener(rpt.PLAYER_STATE_CHANGED, this._playerStateChanged);
         this.available = true;
         this.trigger('available');
     }
@@ -172,7 +186,7 @@ export class CastTs {
             this.duration = this._player.duration;
             this.durationPretty = this._controller.getFormattedTime(this._player.duration);
             this.progress = this._controller.getSeekPosition(this.time, this._player.duration);
-            this.state = this._player.playerState.toLowerCase();
+            this.state = this._player.playerState;
 
             // Loop over the subtitle tracks
             for (var i in this._player.mediaInfo.tracks) {
@@ -200,7 +214,7 @@ export class CastTs {
         if (this.connected) {
             this.device = cast.framework.CastContext.getInstance().getCurrentSession().getCastDevice().friendlyName || this.device
         }
-        this.state = !this.connected ? 'disconnected' : 'connected'
+        this.state = !this.connected ? ConnectedState.DISCONNECTED : ConnectedState.CONNECTED
         this.trigger('statechange')
         this.trigger(!this.connected ? 'disconnect' : 'connect')
     }
@@ -244,14 +258,14 @@ export class CastTs {
             return
         }
         this.device = cast.framework.CastContext.getInstance().getCurrentSession().getCastDevice().friendlyName || this.device
-        this.state = this._player.playerState.toLowerCase();
+        this.state = this._player.playerState;
         switch (this.state) {
-            case 'idle':
-                this.state = 'ended';
+            case chrome.cast.media.PlayerState.IDLE:
+                this.state = ConnectedState.ENDED;
                 this.trigger('statechange');
                 this.trigger('end');
                 return this
-            case 'buffering':
+            case chrome.cast.media.PlayerState.BUFFERING:
                 this.time = this._player.currentTime;
                 this.duration = this._player.duration;
                 this.progress = this._controller.getSeekPosition(this.time, this.duration);
@@ -260,7 +274,7 @@ export class CastTs {
                 this.trigger('statechange');
                 this.trigger('buffering');
                 return this
-            case 'playing':
+            case chrome.cast.media.PlayerState.PLAYING:
                 // we have to skip a tick to give mediaInfo some time to update
                 setTimeout(() => {
                     this.trigger('statechange');
@@ -270,38 +284,37 @@ export class CastTs {
         }
     }
     // Class functions
-    on = (event: string, cb: any):CastTs => {
+    on = (event: CastTriggerEvents, cb: any): CastTs => {
         // If event is not registered, create array to store callbacks
-        if (!this._events[event]) {
-            this._events[event] = [];
+        if (!this._events.get(event)) {
+            this._events.set(event, []);
         }
         // Push callback into event array
-        this._events[event].push(cb);
+        this._events.get(event).push(cb);
         return this
     }
-    off = (event: string, cb: any):CastTs => {
+    off = (event: CastTriggerEvents, cb: any): CastTs => {
         if (!event) {
             // if no event name was given, reset all events
-            this._events = {};
-        } else if (this._events[event]) {
-            // remove all callbacks from event
-            this._events[event] = [];
+            this._events = new Map();
+        } else if (!this._events.get(event)) {
+            this._events.set(event, []);
         }
         return this
     }
-    trigger(event: string, ...tail: any[]):CastTs {
+    trigger(event: CastTriggerEvents, ...tail: any[]): CastTs {
         // Slice arguments into array
         // If event exist, call callback with callback data
-        for (var i in this._events[event]) {
-            this._events[event][i].apply(this, tail);
+        for (const cb of this._events.get(event) || []) {
+            cb.apply(this, tail);
         }
         // dont call global event if error
         if (event === 'error') {
             return this
         }
         // call global event handler if exist
-        for (var i in this._events['event']) {
-            this._events['event'][i].apply(this, [event]);
+        for (const cb of this._events.get('event') || []) {
+            cb.apply(this, tail);
         }
         return this
     }
@@ -387,7 +400,7 @@ export class CastTs {
             return this;
         });
     }
-    seek = (seconds: number, isPercentage = false):CastTs => {
+    seek = (seconds: number, isPercentage = false): CastTs => {
         // if seek(15, true) we assume 15 is percentage instead of seconds
         if (isPercentage) {
             seconds = this._controller.getSeekTime(seconds, this._player.duration);
@@ -396,38 +409,38 @@ export class CastTs {
         this._controller.seek();
         return this;
     }
-    volume = (float: number):CastTs => {
+    volume = (float: number): CastTs => {
         this._player.volumeLevel = float;
         this._controller.setVolumeLevel();
         return this;
     }
-    playOrPause = ():CastTs => {
+    playOrPause = (): CastTs => {
         this._controller.playOrPause();
         return this;
     }
-    play = ():CastTs => {
+    play = (): CastTs => {
         if (this.paused) {
             this._controller.playOrPause();
         }
         return this;
     }
-    pause = ():CastTs => {
+    pause = (): CastTs => {
         if (!this.paused) {
             this._controller.playOrPause();
         }
         return this;
     }
-    muteOrUnmute = ():CastTs => {
+    muteOrUnmute = (): CastTs => {
         this._controller.muteOrUnmute();
         return this;
     }
-    mute = ():CastTs => {
+    mute = (): CastTs => {
         if (!this.muted) {
             this._controller.muteOrUnmute();
         }
         return this;
     }
-    unmute = ():CastTs => {
+    unmute = (): CastTs => {
         if (this.muted) {
             this._controller.muteOrUnmute();
         }
@@ -476,7 +489,7 @@ export class CastTs {
         this.duration = 0;
         this.durationPretty = '00:00:00';
         this.progress = 0;
-        this.state = 'disconnected';
+        this.state = ConnectedState.DISCONNECTED;
 
 
         this.trigger('disconnect');
