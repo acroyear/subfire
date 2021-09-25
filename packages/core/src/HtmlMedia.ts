@@ -49,6 +49,7 @@ export class HtmlMedia {
         this._events = new Map();
 
         const e = this.e;
+        e.addEventListener('canplay', this._canPlayChanged);
         e.addEventListener('duration', this._durationChanged);
         e.addEventListener('volumechange', this._volumeChanged);
         e.addEventListener('pause', this._pauseChanged);
@@ -58,6 +59,7 @@ export class HtmlMedia {
 
     destroy = (stopTheMusic?: boolean) => {
         const e = this.e;
+        e.removeEventListener('canplay', this._canPlayChanged);
         e.removeEventListener('duration', this._durationChanged);
         e.removeEventListener('volumechange', this._volumeChanged);
         e.removeEventListener('pause', this._pauseChanged);
@@ -74,12 +76,13 @@ export class HtmlMedia {
     _checkPlayerState = () => {
         if (!this.e.src) {
             this.state = PlayerState.IDLE;
+        } else if (this.state === PlayerState.BUFFERING) {
+            // no-op
         } else if (this.e.paused) {
             this.state = PlayerState.PAUSED;
         } else {
             this.state = PlayerState.PLAYING;
         }
-        // TODO: identify buffering - needs to monitor src change and then canplay events
         // TODO: identify ended
         this.trigger('statechange');
         if (this.state === PlayerState.PAUSED) {
@@ -89,6 +92,11 @@ export class HtmlMedia {
         // } else if (this.state === PlayerState.BUFFERING) {
         //     this.trigger('buffering');
         }
+    }
+    _canPlayChanged = (_evt: Event) => {
+        // reset to IDLE so buffering isn't a pass-through
+        this.state = PlayerState.IDLE;
+        this._checkPlayerState();
     }
     _ended = (_evt: Event) => {
         this._checkPlayerState();
@@ -153,9 +161,13 @@ export class HtmlMedia {
         return this
     }
     load = (src: string, metadata: any = {}): HtmlMedia => {
-        this.src = src;
-        this.e.src = src;
-        this.e.currentTime = 0;
+        if (this.src !== src) {
+            this.state = PlayerState.BUFFERING;
+            this.src = src;
+            this.e.src = src;
+            this.e.currentTime = 0;
+            this._checkPlayerState();
+        }
         return this;
     }
     seek = (seconds: number, isPercentage = false): HtmlMedia => {

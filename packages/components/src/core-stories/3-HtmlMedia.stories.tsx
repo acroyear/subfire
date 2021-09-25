@@ -8,8 +8,6 @@ import {
 } from "@subfire/core";
 type Song = SubsonicTypes.Song;
 
-console.log(Subsonic);
-
 export default {
   title: "api/HtmlMedia",
 };
@@ -45,6 +43,8 @@ export const Player = (_props: any) => {
         setPlayPauseLabel('Play');
       } else if (h.state === PlayerState.PLAYING) {
         setPlayPauseLabel('Pause');
+      } else if (h.state === PlayerState.BUFFERING) {
+        setPlayPauseLabel('...buffering...');
       } else {
         setPlayPauseLabel('...');
       }
@@ -73,7 +73,7 @@ export const Player = (_props: any) => {
   }, [url]);
 
   const next = () => {
-    setIdx((idx) => idx+1 >= initQueue.length ? 0 : idx+1);
+    setIdx((idx) => idx + 1 >= initQueue.length ? 0 : idx + 1);
   }
 
   const playpause = () => {
@@ -81,10 +81,10 @@ export const Player = (_props: any) => {
   }
 
   return <div>
-    Idx: {idx}<br/>
-    Time: {time}<br/>
-    Dur: {dur}<br/>
-    <button onClick={next}>Next</button><br/>
+    Idx: {idx}<br />
+    Time: {time}<br />
+    Dur: {dur}<br />
+    <button onClick={next}>Next</button><br />
     <button onClick={playpause}>{playPauseLabel}</button>
   </div>;
 }

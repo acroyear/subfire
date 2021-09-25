@@ -1,5 +1,3 @@
-import { TextTrackEdgeType, TextTrackType, TrackType } from "chromecast-caf-receiver/cast.framework.messages";
-
 // Import cast framework
 if (window.chrome && !window.chrome.cast) {
     var script = document.createElement('script');
@@ -19,15 +17,15 @@ interface CastSubtitleType {
     active: boolean
 }
 
-enum ConnectedState {
+export enum ConnectedState {
     CONNECTED = 'CONNECTED',
     DISCONNECTED = 'DISCONNECTED',
     ENDED = 'ENDED'
 }
 
-type ConnectedPlayerState = ConnectedState | chrome.cast.media.PlayerState;
+export type ConnectedPlayerState = ConnectedState | chrome.cast.media.PlayerState;
 
-type CastTriggerEvents = 'error' | 'available' | 'statechange' | 'connect' | 'disconnect' |
+export type CastTriggerEvents = 'error' | 'available' | 'statechange' | 'connect' | 'disconnect' |
     'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
     | 'subtitlechange' | 'duration' | 'event';
 
@@ -348,18 +346,18 @@ export class CastTs {
                 mediaInfo.textTrackStyle = new chrome.cast.media.TextTrackStyle();
                 mediaInfo.textTrackStyle.backgroundColor = '#00000000';
                 mediaInfo.textTrackStyle.edgeColor = '#00000016';
-                mediaInfo.textTrackStyle.edgeType = TextTrackEdgeType.DROP_SHADOW;
+                mediaInfo.textTrackStyle.edgeType = chrome.cast.media.TextTrackEdgeType.DROP_SHADOW;
                 mediaInfo.textTrackStyle.fontFamily = 'CASUAL';
                 mediaInfo.textTrackStyle.fontScale = 1.0;
                 mediaInfo.textTrackStyle.foregroundColor = '#FFFFFF';
 
-                var tracks = [];
+                const tracks = [] as chrome.cast.media.Track[];
                 for (let i = 0; i < this.subtitles.length; i++) {
                     // chrome.cast.media.TrackType.TEXT
                     // chrome.cast.media.TextTrackType.CAPTIONS
-                    var track = new chrome.cast.media.Track(i, TrackType.TEXT);
+                    var track = new chrome.cast.media.Track(i, chrome.cast.media.TrackType.TEXT);
                     track.name = this.subtitles[i].label;
-                    track.subtype = TextTrackType.CAPTIONS;
+                    track.subtype = chrome.cast.media.TextTrackType.CAPTIONS;
                     track.trackContentId = this.subtitles[i].src;
                     track.trackContentType = 'text/vtt';
                     // This bug made me question life for a while
@@ -391,10 +389,10 @@ export class CastTs {
                 // Update device name
                 this.device = cast.framework.CastContext.getInstance().getCurrentSession().getCastDevice().friendlyName || this.device
                 return this;
-            }, (err) => {
+            }, (err: any) => {
                 return this.trigger('error', err);
             });
-        }, (err) => {
+        }, (err: any) => {
             if (err !== 'cancel') {
                 this.trigger('error', err);
             }
@@ -459,7 +457,7 @@ export class CastTs {
                 st.active = i === index;
             });
             this.trigger('subtitlechange')
-        }, (err) => {
+        }, (err: any) => {
             // catch any error
             this.trigger('error', err);
         });
