@@ -1,7 +1,7 @@
 import { ArtistActionButtons } from './ArtistActionButtons';
 
 export default {
-  title: 'controls/AristActionButtons'
+  title: 'controls/ArtistActionButtons'
 };
 
 export const ArtistActionButtonsTest = (_props: any) => {

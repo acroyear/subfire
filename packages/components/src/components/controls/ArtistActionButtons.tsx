@@ -11,6 +11,7 @@ import {
 import Button from "../ui/TipButton";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Generic } from "@subfire/core/lib/src/SubsonicTypes";
 const useStyles = makeStyles((theme) => ({
   buttonRow: {
     display: "flex",
@@ -31,18 +32,20 @@ const useStyles = makeStyles((theme) => ({
 export interface ArtistActionButtonsPropTypes {
   history?: any;
   loadbase?: string;
+  object?: Generic;
   id?: string;
   artistId?: string;
   isAlbum?: boolean;
   isArtist?: boolean;
+  isSong?: boolean;
   showBackButton?: boolean;
   children?: React.ReactNode;
   onClick: (type: string) => void;
 }
 
 export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (props) => {
-  const { id, showBackButton, onClick, children } = props;
-  let { artistId, isArtist } = props;
+  let { id, showBackButton, onClick, children } = props;
+  let { artistId, isArtist, isSong } = props;
   const isAlbum = !!artistId;
   isArtist = isArtist || isAlbum;
   const classes = useStyles();
@@ -167,7 +170,7 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
 };
 
 export const ArtistActionRouteButtons: React.FC<ArtistActionButtonsPropTypes> = (props) => {
-  const { loadbase, history, id, artistId, showBackButton, children } = props;
+  const { loadbase, history, id, artistId, isSong, showBackButton, children } = props;
   const onClick = (type: string) => {
     switch (type) {
       case 'back':
@@ -192,7 +195,11 @@ export const ArtistActionRouteButtons: React.FC<ArtistActionButtonsPropTypes> = 
         history.push(`/loading/${loadbase}/${artistId}/shuffleAlbums`);
         break;
       case 'play':
-        history.push(`/loading/albumAction/${id}/play`)
+        if (isSong) {
+          // TODO
+        } else {
+          history.push(`/loading/albumAction/${id}/play`);
+        }
         break;
 
     }
@@ -203,6 +210,7 @@ export const ArtistActionRouteButtons: React.FC<ArtistActionButtonsPropTypes> = 
     id,
     artistId,
     isArtist: loadbase !== "directoryAction",
+    isSong,
     showBackButton
   }
   return <ArtistActionButtons {...aabProps}>{children}</ArtistActionButtons>
