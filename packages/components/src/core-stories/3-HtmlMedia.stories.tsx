@@ -39,6 +39,15 @@ export const Player = (_props: any) => {
   }
 
   useEffect(() => {
+    const {
+      server,
+      username,
+      password,
+      bitrate,
+      clientName = "SubsonicStorybook",
+    } = credentials;
+    const p = Subsonic.open(server, username, password, bitrate, clientName).then(() => {
+    });
     playerRef.current = new HtmlMedia();
     const h = playerRef.current;
     h.on('timeupdate', () => {
@@ -103,16 +112,16 @@ export const Player = (_props: any) => {
     Time: {time}<br />
     Dur: {dur}<br />
     <button onClick={next}>Next</button><br />
-    <button onClick={playpause}>{playPauseLabel}</button><br/>
-    DTime: {draggingTime || time}<br/>
+    <button onClick={playpause}>{playPauseLabel}</button><br />
+    DTime: {draggingTime || time}<br />
 
     <Slider
-        min={0}
-        max={durValue || 100}
-        value={draggingTime || timeValue || 0}
-        onChange={sliderSeekTo}
-        onChangeCommitted={sliderLockTo}
-      />
+      min={0}
+      max={durValue || 100}
+      value={draggingTime || timeValue || 0}
+      onChange={sliderSeekTo}
+      onChangeCommitted={sliderLockTo}
+    />
 
   </div>;
 }
