@@ -12,7 +12,7 @@ export type MediaTriggerEvents = 'error' | 'available' | 'statechange' | 'connec
     'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
     | 'subtitlechange' | 'duration' | 'event';
 
-export class HtmlMediaTs {
+export class HtmlMedia {
     src: string
 
     title: string
@@ -46,12 +46,29 @@ export class HtmlMediaTs {
             }
         }
 
+        this._events = new Map();
+
         const e = this.e;
         e.addEventListener('duration', this._durationChanged);
         e.addEventListener('volumechange', this._volumeChanged);
         e.addEventListener('pause', this._pauseChanged);
         e.addEventListener('timeupdate', this._currentTimeChanged);
         e.addEventListener('ended', this._ended);
+    }
+
+    destroy = (stopTheMusic?: boolean) => {
+        const e = this.e;
+        e.removeEventListener('duration', this._durationChanged);
+        e.removeEventListener('volumechange', this._volumeChanged);
+        e.removeEventListener('pause', this._pauseChanged);
+        e.removeEventListener('timeupdate', this._currentTimeChanged);
+        e.removeEventListener('ended', this._ended);
+        this.off();
+        if (stopTheMusic) {
+            // after events are stopped
+            this.e.pause();
+            this.e.src = null;
+        }
     }
 
     _checkPlayerState = () => {
@@ -101,7 +118,7 @@ export class HtmlMediaTs {
         this.trigger('timeupdate');
     }
 
-    on = (event: MediaTriggerEvents, cb: any): HtmlMediaTs => {
+    on = (event: MediaTriggerEvents, cb: any): HtmlMedia => {
         // If event is not registered, create array to store callbacks
         if (!this._events.get(event)) {
             this._events.set(event, []);
@@ -110,7 +127,7 @@ export class HtmlMediaTs {
         this._events.get(event).push(cb);
         return this
     }
-    off = (event: MediaTriggerEvents, cb: any): HtmlMediaTs => {
+    off = (event?: MediaTriggerEvents, cb?: any): HtmlMedia => {
         if (!event) {
             // if no event name was given, reset all events
             this._events = new Map();
@@ -119,7 +136,7 @@ export class HtmlMediaTs {
         }
         return this
     }
-    trigger(event: MediaTriggerEvents, ...tail: any[]): HtmlMediaTs {
+    trigger = (event: MediaTriggerEvents, ...tail: any[]): HtmlMedia => {
         // Slice arguments into array
         // If event exist, call callback with callback data
         for (const cb of this._events.get(event) || []) {
@@ -135,13 +152,13 @@ export class HtmlMediaTs {
         }
         return this
     }
-    load = (src: string, metadata: any = {}): HtmlMediaTs => {
+    load = (src: string, metadata: any = {}): HtmlMedia => {
         this.src = src;
         this.e.src = src;
         this.e.currentTime = 0;
         return this;
     }
-    seek = (seconds: number, isPercentage = false): HtmlMediaTs => {
+    seek = (seconds: number, isPercentage = false): HtmlMedia => {
         if (isPercentage) {
             const d = this.duration;
             const s = this.duration * seconds;
@@ -151,12 +168,12 @@ export class HtmlMediaTs {
         }
         return this;
     }
-    volume = (v: number): HtmlMediaTs => {
+    volume = (v: number): HtmlMedia => {
         this.lastVolumeLevel = this.e.volume || this.lastVolumeLevel || v;
         this.e.volume = v;
         return this;
     }
-    muteOrUnmute = (): HtmlMediaTs => {
+    muteOrUnmute = (): HtmlMedia => {
         if (this.e.volume) {
             this.volume(0);
         } else {
@@ -168,30 +185,33 @@ export class HtmlMediaTs {
         }
         return this;
     }
-    mute = (): HtmlMediaTs => {
+    mute = (): HtmlMedia => {
         this.lastVolumeLevel = this.e.volume;
         this.muteOrUnmute();
         return this;
     }
-    unmute = (): HtmlMediaTs => {
+    unmute = (): HtmlMedia => {
         this.muteOrUnmute();
         return this;
     }
-    playOrPause = (): HtmlMediaTs => {
+    playOrPause = (): HtmlMedia => {
+        if (!this.e.src) return;
         if (this.e.paused) {
             this.e.play().then(e => {
                 console.debug(e);
+                //  play doesn't fire an event so we have to update
+                this._checkPlayerState();
             });
         } else {
             this.e.pause();
         }
         return this;
     }
-    play = (): HtmlMediaTs => {
+    play = (): HtmlMedia => {
         this.playOrPause();
         return this;
     }
-    pause = (): HtmlMediaTs => {
+    pause = (): HtmlMedia => {
         this.playOrPause();
         return this;
     }

@@ -921,7 +921,7 @@ export class SubsonicClass {
     return url;
   }
 
-  getHLSURL = (id: string, params: any) => {
+  getHLSURL = (id: string, params?: object) => {
     params = Object.assign(
       {
         id: id,
@@ -932,7 +932,7 @@ export class SubsonicClass {
     return this._buildURI('hls', params);
   }
 
-  getStreamingURL = (id: string, params: any) => {
+  getStreamingURL = (id: string, params?: object) => {
     params = Object.assign(
       {
         id: id,

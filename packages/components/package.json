@@ -28,6 +28,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/chromecast-caf-receiver": "^6.0.5",
+    "@types/chromecast-caf-sender": "^1.0.4",
     "@storybook/addon-actions": "^6.1.17",
     "@storybook/addon-docs": "^6.1.17",
     "@storybook/addon-essentials": "^6.1.17",
