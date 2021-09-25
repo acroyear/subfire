@@ -135,6 +135,7 @@ export class HtmlMedia {
         this._events.get(event).push(cb);
         return this
     }
+    // broken
     off = (event?: MediaTriggerEvents, cb?: any): HtmlMedia => {
         if (!event) {
             // if no event name was given, reset all events
