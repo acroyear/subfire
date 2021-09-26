@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import { useToggle } from "react-use";
-import Switch from "@material-ui/core/Switch";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
+import Switch from "@mui/material/Switch";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import Shuffle from '@material-ui/icons/Shuffle';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import Shuffle from '@mui/icons-material/Shuffle';
 
 import {
     SubsonicProvider,

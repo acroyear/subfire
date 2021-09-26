@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import { action } from '@storybook/addon-actions';
 import { EntryListItem, EntryListItemProps } from './EntryListItem';
 
-import Shuffle from '@material-ui/icons/Shuffle';
-import List from '@material-ui/core/List';
+import Shuffle from '@mui/icons-material/Shuffle';
+import List from '@mui/material/List';
 
 import { Subsonic } from '@subfire/core';
-import { Checkbox, FormControlLabel, FormGroup } from '@material-ui/core';
+import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 
 const credentials = {
   server: process.env.sf_server,
@@ -30,7 +30,7 @@ export const EntryList = () => {
   async function f() {
     try {
       const { server, username, password, bitrate, clientName = 'SubsonicStorybook' } = credentials;
-      p.current = p.current || await Subsonic.open(server, username, password, bitrate, clientName);
+      p.current = p.current || (await Subsonic.open(server, username, password, bitrate, clientName));
       const pl = await Subsonic.getPlaylist("5", true);
       const ar = await Subsonic.getArtist("33");
       const al = await Subsonic.getAlbum("44");

@@ -1,11 +1,11 @@
 import React, { MouseEventHandler } from 'react';
 
-import Tooltip from '@material-ui/core/Tooltip';
-import ImageListItem from '@material-ui/core/ImageListItem';
-import ImageListItemBar from '@material-ui/core/ImageListItemBar';
-import IconButton from '@material-ui/core/IconButton';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import { SvgIcon } from '@material-ui/core';
+import Tooltip from '@mui/material/Tooltip';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+import IconButton from '@mui/material/IconButton';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import { SvgIcon } from '@mui/material';
 
 import { Subsonic } from '@subfire/core';
 import { IdItemClick } from '../../SubfireTypes';
@@ -61,7 +61,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
           subtitle={props.subTitle || props.artist || ''}
           className={className}
           actionIcon={
-            <IconButton onClick={onClick} style={{ color: '#fff' }}>
+            <IconButton onClick={onClick} style={{ color: '#fff' }} size="large">
               <Icon />
             </IconButton>
           }

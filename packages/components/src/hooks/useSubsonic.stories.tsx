@@ -6,7 +6,7 @@ import {
 } from "./SubsonicContext";
 import useLoginSnacker from "./useLoginSnacker";
 import { SnackbarProvider, SnackbarKey } from "notistack";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 export default {
   title: "hooks/SubsonicContextAlone",

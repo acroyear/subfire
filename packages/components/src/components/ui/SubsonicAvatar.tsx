@@ -1,11 +1,11 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@mui/material/Avatar';
+import makeStyles from '@mui/styles/makeStyles';
 import { useSubsonic } from '../../hooks/SubsonicContext';
 
 const useStyles = makeStyles(theme => ({
   avatar: {
-    background: theme.palette.secondary.dark,
+    // background: theme.palette.secondary.dark,
     color: '#ffffff'
   }
 }));

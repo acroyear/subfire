@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import common from '@material-ui/core/colors/common';
-import { withStyles } from '@material-ui/core/styles';
+import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import withStyles from '@mui/styles/withStyles';
 
 const styles = theme => ({
   root: {

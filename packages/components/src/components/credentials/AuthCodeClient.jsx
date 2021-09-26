@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 import AuthExchangeActions from './AuthExchangeActions';
 import { useCredentials } from "../../hooks/CredentialsContext";
 import { Tea } from "@subfire/core";
 
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 const styles = theme => ({
   centerHeader: {
     textAlign: 'center',
@@ -70,7 +70,7 @@ const AuthCodeClient = props => {
   const { classes, handleClose } = props;
 
   return (
-    <Dialog disableBackdropClick open={true} className={classes.paperFullScreen}>
+    <Dialog open={true} className={classes.paperFullScreen}>
       <DialogTitle>{'Authenticate Via Existing Source'}</DialogTitle>
       <DialogContent>
         <DialogContentText>

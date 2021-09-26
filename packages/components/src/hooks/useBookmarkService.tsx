@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { SubsonicTypes, Subsonic } from '@subfire/core';
-import { Bookmark as BookmarkIcon, BookmarkBorder as BookmarkBorderIcon } from '@material-ui/icons';
+import { Bookmark as BookmarkIcon, BookmarkBorder as BookmarkBorderIcon } from '@mui/icons-material';
 
 import { useBookmarks } from './useSubsonicLoader';
 import { useCounter } from 'react-use';

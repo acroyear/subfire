@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Fab from '@material-ui/core/Fab';
-import TopIcon from '@material-ui/icons/VerticalAlignTop';
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import Fab from '@mui/material/Fab';
+import TopIcon from '@mui/icons-material/VerticalAlignTop';
+import withStyles from '@mui/styles/withStyles';
+import withTheme from '@mui/styles/withTheme';
 
 const styles = theme => {
   return {

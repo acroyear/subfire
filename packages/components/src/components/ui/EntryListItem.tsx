@@ -1,19 +1,19 @@
 import React from 'react';
 
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import { TipIconButton as IconButton } from './TipButton';
 
 import classNames from 'classnames';
 import { Subsonic } from '@subfire/core';
 import { IdItemClick } from '../../SubfireTypes';
 import { SubsonicTypes } from "@subfire/core";
-import { SvgIcon } from '@material-ui/core';
+import { SvgIcon } from '@mui/material';
 
 export interface EntryListItemProps {
   useAvatar?: boolean
@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 
   },
   subheader: {
-    backgroundColor: theme.palette.background.paper
+    // backgroundColor: theme.palette.background.paper
   },
   li: {
     listStyle: 'none'
@@ -101,7 +101,12 @@ export const EntryListItem = (props: EntryListItemProps) => {
         secondary={showIndexText ? (index.name || index.title) : null} />
       {SecondaryIcon && (
         <ListItemSecondaryAction>
-          <IconButton title={secondaryActionLabel} placement="left-end" aria-label={secondaryActionLabel} onClick={() => onEntrySecondaryClick(item.id)}>
+          <IconButton
+            title={secondaryActionLabel}
+            placement="left-end"
+            aria-label={secondaryActionLabel}
+            onClick={() => onEntrySecondaryClick(item.id)}
+            size="large">
             <SecondaryIcon />
           </IconButton>
         </ListItemSecondaryAction>

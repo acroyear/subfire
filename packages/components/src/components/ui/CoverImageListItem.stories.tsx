@@ -2,8 +2,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { CoverImageListItem, CoverImageListItemProps} from './CoverImageListItem';
 
-import Shuffle from '@material-ui/icons/Shuffle';
-import ImageList from '@material-ui/core/ImageList';
+import Shuffle from '@mui/icons-material/Shuffle';
+import ImageList from '@mui/material/ImageList';
 
 import { Subsonic } from '@subfire/core';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useWindowSize } from 'react-use';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import { Portrait, Landscape, PortraitGrid, LandscapeGrid, isPortrait, isLandscape } from './index';
 

@@ -7,10 +7,10 @@ import {
   Shuffle,
   ThumbUp,
   Reply,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import Button from "../ui/TipButton";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { Generic } from "@subfire/core/lib/src/SubsonicTypes";
 const useStyles = makeStyles((theme) => ({
   buttonRow: {
@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   button: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
   },
   rightIcon: {
-    marginLeft: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
   },
 }));
 

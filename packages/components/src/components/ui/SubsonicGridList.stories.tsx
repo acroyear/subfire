@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { action } from '@storybook/addon-actions';
-import PlayArrow from '@material-ui/icons/PlayArrow';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import SubsonicGridList from './SubsonicGridList';
 import { buildProcessEnvCredentials } from '../../hooks/SubsonicContext';
 
 export default {
-  title: 'ui/GridList'
+  title: 'ui/ImageList'
 };
 
 function getSubTitle(pl: SubsonicTypes.Playlist) {
@@ -16,7 +16,7 @@ function getSubTitle(pl: SubsonicTypes.Playlist) {
   return rv;
 }
 
-export const GridList = () => {
+export const ImageList = () => {
   async function f() {
     const { server, username, password, bitrate, name = 'SubsonicStorybook' } = buildProcessEnvCredentials();
     const p = Subsonic.open(server, username, password, bitrate, name);

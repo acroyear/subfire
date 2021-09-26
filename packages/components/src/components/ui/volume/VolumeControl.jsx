@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import VolumeDownIcon from '@material-ui/icons/VolumeDown';
-import VolumeOffIcon from '@material-ui/icons/VolumeOff';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
-// import { makeStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+// import { makeStyles } from '@mui/material/styles';
+import Slider from '@mui/material/Slider';
 
 import { Gc, Gi } from '../TGB';
 

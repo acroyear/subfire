@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Slider from '@material-ui/core/Slider';
+import Slider from '@mui/material/Slider';
 
 import {
   Subsonic,

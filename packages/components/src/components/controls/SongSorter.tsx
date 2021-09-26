@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react'; // eslint-disable-line
 
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import { SortAscending, SortDescending } from 'mdi-material-ui';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
+import { SortAscending, SortDescending } from '@mitch528/mdi-material-ui';
 import { SubsonicTypes, utils } from '@subfire/core';
 
 const { arrayShuffle } = utils;

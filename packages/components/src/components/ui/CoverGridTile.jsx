@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Tooltip from "@material-ui/core/Tooltip";
-import GridListTile from "@material-ui/core/ImageListItem";
-import GridListTileBar from "@material-ui/core/ImageListItemBar";
-import IconButton from "@material-ui/core/IconButton";
-import PlayArrow from "@material-ui/icons/PlayArrow";
+import Tooltip from "@mui/material/Tooltip";
+import ImageListItem from "@mui/material/ImageListItem";
+import ImageListItemBar from "@mui/material/ImageListItemBar";
+import IconButton from "@mui/material/IconButton";
+import PlayArrow from "@mui/icons-material/PlayArrow";
 
 import { Subsonic } from "@subfire/core";
 
@@ -29,7 +29,7 @@ const CoverGridTile = (props) => {
       arrow
       placement="top-start"
     >
-      <GridListTile style={props.style}>
+      <ImageListItem style={props.style}>
         <img
           crossOrigin="anonymous"
           src={Subsonic.getCoverArtURL(coverArt, props.size)}
@@ -37,17 +37,17 @@ const CoverGridTile = (props) => {
           onClick={onImageClick}
           loading="lazy"
         />
-        <GridListTileBar
+        <ImageListItemBar
           title={props.name || props.title || ""}
           subtitle={props.subTitle || props.artist || ""}
           className={className}
           actionIcon={
-            <IconButton onClick={onClick} style={{ color: "#fff" }}>
+            <IconButton onClick={onClick} style={{ color: "#fff" }} size="large">
               <Icon />
             </IconButton>
           }
         />
-      </GridListTile>
+      </ImageListItem>
     </Tooltip>
   );
 };
@@ -65,7 +65,7 @@ CoverGridTile.propTypes = {
   variant: PropTypes.string,
   coverArt: PropTypes.string,
   useIdforArt: PropTypes.bool,
-  style: PropTypes.any, // passed in from GridList, and needs to be passed down.
+  style: PropTypes.any, // passed in from ImageList, and needs to be passed down.
 };
 
 CoverGridTile.defaultProps = {

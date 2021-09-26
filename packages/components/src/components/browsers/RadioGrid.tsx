@@ -4,7 +4,7 @@ import { FC, useRef } from 'react';
 import { usePlaylistsScanner } from '../../hooks/usePlaylists';
 import SubsonicGridList from '../ui/SubsonicGridList';
 import { SubsonicTypes } from '@subfire/core';
-import PlayArrow from '@material-ui/icons/PlayArrow';
+import PlayArrow from '@mui/icons-material/PlayArrow';
 
 function getSubTitle(pl: SubsonicTypes.Playlist) {
   const rv = pl.songCount + ' songs';

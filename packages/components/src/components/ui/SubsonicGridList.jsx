@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 // import useComponentSize from '@rehooks/component-size';
 import { useWindowSize, useComponentSize } from './orientation';
 
-import GridList from '@material-ui/core/ImageList';
-import GridListTile from '@material-ui/core/ImageListItem';
-import Typography from '@material-ui/core/Typography';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowUpward from '@material-ui/icons/ArrowUpward';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import PlayArrow from '@material-ui/icons/PlayArrow';
-import { makeStyles } from '@material-ui/core/styles';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import Typography from '@mui/material/Typography';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import ListSubheader from '@mui/material/ListSubheader';
+import IconButton from '@mui/material/IconButton';
+import ArrowUpward from '@mui/icons-material/ArrowUpward';
+import ArrowDownward from '@mui/icons-material/ArrowDownward';
+import PlayArrow from '@mui/icons-material/PlayArrow';
+import makeStyles from '@mui/styles/makeStyles';
 
 import CoverGridTile from './CoverGridTile';
 import ScrollToTopFab from './ScrollToTopFab';
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     // paddingLeft: 10
   },
   header: {
-    backgroundColor: theme.palette.background.paper
+    // backgroundColor: theme.palette.background.paper
   },
   gridList: {
     backgroundColor: '#000000'
@@ -76,30 +76,33 @@ const SubsonicGridList = props => {
   const classes = useStyles();
 
   const sectionHeader = !sectionHeaderLabel ? null : (
-    <GridListTile className={classes.header} cols={cols} style={{ height: 'auto' }}>
+    <ImageListItem className={classes.header} cols={cols} style={{ height: 'auto' }}>
       <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
         <Typography variant="h4">{sectionHeaderLabel}</Typography>
         {sectionHeaderIndex + 1 < sectionHeaderCount && (
           <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
-            <IconButton aria-label="Next" onClick={scrollIntoView.bind(this, sectionHeaderIndex)}>
+            <IconButton
+              aria-label="Next"
+              onClick={scrollIntoView.bind(this, sectionHeaderIndex)}
+              size="large">
               <ArrowDownward />
             </IconButton>
           </ListItemSecondaryAction>
         )}
         {sectionHeaderIndex + 1 === sectionHeaderCount && (
           <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
-            <IconButton aria-label="First" onClick={scrollIntoView.bind(this, -1)}>
+            <IconButton aria-label="First" onClick={scrollIntoView.bind(this, -1)} size="large">
               <ArrowUpward />
             </IconButton>
           </ListItemSecondaryAction>
         )}
       </ListSubheader>
-    </GridListTile>
+    </ImageListItem>
   );
 
   return (
     <div style={{ width: '100%' }}>
-      <GridList
+      <ImageList
         rowHeight={cellSize}
         width={widthAfterPadding}
         cols={cols}
@@ -124,7 +127,7 @@ const SubsonicGridList = props => {
           />
         ))}
         {ScrollToTop && <ScrollToTopFab selector={scrollSelector} />}
-      </GridList>
+      </ImageList>
     </div>
   );
 };

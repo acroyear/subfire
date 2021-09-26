@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useBookmarksService } from './useBookmarkService';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { buildProcessEnvCredentials } from './SubsonicContext';
@@ -25,7 +25,10 @@ const {
 const BookmarkButton = (p: any) => {
   const { onClick, bookmarkIcon, id, bookmarkForId, ...rest } = p;
   return (
-    <IconButton {...rest} onClick={evt => onClick(evt, id, bookmarkForId(id))}>
+    <IconButton
+      {...rest}
+      onClick={evt => onClick(evt, id, bookmarkForId(id))}
+      size="large">
       {bookmarkIcon(p.id)}
     </IconButton>
   );

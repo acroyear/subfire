@@ -1,19 +1,18 @@
 import React from 'react';
 
-import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
-import common from '@material-ui/core/colors/common';
+import Card from '@mui/material/Card';
+import makeStyles from '@mui/styles/makeStyles';
 
 const styles = {
   paper: {
     background: 'transparent',
-    color: common.white,
+    // color: common.white,
     marginLeft: 10,
     marginRight: 10
   }
 };
 
-const useStyles = makeStyles((_t) => {
+const useStyles = makeStyles((_t: any) => {
   return styles;
 })
 

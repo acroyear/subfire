@@ -1,7 +1,7 @@
 import React from 'react';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 
 export const TipButton = p => {
   const { title, placement, ...props} = p;
@@ -16,7 +16,7 @@ export const TipIconButton = p => {
   const { title, placement, ...props} = p;
   return (
     <Tooltip title={title || ''} placement={placement || 'bottom'}>
-      <IconButton {...props}/>
+      <IconButton {...props} size="large" />
     </Tooltip>
   );
 }

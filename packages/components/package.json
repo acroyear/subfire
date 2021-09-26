@@ -17,6 +17,7 @@
   "dependencies": {
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@mitch528/mdi-material-ui": "^7.0.0",
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",
@@ -24,8 +25,7 @@
     "@subfire/core": "*",
     "@types/uuid": "^8.3.1",
     "classnames": "^2.3.1",
-    "mdi-material-ui": "^7.0.0",
-    "notistack": "^1.0.10",
+    "notistack": "^1.0.6-next.3",
     "react-singleton-hook": "^3.2.1",
     "react-use": "^17.2.4",
     "uuid": "^8.3.2"

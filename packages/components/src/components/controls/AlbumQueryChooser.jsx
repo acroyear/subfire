@@ -1,14 +1,14 @@
 import React from "react";
 // import {useLocalStorage} from 'react-use';
 
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import Switch from "@material-ui/core/Switch";
+import Grid from "@mui/material/Grid";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import Switch from "@mui/material/Switch";
 
 const QUERIES = [
   {

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import makeStyles from '@mui/styles/makeStyles';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 
 import { useCredentials } from "../../hooks/CredentialsContext";
 

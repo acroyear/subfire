@@ -1,6 +1,6 @@
 import React from "react";
 import { useToggle } from "react-use";
-import Switch from "@material-ui/core/Switch";
+import Switch from "@mui/material/Switch";
 import {
   SubsonicProvider,
   buildProcessEnvCredentials,

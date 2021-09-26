@@ -1,20 +1,20 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import Fab from '@material-ui/core/Fab';
-import KeyboardBackspace from '@material-ui/icons/KeyboardBackspace';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import KeyboardBackspace from '@mui/icons-material/KeyboardBackspace';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
 
 import AuthExchangeActions from './AuthExchangeActions';
 
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 const styles = theme => ({
   centerHeader: {
     textAlign: 'center',
@@ -75,11 +75,11 @@ const AuthCodeSource = props => {
 
   const { classes } = props;
   return (
-    <Dialog disableBackdropClick open={true} className={classes.paperFullScreen}>
+    <Dialog open={true} className={classes.paperFullScreen}>
       <DialogTitle>{'Authenticate Via Existing Source'}</DialogTitle>
       <DialogContent>
         <DialogContentText>{"Enter the specified digits from the other device's screen."}</DialogContentText>
-        <Grid container spacing={4} justify="center" alignItems="center">
+        <Grid container spacing={4} justifyContent="center" alignItems="center">
           <Grid item className={classes.gridItem} xs={4}>
             <Fab color="primary" className={classes.fab} autoFocus onClick={handleButtonClick} data-value="1">
               1

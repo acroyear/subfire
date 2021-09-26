@@ -1,8 +1,8 @@
 import React from 'react';
 
-import T from "@material-ui/core/Typography";
-import G from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import T from "@mui/material/Typography";
+import G from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 
 export const Gc = p => <G container {...p} />;
 export const Gci = p => <G container item {...p} />;

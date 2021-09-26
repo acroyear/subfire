@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
-import { PlayArrow, GridOn, ViewList } from '@material-ui/icons';
-import Switch from '@material-ui/core/Switch';
+import { PlayArrow, GridOn, ViewList } from '@mui/icons-material';
+import Switch from '@mui/material/Switch';
 
 import { SubsonicTypes } from '@subfire/core';
 
