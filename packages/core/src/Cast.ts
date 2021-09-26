@@ -496,4 +496,3 @@ export class CastTs {
     }
 }
 
-export default cast;
