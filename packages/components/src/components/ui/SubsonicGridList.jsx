@@ -15,7 +15,7 @@ import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import makeStyles from '@mui/styles/makeStyles';
 
-import CoverGridTile from './CoverGridTile';
+import CoverImageListItem from './CoverImageListItem';
 import ScrollToTopFab from './ScrollToTopFab';
 
 const scrollIntoView = i => {
@@ -57,7 +57,7 @@ const SubsonicGridList = props => {
   if (isNaN(width)) width = window.innerWidth;
   const spacing = width > 640 ? 10 : 6;
   const cellSize = width > 640 ? 170 : 164;
-  const cols = width / (cellSize + spacing);
+  const cols = Math.floor(width / (cellSize + spacing))
   const widthAfterPadding = cols * (cellSize + spacing);
 
   const {
@@ -103,15 +103,16 @@ const SubsonicGridList = props => {
   return (
     <div style={{ width: '100%' }}>
       <ImageList
-        rowHeight={cellSize}
+        rowHeight={cellSize + 54}
         width={widthAfterPadding}
         cols={cols}
         gap={spacing}
         style={ScrollToTop ? { paddingBottom: 75 } : {}}
+        variant="standard"
       >
         {sectionHeader}
         {content.map(n => (
-          <CoverGridTile
+          <CoverImageListItem
             onClick={onClick}
             onImageClick={onImageClick}
             key={'gl' + n.id}

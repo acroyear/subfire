@@ -47,27 +47,33 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   }
 
   return (
-    <Tooltip title={(props.name || props.title || '') + (props.subTitle ? ' - ' + props.subTitle : '')} arrow placement="top-start">
-      <ImageListItem style={props.style}>
+    <ImageListItem sx={{ width: props.size }}>
+      <Tooltip
+        title={
+          (props.name || props.title || "") +
+          (props.subTitle ? " - " + props.subTitle : "")
+        }
+        arrow
+        placement="top-start"
+      >
         <img
           crossOrigin="anonymous"
-          src={Subsonic.getCoverArtURL(coverArt as string, props.size || 192)}
-          alt={props.name || props.title || ''}
+          src={Subsonic.getCoverArtURL(coverArt, props.size)}
+          alt={props.name || props.title || ""}
           onClick={onImageClick}
           loading="lazy"
-        />
-        <ImageListItemBar
-          title={props.name || props.title || ''}
-          subtitle={props.subTitle || props.artist || ''}
-          className={className}
-          actionIcon={
-            <IconButton onClick={onClick} style={{ color: '#fff' }} size="large">
-              <Icon />
-            </IconButton>
-          }
-        />
-      </ImageListItem>
-    </Tooltip>
+        /></Tooltip>
+      <ImageListItemBar
+        title={props.name || props.title || ""}
+        subtitle={props.subTitle || props.artist || ""}
+        position="below"
+        actionIcon={
+          <IconButton onClick={onClick} size="large">
+            <Icon />
+          </IconButton>
+        }
+      />
+    </ImageListItem>
   );
 };
 

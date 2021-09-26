@@ -26,7 +26,7 @@ export const basic = () => {
   let innerWidth = window.innerWidth;
   const spacing = innerWidth > 360 ? 10 : 6;
   const cellSize = innerWidth > 360 ? 170 : 164;
-  const cols = innerWidth / (cellSize + spacing);
+  const cols = Math.floor(innerWidth / (cellSize + spacing));
   const width = cols * (cellSize + spacing);
 
   const props: CoverImageListItemProps = {
@@ -40,7 +40,7 @@ export const basic = () => {
   };
 
   return (
-    <ImageList rowHeight={cellSize} cols={cols} gap={spacing}>
+    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing}>
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
@@ -54,7 +54,7 @@ export const shuffle = () => {
   let innerWidth = window.innerWidth;
   const spacing = innerWidth > 360 ? 10 : 6;
   const cellSize = innerWidth > 360 ? 170 : 164;
-  const cols = innerWidth / (cellSize + spacing);
+  const cols = Math.floor(innerWidth / (cellSize + spacing));
   const width = cols * (cellSize + spacing);
   const props: CoverImageListItemProps = {
     name: 'Basic',
@@ -67,7 +67,7 @@ export const shuffle = () => {
     size: cellSize
   };
   return (
-    <ImageList rowHeight={cellSize} cols={cols} gap={spacing}>
+    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing}>
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
     </ImageList>
