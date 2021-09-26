@@ -72,7 +72,7 @@ export const Player = (_props: any) => {
       next();
     });
     return () => {
-      h.destroy(true);
+      h.destroy(true, true);
     }
   }, []);
 

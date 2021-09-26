@@ -32,7 +32,7 @@ export const UseHtmlMedia = (_props: any) => {
 
     const {
         time, timePretty, duration, durationPretty, progress, volumeLevel, muted, paused, state, player
-    } = useHtmlMedia(true);
+    } = useHtmlMedia(true, true);
 
     useEffect(() => {
         const {

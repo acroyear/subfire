@@ -57,7 +57,7 @@ export class HtmlMedia {
         e.addEventListener('ended', this._ended);
     }
 
-    destroy = (stopTheMusic?: boolean) => {
+    destroy = (stopTheMusic?: boolean, killTheMedia?: boolean) => {
         const e = this.e;
         e.removeEventListener('canplay', this._canPlayChanged);
         e.removeEventListener('duration', this._durationChanged);
@@ -66,10 +66,14 @@ export class HtmlMedia {
         e.removeEventListener('timeupdate', this._currentTimeChanged);
         e.removeEventListener('ended', this._ended);
         this.off();
-        if (stopTheMusic) {
+        if (stopTheMusic || killTheMedia) {
             // after events are stopped
             this.e.pause();
             this.e.src = null;
+        }
+        if (killTheMedia) {
+            this.e.remove();
+            this.e = null; // let GC do the rest?
         }
     }
 

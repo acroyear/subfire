@@ -4,7 +4,7 @@ import {
     PlayerState
   } from "@subfire/core";
 
-  export const useHtmlMedia = (disposeOnUnmount?: boolean) => {
+  export const useHtmlMedia = (stopMusicOnUnmount?: boolean, disposeOnUnmount?: boolean) => {
     const [time, setTime] = useState(0);
     const [timePretty, setTimePretty] = useState('');
     const [duration, setDuration] = useState(0);
@@ -38,7 +38,7 @@ import {
         setMuted(h.muted);
       });
       return () => {
-        h.destroy(disposeOnUnmount);
+        h.destroy(stopMusicOnUnmount, disposeOnUnmount);
       }
     }, []);
 
