@@ -56,7 +56,7 @@ const SubsonicGridList = props => {
   let {width} = dimensions;
   if (isNaN(width)) width = window.innerWidth;
   const spacing = width > 640 ? 10 : 6;
-  const cellSize = width > 640 ? 170 : 164;
+  const cellSize = width > 640 ? 192 : 164;
   const cols = Math.floor(width / (cellSize + spacing))
   const widthAfterPadding = cols * (cellSize + spacing);
 

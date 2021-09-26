@@ -64,6 +64,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
           loading="lazy"
         /></Tooltip>
       <ImageListItemBar
+        sx={{ paddingLeft: 2}}
         title={props.name || props.title || ""}
         subtitle={props.subTitle || props.artist || ""}
         position="below"
