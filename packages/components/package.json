@@ -25,7 +25,7 @@
     "@subfire/core": "*",
     "@types/uuid": "^8.3.1",
     "classnames": "^2.3.1",
-    "notistack": "^1.0.6-next.3",
+    "notistack": "1.0.6-next.3",
     "react-singleton-hook": "^3.2.1",
     "react-use": "^17.2.4",
     "uuid": "^8.3.2"
