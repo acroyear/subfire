@@ -10,10 +10,6 @@ import { SvgIcon } from '@mui/material';
 import { Subsonic } from '@subfire/core';
 import { IdItemClick } from '../../SubfireTypes';
 
-const TabLi = (props: any) => (
-  <li tabIndex={1} {...props} style={{outlineOffset: 6}}/>
-)
-
 export interface CoverImageListItemProps {
   name: string
   title?: string // music directory when child recognized as an album
@@ -51,7 +47,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   }
 
   return (
-    <ImageListItem sx={{ width: props.size }} onClick={onImageClick} component={TabLi}>
+    <ImageListItem sx={{ width: props.size }} onClick={onImageClick} tabIndex={1}>
       <Tooltip
         title={
           (props.name || props.title || "") +
