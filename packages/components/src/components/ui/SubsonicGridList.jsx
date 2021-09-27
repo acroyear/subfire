@@ -100,6 +100,9 @@ const SubsonicGridList = props => {
     </ImageListItem>
   );
 
+  const style = ScrollToTop ? { paddingBottom: 75 } : {};
+  style.overflow = 'visible';
+
   return (
     <div style={{ width: '100%' }}>
       <ImageList
@@ -107,7 +110,7 @@ const SubsonicGridList = props => {
         width={widthAfterPadding}
         cols={cols}
         gap={spacing}
-        style={ScrollToTop ? { paddingBottom: 75 } : {}}
+        style={style}
         variant="standard"
       >
         {sectionHeader}

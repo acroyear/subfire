@@ -10,13 +10,17 @@ import { SvgIcon } from '@mui/material';
 import { Subsonic } from '@subfire/core';
 import { IdItemClick } from '../../SubfireTypes';
 
+const TabLi = (props: any) => (
+  <li tabIndex={1} {...props} style={{outlineOffset: 6}}/>
+)
+
 export interface CoverImageListItemProps {
   name: string
   title?: string // music directory when child recognized as an album
   subTitle?: string // populated by wrapper defaults to artist for id3 album
   artist?: string // album or isDir album music directory
   id: string
-  onClick?: IdItemClick
+  onIconClick?: IdItemClick
   onImageClick?: IdItemClick
   size?: number
   Icon?: typeof SvgIcon
@@ -34,9 +38,9 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   // const onImageClick = props.onImageClick ? props.onImageClick.bind(props.onImageClick, props.id) : undefined;
   const coverArt = props.coverArt || (useIdforArt ? props.id : null);
 
-  const onClick = () => {
-    if (props.onClick) {
-      props.onClick(props.id);
+  const onIconClick = () => {
+    if (props.onIconClick) {
+      props.onIconClick(props.id);
     }
   }
 
@@ -47,7 +51,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   }
 
   return (
-    <ImageListItem sx={{ width: props.size }}>
+    <ImageListItem sx={{ width: props.size }} onClick={onImageClick} component={TabLi}>
       <Tooltip
         title={
           (props.name || props.title || "") +
@@ -59,17 +63,16 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
         <img
           crossOrigin="anonymous"
           src={Subsonic.getCoverArtURL(coverArt, props.size)}
+          style={{width: props.size, height: "auto"}}
           alt={props.name || props.title || ""}
-          onClick={onImageClick}
           loading="lazy"
         /></Tooltip>
       <ImageListItemBar
-        sx={{ paddingLeft: 2}}
         title={props.name || props.title || ""}
         subtitle={props.subTitle || props.artist || ""}
         position="below"
         actionIcon={
-          <IconButton onClick={onClick} size="large">
+          <IconButton onClick={onIconClick} size="large"> 
             <Icon />
           </IconButton>
         }

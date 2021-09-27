@@ -25,14 +25,14 @@ export default {
 export const basic = () => {
   let innerWidth = window.innerWidth;
   const spacing = innerWidth > 360 ? 10 : 6;
-  const cellSize = innerWidth > 360 ? 170 : 164;
+  const cellSize = innerWidth > 360 ? 192 : 164;
   const cols = Math.floor(innerWidth / (cellSize + spacing));
   const width = cols * (cellSize + spacing);
 
   const props: CoverImageListItemProps = {
     name: 'Basic',
     subTitle: 'subTitle',
-    onClick: action('play'),
+    onIconClick: action('play'),
     onImageClick: action('image.play'),
     id: '44',
     coverArt: 'pl-44',
@@ -40,7 +40,7 @@ export const basic = () => {
   };
 
   return (
-    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing}>
+    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing} style={{overflow: 'visible'}}>
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
@@ -53,21 +53,22 @@ export const basic = () => {
 export const shuffle = () => {
   let innerWidth = window.innerWidth;
   const spacing = innerWidth > 360 ? 10 : 6;
-  const cellSize = innerWidth > 360 ? 170 : 164;
+  const cellSize = innerWidth > 360 ? 192 : 164;
   const cols = Math.floor(innerWidth / (cellSize + spacing));
   const width = cols * (cellSize + spacing);
   const props: CoverImageListItemProps = {
     name: 'Basic',
     subTitle: 'subTitle',
-    onClick: action('shuffle'),
+    onIconClick: action('shuffle'),
     onImageClick: action('image.shuffle'),
     id: '1',
     coverArt: 'pl-1',
     Icon: Shuffle,
     size: cellSize
   };
+
   return (
-    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing}>
+    <ImageList rowHeight={cellSize + 54} cols={cols} gap={spacing} style={{overflow: 'visible'}}>
       <CoverImageListItem {...props} />
       <CoverImageListItem {...props} />
     </ImageList>
