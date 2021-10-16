@@ -34,13 +34,14 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   // const onImageClick = props.onImageClick ? props.onImageClick.bind(props.onImageClick, props.id) : undefined;
   const coverArt = props.coverArt || (useIdforArt ? props.id : null);
 
-  const onIconClick = () => {
+  const onIconClick: MouseEventHandler<HTMLButtonElement>= (evt) => {
     if (props.onIconClick) {
       props.onIconClick(props.id);
     }
+    evt.stopPropagation();
   }
 
-  const onImageClick = () => {
+  const onImageClick: MouseEventHandler<HtmlIElement> = (evt) => {
     if (props.onImageClick) {
       props.onImageClick(props.id);
     }
