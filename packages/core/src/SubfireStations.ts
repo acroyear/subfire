@@ -53,6 +53,15 @@ interface StationData {
   }
 }
 
+interface SongListBucket {
+  songs: SubsonicTypes.SongList,
+  g: Generator
+}
+
+type KeySongs = {
+  [key: string]: SubsonicTypes.SongList
+}
+
 export const GeneratorTypeMap = {} as { [key: string]: GeneratorType };
 
 GeneratorTypeMap.rs = {
@@ -385,10 +394,12 @@ export class Station implements SubsonicTypes.SubfireStation {
     return g.gtm.render(g) + this.renderWeightLimit(g);
   }
 
-  getSongs(res: any) {
+  getSongs(res: any): SubsonicTypes.SongList {
     if (Array.isArray(res)) return res;
-    if (res.entry) return res.entry;
-    if (res.song) return res.song;
+    if (res.entry && Array.isArray(res.entry)) return res.entry;
+    if (res.entry && !Array.isArray(res.entry)) return [res.entry];
+    if (res.song && Array.isArray(res.song)) return res.song;
+    if (res.song && !Array.isArray(res.song)) return [res.song];
     if (res.playlist) return res.playlist.entry || [];
     if (res.randomSongs) return res.randomSongs.song || [];
     if (res.topSongs) return res.topSongs.song || [];
@@ -401,7 +412,7 @@ export class Station implements SubsonicTypes.SubfireStation {
     return [];
   }
 
-  generate = async (g: Generator, forBucket: boolean) => {
+  generate = async (g: Generator, forBucket: boolean): Promise<SubsonicTypes.SongList | SongListBucket> => {
     const gtm = g.gtm;
     const params = [];
     for (let i = 0; i < gtm.paramKeys.length; ++i) {
@@ -434,11 +445,11 @@ export class Station implements SubsonicTypes.SubfireStation {
     }
   }
 
-  generateAll = async (): Promise<SubsonicTypes.Song[]> => {
+  generateAll = async (): Promise<SubsonicTypes.SongList> => {
     const gs = await this.generators();
     const values = [];
     for (let g of gs) {
-      const nextValues = await this.generate(g, true);
+      const nextValues = await this.generate(g, true) as SongListBucket;
       Array.from({ length: 5 }, () => arrayShuffle(nextValues.songs));
       let limit = g.p.l || 0;
       if (limit) {
@@ -450,7 +461,7 @@ export class Station implements SubsonicTypes.SubfireStation {
       rest: any[] = [],
       nextStart = 0;
     for (const v of values) {
-      let weight = parseInt(v.g.p.w || 0, 10);
+      let weight = v.g.p.w;
       if (weight) {
         buckets.push({
           name: 'whocares', // g.name,
@@ -520,10 +531,10 @@ export class Station implements SubsonicTypes.SubfireStation {
 
   // block party mode
 
-  blockParty(songs: any, block: any) {
-    const keySongs: any = {};
-    let keys = [];
-    const newSongs: any[] = [];
+  blockParty(songs: SubsonicTypes.SongList, block: number) {
+    const keySongs: KeySongs = {};
+    let keys: Array<string> = [];
+    const newSongs: SubsonicTypes.SongList = [];
     songs.forEach(function (s: any) {
       const s1 = Array.isArray(s) ? s[0] : s;
       //console.log(s, s1);
@@ -537,7 +548,7 @@ export class Station implements SubsonicTypes.SubfireStation {
       keySongs[a].push(s);
     });
 
-    const pluckSongs = (a: any) => {
+    const pluckSongs = (a: string) => {
       const sl = keySongs[a];
       for (let i = 0; i < block; ++i) {
         if (sl.length === 0) break;
@@ -552,7 +563,7 @@ export class Station implements SubsonicTypes.SubfireStation {
       keys.forEach(pluckSongs);
     } while (songs.length > newSongs.length);
 
-    return newSongs as SubsonicTypes.Song[];
+    return newSongs;
   }
 
   saveStation = async (): Promise<Station | null> => {
