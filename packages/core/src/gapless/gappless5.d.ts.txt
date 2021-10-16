@@ -1,0 +1,13 @@
+import { Gapless5 } from "./gapless5";
+
+export declare type Gappless5States = 'None' |
+    'Loading' |
+    'Play' |
+    'Stop' |
+    'Error';
+
+export declare interface Gapless5State {
+    [key: Gappless5States]: number
+}
+
+// const gs: Gapples5State = 
