@@ -11,8 +11,8 @@
     "packages/*"
   ],
   "devDependencies": {
-    "lerna": "^3.22.1",
-    "babel-loader": "8.1.0"
+    "babel-loader": "8.2.2",
+    "lerna": "^3.22.1"
   },
   "scripts": {
     "story": "lerna run storybook --stream",
