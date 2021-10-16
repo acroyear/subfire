@@ -34,6 +34,17 @@ export interface Song {
   [key: string]: string | number | boolean
 }
 
+export interface SongList extends Array<Song> {
+  position?: number;
+  current?: number;
+}
+
+export interface RandomSongs {
+  randomSongs?: {
+    song: SongList;
+  }
+}
+
 export class Bookmark {
   position: number;
   username: string;

@@ -1,9 +1,9 @@
 import URI from '../js/utils/URI';
 import md5 from '../js/utils/md5';
-import { versionCompare, arrayUnique, hexEncode, empty } from '../js/utils/utils';
+import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from '../js/utils/utils';
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
-import { Album, MusicDirectory } from './SubsonicTypes';
+import { Album, MusicDirectory, SongList } from './SubsonicTypes';
 
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
@@ -207,6 +207,16 @@ export class SubsonicClass {
       SubsonicCache.Playlists[id] = res.playlist;
     };
     return res.playlist;
+  }
+
+  getPlaylistSongs = async (id: string, fromCache?: boolean): Promise<SongList> => {
+    const pl = await this.getPlaylist(id, fromCache);
+    return pl.entry;
+  }
+
+  generateStationSongs = async(s: SubsonicTypes.SubfireStation): Promise<SongList> => {
+    const sl = s.generateAll();
+    return sl;
   }
 
   createPlaylist = (name: string, id?: string | null): Promise<SubsonicTypes.Playlist | null> => {
@@ -454,7 +464,7 @@ export class SubsonicClass {
     return p;
   }
 
-  getTopSongs = async (name: string, count?: number): Promise<SubsonicTypes.Song[]> => {
+  getTopSongs = async (name: string, count?: number): Promise<SongList> => {
     if (!name || name.length === 0) return [];
     const res = await this._execute('getTopSongs', {
       artist: name,
@@ -464,7 +474,7 @@ export class SubsonicClass {
     return songs;
   }
 
-  getTopArtistSongs = (id: string, count?: number): Promise<SubsonicTypes.Song[]> => {
+  getTopArtistSongs = (id: string, count?: number): Promise<SongList> => {
     return this.getTopSongs(SubsonicCache.ArtistsById[id].name, count);
   }
 
@@ -473,6 +483,11 @@ export class SubsonicClass {
       id: id
     });
     return (res.song);
+  }
+
+  getSongAsList = async (id: string): Promise<SongList> => {
+    const s = await this.getSong(id);
+    return [s];
   }
 
   getStarred = async (musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
@@ -495,6 +510,11 @@ export class SubsonicClass {
     const params = musicFolderId && musicFolderId * 1 !== -1 ? { musicFolderId } : null;
     const res = await this._execute('getStarred2', params);
     return res ? res.starred2 : {};
+  }
+
+  getStarredSongs = async (musicFolderId: number): Promise<SongList> => {
+    const star = await this.getStarred1(musicFolderId);
+    return star.song || [];
   }
 
   search = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
@@ -521,6 +541,11 @@ export class SubsonicClass {
     return res ? res.starred2 : {};
   }
 
+  searchSongs = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SongList> => {
+    const sr = await this.search2(s, params, musicFolderId);
+    return sr.song || [];
+  }
+
   // getVideos = () => {
   //   return this._execute('getVideos');
   // }
@@ -540,14 +565,16 @@ export class SubsonicClass {
     return res.albumList2?.album || [];
   }
 
-  getRandomSongs = (genre: string, fromYear: number, toYear: number, musicFolderId: number, size: number): Promise<SubsonicTypes.Song> => {
+  getRandomSongs = async (genre: string, fromYear: number, toYear: number, musicFolderId: number, size: number): Promise<SongList> => {
     const params: any = {};
     if (musicFolderId) params.musicFolderId = musicFolderId;
     if (genre) params.genre = genre;
     if (fromYear) params.fromYear = fromYear;
     if (toYear) params.toYear = toYear;
     params.size = size || 50;
-    return this._execute('getRandomSongs', params);
+    const res: SubsonicTypes.RandomSongs = await this._execute('getRandomSongs', params);
+    const rv = res.randomSongs?.song || [];
+    return rv;
   }
 
   getArtistInfo = (id: string, useID3: boolean, similarArtistCount: number = 20): Promise<SubsonicTypes.ArtistInfo> => {
@@ -632,7 +659,7 @@ export class SubsonicClass {
     return this.getSimilarSongs(id, true, count);
   }
 
-  getSimilarSongs = async (id: string, useID3?: boolean, count?: number): Promise<SubsonicTypes.Song[]> => {
+  getSimilarSongs = async (id: string, useID3?: boolean, count?: number): Promise<SongList> => {
     const method = useID3 ? 'getSimilarSongs2' : 'getSimilarSongs';
     const params = {
       id: id,
@@ -655,6 +682,14 @@ export class SubsonicClass {
   getPlayQueue = async (): Promise<SubsonicTypes.PlayQueue> => {
     const res = await this._execute('getPlayQueue');
     return res.playQueue;
+  }
+
+  getPlayQueueSongs = async (): Promise<SongList> => {
+    const pq = await this.getPlayQueue();
+    const rv = pq.entry as SongList;
+    rv.current = pq.current;
+    rv.position = pq.position;
+    return rv;
   }
 
   getChatMessages = async (since?: number): Promise<SubsonicTypes.ChatMessages> => {
@@ -735,8 +770,6 @@ export class SubsonicClass {
     return res.newestPodcasts?.episode;
   }
 
-  /* EVERYTHING BELOW THIS POINT IS FOR STATION GENERATION */
-
   categorizePlaylists = (p: SubsonicTypes.Playlist[]): SubsonicTypes.CategorizedPlaylists => {
     const playlists = p.filter((pl) => {
       pl.comment = pl.comment || '';
@@ -791,8 +824,8 @@ export class SubsonicClass {
     return similarArtistsIds;
   }
 
-  getTopSimilarSongs = async (id: string, count?: number, depth?: number): Promise<SubsonicTypes.Song[]> => {
-    let songs: SubsonicTypes.Song[] = [];
+  getTopSimilarSongs = async (id: string, count?: number, depth?: number): Promise<SongList> => {
+    let songs: SongList = [];
     const similarArtists = await this.getSimilarArtists(id, count, depth);
     for (const sa of similarArtists) {
       const ts = await this.getTopArtistSongs(sa);
@@ -802,14 +835,14 @@ export class SubsonicClass {
     return songs;
   }
 
-  getMusicDirectoryAlbums = async (id: string): Promise<SubsonicTypes.Song[][]> => {
+  getMusicDirectoryAlbums = async (id: string): Promise<SongList[]> => {
     const md = await this.getMusicDirectory(id);
     const children = md.child || [];
-    const songs: SubsonicTypes.Song[] = [];
-    let rv: SubsonicTypes.Song[][] = [];
+    const songs: SongList = [];
+    let rv: SongList[] = [];
     for (const c of children) {
       if (c.isDir) {
-        const cs: SubsonicTypes.Song[][] = await this.getMusicDirectoryAlbums(c.id);
+        const cs: SongList[] = await this.getMusicDirectoryAlbums(c.id);
         rv = [...rv, ...cs];
       } else {
         songs.push(c as SubsonicTypes.Song);
@@ -819,15 +852,22 @@ export class SubsonicClass {
     return rv;
   }
 
-  getMusicDirectorySongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
+  getMusicDirectoryAlbumSongs = async (id: string): Promise<SongList> => {
+    const mda = await this.getMusicDirectoryAlbums(id);
+    return this.applyShuffleAndFlatten(mda);
+  }
+
+  getMusicDirectorySongs = async (id: string, local?: boolean): Promise<SongList> => {
     const md = await this.getMusicDirectory(id);
     const children = md.child || [];
-    const songs: SubsonicTypes.Song[] = [];
-    let rv: SubsonicTypes.Song[] = [];
+    const songs: SongList = [];
+    let rv: SongList = [];
     for (const c of children) {
       if (c.isDir) {
-        const cs: SubsonicTypes.Song[] = await this.getMusicDirectorySongs(c.id);
-        rv = [...rv, ...cs];
+        if (!local) {
+          const cs: SongList = await this.getMusicDirectorySongs(c.id);
+          rv = [...rv, ...cs];
+        }
       } else {
         songs.push(c as SubsonicTypes.Song);
       }
@@ -836,8 +876,8 @@ export class SubsonicClass {
     return rv;
   }
 
-  getArtistAlbums = async (id: string): Promise<SubsonicTypes.Song[][]> => {
-    let rv: SubsonicTypes.Song[][] = [];
+  getArtistAlbums = async (id: string): Promise<SongList[]> => {
+    let rv: SongList[] = [];
     const ar = await this.getArtist(id);
     if (!ar.album) return rv;
     for (const al of ar.album) {
@@ -847,14 +887,26 @@ export class SubsonicClass {
     return rv;
   }
 
-  getArtistSongs = async (id: string): Promise<SubsonicTypes.Song[]> => {
-    let rv: SubsonicTypes.Song[] = [];
+  getArtistAlbumSongs = async(id: string): Promise<SongList> => {
+    const aa = await this.getArtistAlbums(id);
+    return this.applyShuffleAndFlatten(aa);
+  }
+
+  getArtistSongs = async (id: string): Promise<SongList> => {
+    let rv: SongList = [];
     const ar = await this.getArtist(id);
     if (!ar.album) return rv;
     for (const al of ar.album) {
       const a = await this.getAlbum(al.id);
       rv = [...rv, ...a.song];
     }
+    return rv;
+  }
+
+  getAlbumSongs = async (id: string):Promise<SongList> => {
+    let rv: SongList = [];
+    const al = await this.getAlbum(id);
+    rv = [...al.song];
     return rv;
   }
 
@@ -949,11 +1001,25 @@ export class SubsonicClass {
     });
   }
 
-  // for bookmark rendering
+  applyShuffleAndFlatten = (a: SongList | SongList[], shuffle: boolean = true): SongList => {
+    if (a.length === 0) return a as SongList;
+    if (shuffle) {
+      a = arrayShuffle(a);
+      a = arrayShuffle(a);
+      a = arrayShuffle(a);
+      a = arrayShuffle(a);
+      a = arrayShuffle(a);      
+    }
+    a = a.flat();
+    return a;
+  }
+
+  // for bookmark and loader rendering
   getObject = (type: string, id: string | number): Promise<any> => {
     switch (type) {
       case 'playlist':
       case 'station':
+      case 'radiostation':
         const p = SubsonicCache.Playlists[id as string];
         return Promise.resolve(p);
       case 'albumID3':
@@ -984,9 +1050,15 @@ export class SubsonicClass {
         });
     }
   }
+
+  [key: string]: any
 };
 export const Subsonic = new SubsonicClass();
 (window as any)['fetcher'] = Subsonic;
+
+export interface SubsonicSongLoader {
+  (a?: any, b?: any, c?: any, d?: any): Promise<SongList>
+}
 
 export default {
   Subsonic,
