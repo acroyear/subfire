@@ -5,17 +5,13 @@ import { usePlaylistsScanner } from '../../hooks/usePlaylists';
 import SubsonicGridList from '../ui/SubsonicGridList';
 import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
+import { useParams } from 'react-router-dom';
+import { SubfireRouterParams } from '../ui/RouterTypes';
+import { PlaylistGridPropTypes } from './PlaylistGrid';
 
 function getSubTitle(pl: SubsonicTypes.Playlist) {
   const rv = pl.songCount + ' songs';
   return rv;
-}
-
-export interface PlaylistGridPropTypes {
-  onClick?: any
-  onImageClick?: any
-  actionIcon: typeof PlayArrow
-  scrollSelector: string
 }
 
 export const RadioGrid: FC<PlaylistGridPropTypes> = (props) => {

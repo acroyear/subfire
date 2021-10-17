@@ -132,7 +132,7 @@ const SubsonicGridList = props => {
           />
         ))}
       </ImageList>
-      {ScrollToTop && <ScrollToTopFab selector={scrollSelector} />}
+      {ScrollToTop && scrollSelector != null && <ScrollToTopFab selector={scrollSelector} />}
 
     </div>
   );

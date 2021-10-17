@@ -19,7 +19,7 @@ const ScrollToTopFab = props => {
   const { theme, label, bottom, right, Icon, parentRef, selector, scrollParent } = props;
 
   const scrollToTop = props => {
-    if (selector) {
+    if (selector && selector !== "") {
       const x = document.querySelector(selector);
       x.scrollTo(0, 0);
     } else if (parentRef && parentRef.current) {

@@ -15,7 +15,6 @@ import {
 import { SubsonicTypes } from '@subfire/core';
 
 import PlaylistGrid from './PlaylistGrid';
-import RadioGrid from './RadioGrid';
 
 export default {
     title: "browsers/PlaylistGrids",
@@ -35,12 +34,11 @@ const SubsonicWrapper: React.FC<any> = (props) => {
 
 const Inner = (_props: any) => {
     const [shuffle, toggleShuffle] = useToggle(false);
-    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('stations');
-    const Component: React.FC<any> = plType === 'stations' ? RadioGrid : PlaylistGrid;
+    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
     console.log(plType)
     const Icon = shuffle ? Shuffle : PlayArrow;
     return (
-        <>
+        <div id="pg-root">
             Shuffle: <Switch checked={shuffle} onChange={toggleShuffle} />
             <br />
             <Select value={plType} onChange={(evt) => {
@@ -57,10 +55,10 @@ const Inner = (_props: any) => {
             </Select>
             <div>
                 <div>
-                    <Component actionIcon={Icon} playlistType={plType} />
+                    <PlaylistGrid actionIcon={Icon} playlistType={plType} scrollSelector="" />
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
