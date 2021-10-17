@@ -41,7 +41,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
     evt.stopPropagation();
   }
 
-  const onImageClick: MouseEventHandler<HtmlIElement> = (evt) => {
+  const onImageClick: MouseEventHandler<HTMLLIElement> = (evt) => {
     if (props.onImageClick) {
       props.onImageClick(props.id);
     }
