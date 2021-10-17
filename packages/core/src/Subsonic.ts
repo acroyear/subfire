@@ -859,7 +859,7 @@ export class SubsonicClass {
     return this.applyShuffleAndFlatten(mda);
   }
 
-  getMusicDirectorySongs = async (id: string, local?: boolean): Promise<SongList> => {
+  getMusicDirectorySongs = async (id: string, local: boolean = false): Promise<SongList> => {
     const md = await this.getMusicDirectory(id);
     const children = md.child || [];
     const songs: SongList = [];

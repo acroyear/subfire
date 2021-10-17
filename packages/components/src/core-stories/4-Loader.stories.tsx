@@ -1,7 +1,9 @@
 import {
   Subsonic,
   SubsonicLoader,
-  SubsonicCache
+  SubsonicCache,
+  SubsonicTypes,
+  createStations
 } from "@subfire/core";
 import { useEffect } from "react";
 
@@ -17,7 +19,9 @@ const credentials = {
   clientName: "SubFire4Storybook",
 };
 
-export const loader = () => {
+let subfireStations: SubsonicTypes.SubfireStation[] = null;
+
+export const loader_test = () => {
   function f() {
     const {
       server,
@@ -36,7 +40,18 @@ export const loader = () => {
       .then(s.getArtists)
       .then(res => { })
       .then(s.getGenres)
-      .then(() => {
+      .then(res => { })
+      .then(s.getPlaylists)
+      .then(s.categorizePlaylists)
+      .then(createStations)
+      .then(({
+        allPlaylists,
+        playlists,
+        stations,
+        stationPlaylists,
+        receivers,
+      }) => {
+        subfireStations = stations;
         document.getElementById('result').innerText = 'ready';
       }).catch(e => {
         console.error(e);
@@ -52,7 +67,11 @@ export const loader = () => {
       type: (document.getElementById('loader_type') as HTMLInputElement).value,
       id: (document.getElementById('loader_id') as HTMLInputElement).value,
       mode: (document.getElementById('loader_mode') as HTMLInputElement).value,
+      station: null as subfireStation
     };
+    if (params.type === 'station' || params.type === 'radiostation') {
+      params.station = subfireStations.find(x => x.id === params.id);
+    }
     SubsonicLoader(params).then(sl => {
       console.log(sl);
       const s = JSON.stringify(sl, null, 2);
@@ -61,7 +80,6 @@ export const loader = () => {
       console.error(e);
       document.getElementById('result').innerText = e.toString();
       const sc = SubsonicCache;
-      debugger;
       console.log(sc.ArtistsById[params.id]);
     });
   }

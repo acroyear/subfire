@@ -1,4 +1,4 @@
-import { SongList } from './SubsonicTypes';
+import { SongList, SubfireStation } from './SubsonicTypes';
 import { Subsonic, SubsonicSongLoader } from './Subsonic';
 
 interface Params {
@@ -6,6 +6,7 @@ interface Params {
     id?: string
     mode?: string
     bookmarkId?: string
+    station?: SubfireStation
 }
 
 interface ParamBuilder {
@@ -28,14 +29,65 @@ interface LoaderDescriptors {
     [key: string]: LoaderDescriptor
 }
 
-const loaders:LoaderDescriptors = {
+const idp = (params: Params) => params.id;
+
+const loaders: LoaderDescriptors = {
+    playQueue: {
+        method: () => Subsonic.getPlayQueueSongs
+    },
+
+    playlist: {
+        method: () => Subsonic.getPlaylistSongs,
+        param1: idp
+    },
+    radiostation: {
+        method: () => Subsonic.generateStationSongs,
+        param1: (params: Params) => params.station
+    },
+    station: {
+        method: () => Subsonic.generateStationSongs,
+        param1: (params: Params) => params.station
+    },
+    directory: {
+        method: () => Subsonic.getMusicDirectorySongs,
+        param1: idp,
+        param2: () => false
+    },
+    directoryAction: {
+        method: (params: Params) => {
+            if (params.mode === 'shuffleAlbums') {
+                return Subsonic.getMusicDirectoryAlbumSongs
+            } else if (params.mode === 'radio') {
+                return Subsonic.getTopSimilarSongs // THIS IS WRONG
+            }
+            return Subsonic.getMusicDirectorySongs
+        },
+        param1: idp,
+        param2: (params: Params) => {
+            if (params.mode === 'radio') return 200;
+            return undefined;
+        },
+        param3: (params: Params) => {
+            if (params.mode === 'radio') return 0;
+            return undefined;
+        }
+    },
+    song: {
+        method: () => Subsonic.getSongAsList,
+        param1: idp
+    },
+    albumAction: {
+        // never really got far here
+        method: () => Subsonic.getAlbumSongs,
+        param1: idp
+    },
     album: {
         method: () => Subsonic.getAlbumSongs,
-        param1: (params: Params) => params.id
+        param1: idp
     },
     artist: {
         method: () => Subsonic.getArtistSongs,
-        param1: (params: Params) => params.id
+        param1: idp
     },
     artistAction: {
         method: (params: Params) => {
@@ -48,7 +100,7 @@ const loaders:LoaderDescriptors = {
             }
             return Subsonic.getArtistSongs
         },
-        param1: (params: Params) => params.id,
+        param1: idp,
         param2: (params: Params) => {
             if (params.mode === 'radio') return 200;
             return undefined;
@@ -60,7 +112,7 @@ const loaders:LoaderDescriptors = {
     }
 }
 
-export const SubsonicLoader = async (params: Params, shuffle: boolean = false) : Promise<SongList> => {
+export const SubsonicLoader = async (params: Params, shuffle: boolean = false): Promise<SongList> => {
     const ld = loaders[params.type];
     if (!ld) return [];
 
