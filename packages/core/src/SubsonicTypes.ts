@@ -37,6 +37,7 @@ export interface Song {
 export interface SongList extends Array<Song> {
   position?: number;
   current?: number;
+  name?: string;
 }
 
 export interface RandomSongs {

@@ -23,7 +23,7 @@ export const RoutePlayerLoader = ({ targetRoute = "/player", remoteRoute = "/rem
     if (card) return (<>{card}</>);
     if (error) return <p>{JSON.stringify(error)}</p>;
 
-    set(result, result.current || 0, result.position || 0, "Need To Name This");
+    set(result, result.current || 0, result.position || 0, result.name || 'Current Queue', params);
 
     return <Redirect to={targetRoute} push />;
 }

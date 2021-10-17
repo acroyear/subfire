@@ -5,6 +5,12 @@ export interface HasId {
     id: string;
 }
 
+export interface QueueRule {
+    id?: string;
+    type?: string;
+    mode?: string;
+}
+
 export interface QueueModel<T extends HasId> {
     queue: Array<T>
     idx: number
@@ -41,6 +47,7 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
     current?: T
     currentTime?: number
     queueName?: string
+    rule?: QueueRule;
 
     previousQueue: Array<T>
     previousIdx: number
@@ -58,6 +65,7 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
         this.current = null;
         this.currentTime = 0;
         this.queueName = 'uninitialized';
+        this.rule = {};
 
         this.skipAlbumMethod = skipAlbumMethod;
 
@@ -132,11 +140,12 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
         }
     }
 
-    set = (queue: Array<T>, idx: number = 0, currentTime?: number, queueName?: string) => {
+    set = (queue: Array<T>, idx: number = 0, currentTime?: number, queueName?: string, rule?: QueueRule) => {
         this.queue = queue;
         this.idx = idx;
         this.currentTime = currentTime || null;
         this.queueName = queueName || 'Subsonic Queue';
+        this.rule = rule;
         this._checkCurrent();
         this._checkAndDispatchEvents();
     }

@@ -6,7 +6,7 @@ interface Params {
     id?: string
     mode?: string
     bookmarkId?: string
-    position: string
+    position?: string
     station?: SubfireStation
 }
 

@@ -211,11 +211,14 @@ export class SubsonicClass {
 
   getPlaylistSongs = async (id: string, fromCache?: boolean): Promise<SongList> => {
     const pl = await this.getPlaylist(id, fromCache);
-    return pl.entry;
+    const rv = pl.entry as SongList;
+    rv.name = pl.name || pl.title;
+    return rv;
   }
 
   generateStationSongs = async(s: SubsonicTypes.SubfireStation): Promise<SongList> => {
     const sl = s.generateAll();
+    sl.name = s.name;
     return sl;
   }
 
@@ -472,6 +475,7 @@ export class SubsonicClass {
       count: count || 50
     });
     const songs = Array.isArray(res.topSongs.song) ? res.topSongs.song : [res.topSongs.song];
+    songs.name = 'Top Songs of ' + name;
     return songs;
   }
 
@@ -489,7 +493,9 @@ export class SubsonicClass {
 
   getSongAsList = async (id: string): Promise<SongList> => {
     const s = await this.getSong(id);
-    return [s];
+    const rv = [s] as SongList;
+    rv.name = s.title
+    return rv;
   }
 
   getStarred = async (musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
@@ -516,7 +522,9 @@ export class SubsonicClass {
 
   getStarredSongs = async (musicFolderId: number): Promise<SongList> => {
     const star = await this.getStarred1(musicFolderId);
-    return star.song || [];
+    const rv:SongList = star.song || [];
+    rv.name = 'Starred Songs';
+    return rv;
   }
 
   search = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SubsonicTypes.SearchResult> => {
@@ -545,7 +553,9 @@ export class SubsonicClass {
 
   searchSongs = async (s: string, params: SubsonicTypes.SearchCriteria, musicFolderId: number): Promise<SongList> => {
     const sr = await this.search2(s, params, musicFolderId);
-    return sr.song || [];
+    const rv:SongList = sr.song || [];
+    rv.name = `Songs matching "${s}"`;
+    return rv;
   }
 
   // getVideos = () => {
@@ -575,7 +585,8 @@ export class SubsonicClass {
     if (toYear) params.toYear = toYear;
     params.size = size || 50;
     const res: SubsonicTypes.RandomSongs = await this._execute('getRandomSongs', params);
-    const rv = res.randomSongs?.song || [];
+    const rv:SongList = res.randomSongs?.song || [];
+    rv.name = "Random Songs";
     return rv;
   }
 
@@ -668,7 +679,9 @@ export class SubsonicClass {
       count: count
     };
     const res = await this._execute(method, params);
-    return res.similarSongs || res.similarSongs2;
+    const rv = res.similarSongs || res.similarSongs2 || [];
+    rv.name = "Similar Songs..."; // to what? sigh...
+    return rv;
   }
 
   savePlayQueue = (ids: string[], current: string, currentMediaTime?: number) => {
@@ -691,6 +704,7 @@ export class SubsonicClass {
     const rv = pq.entry as SongList;
     rv.current = pq.current;
     rv.position = pq.position;
+    rv.name = "Play Queue";
     return rv;
   }
 
@@ -834,6 +848,7 @@ export class SubsonicClass {
       songs = [...songs, ...ts];
     }
     songs = arrayUnique(songs);
+    songs.name = "Top Similar Songs";
     return songs;
   }
 
@@ -855,8 +870,11 @@ export class SubsonicClass {
   }
 
   getMusicDirectoryAlbumSongs = async (id: string): Promise<SongList> => {
+    const md = await this.getMusicDirectory(id); // will be cached for the next call
     const mda = await this.getMusicDirectoryAlbums(id);
-    return this.applyShuffleAndFlatten(mda);
+    const rv = this.applyShuffleAndFlatten(mda);
+    rv.name = `Albums under ${md.name}`;
+    return rv;
   }
 
   getMusicDirectorySongs = async (id: string, local: boolean = false): Promise<SongList> => {
@@ -875,6 +893,7 @@ export class SubsonicClass {
       }
     }
     rv = [...songs, ...rv];
+    rv.name = `Songs under ${md.name}`;
     return rv;
   }
 
@@ -890,8 +909,11 @@ export class SubsonicClass {
   }
 
   getArtistAlbumSongs = async(id: string): Promise<SongList> => {
+    const ar = await this.getArtist(id);
     const aa = await this.getArtistAlbums(id);
-    return this.applyShuffleAndFlatten(aa);
+    const rv = this.applyShuffleAndFlatten(aa);
+    rv.name = `Albums for artist ${ar.name}`;
+    return rv;
   }
 
   getArtistSongs = async (id: string): Promise<SongList> => {
@@ -902,6 +924,7 @@ export class SubsonicClass {
       const a = await this.getAlbum(al.id);
       rv = [...rv, ...a.song];
     }
+    rv.name = `Songs for artist ${ar.name}`;
     return rv;
   }
 
@@ -909,6 +932,7 @@ export class SubsonicClass {
     let rv: SongList = [];
     const al = await this.getAlbum(id);
     rv = [...al.song];
+    rv.name = `Songs for artist ${al.name}`;
     return rv;
   }
 
