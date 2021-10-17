@@ -9,3 +9,4 @@ export { SubsonicQueue } from './SubsonicQueue';
 export * as SubsonicQueueTypes from './SubsonicQueue';
 export { HtmlMedia, PlayerState } from './HtmlMedia';
 export { CastTs } from './Cast';
+export { SubsonicLoader} from './SubsonicLoader';

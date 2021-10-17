@@ -66,10 +66,17 @@ export const SubsonicLoader = async (params: Params, shuffle: boolean = false) :
 
     const method = ld.method(params);
     const p1 = (ld.param1 && ld.param1(params)) || undefined;
-    const p2 = (ld.param1 && ld.param2(params)) || undefined;
-    const p3 = (ld.param1 && ld.param3(params)) || undefined;
-    const p4 = (ld.param1 && ld.param4(params)) || undefined;
+    const p2 = (ld.param2 && ld.param2(params)) || undefined;
+    const p3 = (ld.param3 && ld.param3(params)) || undefined;
+    const p4 = (ld.param4 && ld.param4(params)) || undefined;
+
+    console.log(method, p1, p2, p3, p4);
 
     const songList = await method(p1, p2, p3, p4);
+
+    console.log(songList);
+
     const rv = Subsonic.applyShuffleAndFlatten(songList, shuffle);
+
+    return rv;
 }
