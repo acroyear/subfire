@@ -3,7 +3,7 @@ import md5 from '../js/utils/md5';
 import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from '../js/utils/utils';
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
-import { Album, MusicDirectory, SongList } from './SubsonicTypes';
+import { Album, BookmarkQueueRule, MusicDirectory, SongList } from './SubsonicTypes';
 
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
@@ -1014,6 +1014,10 @@ export class SubsonicClass {
     }
     a = a.flat();
     return a;
+  }
+
+  bookmarkQueueRuleToComment = (queueRule: BookmarkQueueRule) : string => {
+    return JSON.stringify({ ...queueRule, bookmarkSource: 'SubFire' } || '');
   }
 
   // for bookmark and loader rendering

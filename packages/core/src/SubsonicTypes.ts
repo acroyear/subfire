@@ -45,19 +45,23 @@ export interface RandomSongs {
   }
 }
 
-export class Bookmark {
+export interface Bookmark {
   position: number;
   username: string;
   comment: string;
   created: string;
   changed: string;
   entry: Song;
-
-  get id() {return this.entry.id;}
-  get title() { return this.entry.title; }
 }
 
 export type Bookmarks = Bookmark[];
+
+export interface BookmarkQueueRule {
+  type: string,
+  id?: string,
+  mode?: string,
+  bookmarkSource: string
+}
 
 export interface Album {
   id: string;

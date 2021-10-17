@@ -130,5 +130,23 @@ export const SubsonicLoader = async (params: Params, shuffle: boolean = false): 
 
     const rv = Subsonic.applyShuffleAndFlatten(songList, shuffle);
 
+    if (params.bookmarkId) {
+        const bms = await Subsonic.getBookmarks();
+        const b = bms.find(bm => bm.entry.id === params.bookmarkId);
+        if (b) {
+            const e = b.entry;
+            const si = rv.findIndex(r => r.id === e.id);
+            if (si === -1) {
+                rv.unshift(e);
+                rv.current = 0;
+                rv.position = b.position;
+            } else {
+                rv.current = si;
+                rv.position = b.position;
+            }
+        }
+    }
+
     return rv;
 }
+

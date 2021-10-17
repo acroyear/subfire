@@ -67,6 +67,7 @@ export const loader_test = () => {
       type: (document.getElementById('loader_type') as HTMLInputElement).value,
       id: (document.getElementById('loader_id') as HTMLInputElement).value,
       mode: (document.getElementById('loader_mode') as HTMLInputElement).value,
+      bookmarkId: (document.getElementById('loader_bookmark') as HTMLInputElement).value,
       station: null as SubsonicTypes.SubfireStation
     };
     if (params.type === 'station' || params.type === 'radiostation') {
@@ -89,6 +90,7 @@ export const loader_test = () => {
       type: <input id="loader_type"></input><br />
       id: <input id="loader_id"></input><br />
       mode: <input id="loader_mode"></input><br />
+      bookmark: <input id="loader_bookmark"></input><br />
       <button onClick={apply}>Apply</button>
     </p>
     <hr />

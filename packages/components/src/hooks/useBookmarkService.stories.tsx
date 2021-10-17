@@ -59,7 +59,7 @@ const BookmarksTest = (props: any) => {
   };
 
   const deleteBookmarkTest = (_evt: any) => {
-    deleteBookmark(bookmarkForId('334'));
+    deleteBookmark(bookmarkForId('334').entry.id);
   };
 
   if (bookmarksError) {
@@ -77,7 +77,7 @@ const BookmarksTest = (props: any) => {
         id="334"
         onClick={(_evt: any, id: string, b: Bookmark) => {
           if (b) {
-            deleteBookmark(b);
+            deleteBookmark(b.entry.id);
           } else {
             createBookmarkTest(_evt, id);
           }

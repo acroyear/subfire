@@ -9,13 +9,7 @@ import { useCounter } from 'react-use';
 type Bookmark = SubsonicTypes.Bookmark;
 type Bookmarks = SubsonicTypes.Bookmarks;
 type Song = SubsonicTypes.Song;
-
-interface QueueRule {
-  type: string,
-  id?: string,
-  mode?: string,
-  bookmarkSource: string
-}
+type QueueRule = SubsonicTypes.BookmarkQueueRule;
 
 export const useBookmarksService = (onePerRule?: boolean) => {
   const [fetchCount, { inc: reloadBookmarks }] = useCounter(1);
@@ -23,16 +17,10 @@ export const useBookmarksService = (onePerRule?: boolean) => {
   const loadingCard = bookmarkStatus.card;
   const bookmarksError = bookmarkStatus.error;
   let bookmarks = bookmarkStatus.result || [];
-  bookmarks = bookmarks.map(b => {
-    const b2 = new SubsonicTypes.Bookmark();
-    Object.assign(b2, b);
-    return b2;
-  }) as Bookmarks;
   const [replaceType, setReplaceType] = useState(onePerRule);
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBookmark = (bookmark: Bookmark | Song) => {
-    const id = bookmark?.id;
+  const deleteBookmark = (id: string) => {
     if (!id) return;
     Subsonic.deleteBookmark(id).then(() => {
       reloadBookmarks();
@@ -46,10 +34,6 @@ export const useBookmarksService = (onePerRule?: boolean) => {
     });
   };
 
-  const queueRuleToComment = (queueRule: QueueRule) => {
-    return JSON.stringify({ ...queueRule, bookmarkSource: 'SubFire' } || '');
-  };
-
   const deleteBookmarkByQueueRule = (qr: QueueRule) => {
     for (const b of bookmarks || []) {
       try {
@@ -58,7 +42,7 @@ export const useBookmarksService = (onePerRule?: boolean) => {
           continue;
         }
         if (bq.type === qr.type && bq?.id === qr.id && bq?.mode === qr.mode) {
-          deleteBookmark(b);
+          deleteBookmark(b.entry.id);
           break;
         }
       } catch (e) {
@@ -71,7 +55,7 @@ export const useBookmarksService = (onePerRule?: boolean) => {
     if (replaceType) {
       deleteBookmarkByQueueRule(queueRule);
     }
-    createBookmark(id, position, queueRuleToComment(queueRule));
+    createBookmark(id, position, Subsonic.queueRuleToComment(queueRule));
   };
 
   const bookmarkForId = (id: string) => (bookmarks || []).filter((b:Bookmark) => b.entry.id + '' === id + '')[0];
