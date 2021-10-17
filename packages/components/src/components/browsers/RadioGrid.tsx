@@ -6,7 +6,7 @@ import SubsonicGridList from '../ui/SubsonicGridList';
 import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useParams } from 'react-router-dom';
-import { SubfireRouterParams } from '../ui/RouterTypes';
+import { SubfireRouterParams } from '../routing/RouterTypes';
 import { PlaylistGridPropTypes } from './PlaylistGrid';
 
 function getSubTitle(pl: SubsonicTypes.Playlist) {

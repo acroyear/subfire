@@ -3,7 +3,7 @@ import md5 from '../js/utils/md5';
 import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from '../js/utils/utils';
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
-import { Album, BookmarkQueueRule, MusicDirectory, SongList } from './SubsonicTypes';
+import { Album, BookmarkQueueRule, Generic, MusicDirectory, SongList } from './SubsonicTypes';
 
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
@@ -1018,6 +1018,34 @@ export class SubsonicClass {
 
   bookmarkQueueRuleToComment = (queueRule: BookmarkQueueRule) : string => {
     return JSON.stringify({ ...queueRule, bookmarkSource: 'SubFire' } || '');
+  }
+
+  constructFakeObject = (type: string, id: string): Partial<Generic> => {
+    const rv = {
+      id: id,
+      coverArt: "-1",
+      title: ""
+    }
+    switch (type) {
+      case 'playlist':
+      case 'station':
+      case 'radiostation':
+        rv.coverArt = "pl-" + id;
+        break;
+      case 'albumID3':
+      case 'albumAction':
+        rv.coverArt = "al-" + id;
+        break;
+      case 'artist':
+      case 'artistAction':
+        rv.coverArt = "ar-" + id;
+        break;
+      case 'album':
+      case 'directory':
+      case 'directoryAction':
+        rv.coverArt = id;
+    }
+    return rv;
   }
 
   // for bookmark and loader rendering

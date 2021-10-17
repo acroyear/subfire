@@ -5,7 +5,7 @@ import { usePlaylistsScanner } from '../../hooks/usePlaylists';
 import SubsonicGridList from '../ui/SubsonicGridList';
 import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import { SubfireRouterParams } from '../ui/RouterTypes';
+import { SubfireRouterParams } from '../routing/RouterTypes';
 
 import { RadioGrid } from './RadioGrid';
 
