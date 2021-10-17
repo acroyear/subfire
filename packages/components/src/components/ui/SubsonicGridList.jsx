@@ -36,6 +36,7 @@ const useStyles = makeStyles(theme => ({
     // paddingLeft: 10
   },
   header: {
+    height: 'auto'
     // backgroundColor: theme.palette.background.paper
   },
   gridList: {
@@ -53,7 +54,7 @@ const SubsonicGridList = props => {
   // let { width } = size;
   const dimensions = useWindowSize();
 
-  let {width} = dimensions;
+  let { width } = dimensions;
   if (isNaN(width)) width = window.innerWidth;
   const spacing = width > 640 ? 10 : 6;
   const cellSize = width > 640 ? 192 : 164;
@@ -74,30 +75,29 @@ const SubsonicGridList = props => {
   } = props;
 
   const classes = useStyles();
-
+  // <ImageListItem className={classes.header} cols={cols}>
   const sectionHeader = !sectionHeaderLabel ? null : (
-    <ImageListItem className={classes.header} cols={cols} style={{ height: 'auto' }}>
-      <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
-        <Typography variant="h4">{sectionHeaderLabel}</Typography>
-        {sectionHeaderIndex + 1 < sectionHeaderCount && (
-          <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
-            <IconButton
-              aria-label="Next"
-              onClick={scrollIntoView.bind(this, sectionHeaderIndex)}
-              size="large">
-              <ArrowDownward />
-            </IconButton>
-          </ListItemSecondaryAction>
-        )}
-        {sectionHeaderIndex + 1 === sectionHeaderCount && (
-          <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
-            <IconButton aria-label="First" onClick={scrollIntoView.bind(this, -1)} size="large">
-              <ArrowUpward />
-            </IconButton>
-          </ListItemSecondaryAction>
-        )}
-      </ListSubheader>
-    </ImageListItem>
+    <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
+      <Typography variant="h4">{sectionHeaderLabel}</Typography>
+      {sectionHeaderIndex + 1 < sectionHeaderCount && (
+        <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
+          <IconButton
+            aria-label="Next"
+            onClick={scrollIntoView.bind(this, sectionHeaderIndex)}
+            size="large">
+            <ArrowDownward />
+          </IconButton>
+        </ListItemSecondaryAction>
+      )}
+      {sectionHeaderIndex + 1 === sectionHeaderCount && (
+        <ListItemSecondaryAction style={{ width: 48, height: 48 }}>
+          <IconButton aria-label="First" onClick={scrollIntoView.bind(this, -1)} size="large">
+            <ArrowUpward />
+          </IconButton>
+        </ListItemSecondaryAction>
+      )}
+    </ListSubheader>
+
   );
 
   const style = ScrollToTop ? { paddingBottom: 75 } : {};
@@ -105,7 +105,8 @@ const SubsonicGridList = props => {
 
   return (
     <div style={{ width: '100%' }}>
-      <ImageList
+
+      {sectionHeader}<ImageList
         rowHeight={cellSize + 54}
         width={widthAfterPadding}
         cols={cols}
@@ -113,8 +114,8 @@ const SubsonicGridList = props => {
         style={style}
         variant="standard"
       >
-        {sectionHeader}
         {content.map(n => (
+
           <CoverImageListItem
             onClick={onClick}
             onImageClick={onImageClick}
@@ -130,8 +131,9 @@ const SubsonicGridList = props => {
             useIdforArt={false}
           />
         ))}
-        {ScrollToTop && <ScrollToTopFab selector={scrollSelector} />}
       </ImageList>
+      {ScrollToTop && <ScrollToTopFab selector={scrollSelector} />}
+
     </div>
   );
 };

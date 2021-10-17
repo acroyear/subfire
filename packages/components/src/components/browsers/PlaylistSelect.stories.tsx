@@ -14,11 +14,11 @@ import {
 } from "../../hooks/SubsonicContext";
 import { SubsonicTypes } from '@subfire/core';
 
-import PlaylistGrid from './PlaylistGrid';
-import RadioGrid from './RadioGrid';
+import PlaylistSelect, { PlaylistSelectPropTypes } from './PlaylistSelect';
+import RadioSelect from './RadioSelect';
 
 export default {
-    title: "browsers/PlaylistGrids",
+    title: "browsers/PlaylistSelects",
 };
 
 const SubsonicWrapper: React.FC<any> = (props) => {
@@ -34,14 +34,30 @@ const SubsonicWrapper: React.FC<any> = (props) => {
 };
 
 const Inner = (_props: any) => {
-    const [shuffle, toggleShuffle] = useToggle(false);
-    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('stations');
-    const Component: React.FC<any> = plType === 'stations' ? RadioGrid : PlaylistGrid;
+    const [native, toggleNative] = useToggle(false);
+    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
+    const [playlistId, setPlaylistId] = useState<string>('');
+
+    const Component: React.FC<any> = plType === 'stations' ? RadioSelect : PlaylistSelect;
     console.log(plType)
-    const Icon = shuffle ? Shuffle : PlayArrow;
+
+    const onChange = (id: string) => {
+        setPlaylistId(() => id);
+    }
+
+    const playlistSelectProps: PlaylistSelectPropTypes = {
+        playlistType: plType,
+        includeEmpty: true,
+        native,
+        fullWidth: true,
+        onChange,
+        label: plType,
+        value: playlistId
+    }
+
     return (
         <>
-            Shuffle: <Switch checked={shuffle} onChange={toggleShuffle} />
+            Native: <Switch checked={native} onChange={toggleNative} />
             <br />
             <Select value={plType} onChange={(evt) => {
                 const t = evt.target.value as SubsonicTypes.PlaylistsType;
@@ -55,16 +71,16 @@ const Inner = (_props: any) => {
                 <MenuItem value="myPlaylists">My Playlists</MenuItem>
                 <MenuItem value="stations">Radio Stations</MenuItem>
             </Select>
-            <div>
+            <div style={{paddingTop: 25}}>
                 <div>
-                    <Component actionIcon={Icon} playlistType={plType} />
+                    <Component {...playlistSelectProps} />
                 </div>
             </div>
         </>
     );
 };
 
-export const PlaylistGridsDemo = (_props: any) => {
+export const PlaylistsSelectsDemo = (_props: any) => {
     const credentials = buildProcessEnvCredentials();
     console.warn(credentials);
     return (
