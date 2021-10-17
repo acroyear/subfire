@@ -1032,6 +1032,7 @@ export class SubsonicClass {
       case 'radiostation':
         rv.coverArt = "pl-" + id;
         break;
+      case 'album':
       case 'albumID3':
       case 'albumAction':
         rv.coverArt = "al-" + id;
@@ -1040,7 +1041,6 @@ export class SubsonicClass {
       case 'artistAction':
         rv.coverArt = "ar-" + id;
         break;
-      case 'album':
       case 'directory':
       case 'directoryAction':
         rv.coverArt = id;
@@ -1056,14 +1056,13 @@ export class SubsonicClass {
       case 'radiostation':
         const p = SubsonicCache.Playlists[id as string];
         return Promise.resolve(p);
+      case 'album':
       case 'albumID3':
       case 'albumAction':
         return this.getAlbum(id as string);
       case 'artist':
       case 'artistAction':
         return this.getArtist(id as string);
-      case 'album':
-        return this.getAlbum(id as string);
       case 'directory':
       case 'directoryAction':
         return this.getMusicDirectory(id as string);
