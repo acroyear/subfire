@@ -2,6 +2,7 @@ import { Subsonic, SubsonicLoader } from "@subfire/core";
 import { SubsonicTypes } from "@subfire/core";
 import { Redirect, Route, Switch, useHistory, useParams } from "react-router-dom";
 import { useSubsonicLoader } from "../../hooks/useSubsonicLoader";
+import { useSubsonicQueue } from "../../hooks/useSubsonicQueue";
 import { SubfireRouterParams } from "./RouterTypes";
 
 export interface RouteLoaderProps {
@@ -11,16 +12,20 @@ export interface RouteLoaderProps {
 
 export const RoutePlayerLoader = ({ targetRoute = "/player", remoteRoute = "/remoteControl" }: RouteLoaderProps) => {
     const params = useParams<SubfireRouterParams>();
-    const {id, type, mode} = params;
+    const { id, type, mode } = params;
     const o = Subsonic.constructFakeObject(type, id);
     const {
         state, card, result, error
-      } = useSubsonicLoader(() => SubsonicLoader(params), o);
+    } = useSubsonicLoader(() => SubsonicLoader(params), o);
+    const { set } = useSubsonicQueue();
 
-      console.log(card, result, error, state);
-      if (card) return (<>{card}</>);
-      if (error) return <p>{JSON.stringify(error)}</p>;
-      return <Redirect to={targetRoute} push/>;
+    console.log(card, result, error, state);
+    if (card) return (<>{card}</>);
+    if (error) return <p>{JSON.stringify(error)}</p>;
+
+    set(result, result.current || 0, result.position || 0, "Need To Name This");
+
+    return <Redirect to={targetRoute} push />;
 }
 
 export const RouteLoader = ({ targetRoute = "/player", remoteRoute = "/remoteControl" }: RouteLoaderProps) => {
