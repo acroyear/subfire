@@ -67,7 +67,7 @@ export const loader_test = () => {
       type: (document.getElementById('loader_type') as HTMLInputElement).value,
       id: (document.getElementById('loader_id') as HTMLInputElement).value,
       mode: (document.getElementById('loader_mode') as HTMLInputElement).value,
-      station: null as subfireStation
+      station: null as SubsonicTypes.SubfireStation
     };
     if (params.type === 'station' || params.type === 'radiostation') {
       params.station = subfireStations.find(x => x.id === params.id);
