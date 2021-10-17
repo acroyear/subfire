@@ -464,6 +464,7 @@ export class SubsonicClass {
     return p;
   }
 
+  // TODO: cache these and return the existing promise
   getTopSongs = async (name: string, count?: number): Promise<SongList> => {
     if (!name || name.length === 0) return [];
     const res = await this._execute('getTopSongs', {
@@ -474,8 +475,9 @@ export class SubsonicClass {
     return songs;
   }
 
+  // TODO: if artist not there, try to find first
   getTopArtistSongs = (id: string, count?: number): Promise<SongList> => {
-    return this.getTopSongs(SubsonicCache.ArtistsById[id].name, count);
+    return this.getTopSongs(SubsonicCache.ArtistsById[id]?.name, count);
   }
 
   getSong = async (id: string): Promise<SubsonicTypes.Song> => {
@@ -578,7 +580,7 @@ export class SubsonicClass {
   }
 
   getArtistInfo = (id: string, useID3: boolean, similarArtistCount: number = 20): Promise<SubsonicTypes.ArtistInfo> => {
-    const key = 'getArtistInfo' + (id || -1) + '';
+    const key = 'getArtistInfo' + (id || "-1") + '-' + useID3;
     if (!empty(SubsonicCache.ArtistInfoById[key])) {
       console.log('return cache');
       return Promise.resolve(SubsonicCache.ArtistInfoById[key]);

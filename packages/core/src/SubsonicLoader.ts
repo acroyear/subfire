@@ -44,7 +44,7 @@ const loaders:LoaderDescriptors = {
             } else if (params.mode === 'radio') {
                 return Subsonic.getTopSimilarSongs
             } else if (params.mode === 'top') {
-                return Subsonic.getTopSongs
+                return Subsonic.getTopArtistSongs
             }
             return Subsonic.getArtistSongs
         },
