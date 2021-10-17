@@ -5,5 +5,6 @@ export type SubfireRouterParams = {
     type: string,
     mode: string,
     bookmarkId: string,
+    position: string,
     pltype: SubsonicTypes.PlaylistsType
 }

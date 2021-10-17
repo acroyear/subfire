@@ -6,6 +6,7 @@ interface Params {
     id?: string
     mode?: string
     bookmarkId?: string
+    position: string
     station?: SubfireStation
 }
 
@@ -85,6 +86,10 @@ const loaders: LoaderDescriptors = {
         method: () => Subsonic.getAlbumSongs,
         param1: idp
     },
+    albumID3: { // legacy
+        method: () => Subsonic.getAlbumSongs,
+        param1: idp
+    },
     artist: {
         method: () => Subsonic.getArtistSongs,
         param1: idp
@@ -131,19 +136,15 @@ export const SubsonicLoader = async (params: Params, shuffle: boolean = false): 
     const rv = Subsonic.applyShuffleAndFlatten(songList, shuffle);
 
     if (params.bookmarkId) {
-        const bms = await Subsonic.getBookmarks();
-        const b = bms.find(bm => bm.entry.id === params.bookmarkId);
-        if (b) {
-            const e = b.entry;
-            const si = rv.findIndex(r => r.id === e.id);
-            if (si === -1) {
-                rv.unshift(e);
-                rv.current = 0;
-                rv.position = b.position;
-            } else {
-                rv.current = si;
-                rv.position = b.position;
-            }
+        const si = rv.findIndex(r => r.id === params.bookmarkId);
+        if (si === -1) {
+            const e = await Subsonic.getSong(params.bookmarkId);
+            rv.unshift(e);
+            rv.current = 0;
+            rv.position = parseInt(params.position || '0', 10);
+        } else {
+            rv.current = si;
+            rv.position = parseInt(params.position || '0', 10);
         }
     }
 
