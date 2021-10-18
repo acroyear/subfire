@@ -160,7 +160,7 @@ export const ThePlayer = (props: any) => {
         if (time < 10) {
             prev();
         } else {
-            player.time = 0;
+            player.seek(0);
         }
     }
 
