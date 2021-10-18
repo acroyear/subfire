@@ -1,14 +1,10 @@
+import { Subsonic } from '.';
 import { arrayShuffle } from '../js/utils/utils';
-import { Song } from './SubsonicTypes';
+import { BookmarkQueueRule, Song } from './SubsonicTypes';
 
 export interface HasId {
     id: string;
-}
-
-export interface QueueRule {
-    id?: string;
-    type?: string;
-    mode?: string;
+    src?: string
 }
 
 export interface QueueModel<T extends HasId> {
@@ -17,6 +13,7 @@ export interface QueueModel<T extends HasId> {
     current?: T
     currentTime?: number
     queueName?: string
+    rule?: BookmarkQueueRule
 }
 
 export interface SkipAlbumMethod<T extends HasId> {
@@ -47,7 +44,7 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
     current?: T
     currentTime?: number
     queueName?: string
-    rule?: QueueRule;
+    rule?: BookmarkQueueRule;
 
     previousQueue: Array<T>
     previousIdx: number
@@ -65,7 +62,7 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
         this.current = null;
         this.currentTime = 0;
         this.queueName = 'uninitialized';
-        this.rule = {};
+        this.rule = null;
 
         this.skipAlbumMethod = skipAlbumMethod;
 
@@ -100,7 +97,8 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
                 previous: {
                     queue: this.previousQueue,
                     idx: this.previousIdx,
-                    current: this.previousCurrent
+                    current: this.previousCurrent,
+                    rule: this.rule
                 }
             })
         }
@@ -137,10 +135,11 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
                 this.idx = this.queue.length - 1;
             }
             this.current = this.queue[this.idx];
+            this.current.src = this.current.src || Subsonic.getStreamingURL(this.current.id);
         }
     }
 
-    set = (queue: Array<T>, idx: number = 0, currentTime?: number, queueName?: string, rule?: QueueRule) => {
+    set = (queue: Array<T>, idx: number = 0, currentTime?: number, queueName?: string, rule?: BookmarkQueueRule) => {
         this.queue = queue;
         this.idx = idx;
         this.currentTime = currentTime || null;

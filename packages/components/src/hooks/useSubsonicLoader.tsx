@@ -20,7 +20,7 @@ export function useSubsonicLoader<T>(f: () => Promise<T>, o?: Partial<SubsonicTy
     title: "Something..."
   } as SubsonicTypes.Generic;
   top = top | 0;
-  console.warn('id', o.id);
+  console.debug('id', o.id);
   const state = useAsync(f, [o.id]);
   console.debug(state);
   const card = state.loading ? <LoadingCard object={o} top={top} /> : null;

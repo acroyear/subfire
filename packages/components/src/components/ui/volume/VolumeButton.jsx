@@ -69,7 +69,10 @@ export function VolumeButton(props) {
 VolumeButton.propTypes = {
   volume: PropTypes.number,
   setVolume: PropTypes.func,
-  placement: PropTypes.string
+  placement: PropTypes.string,
+  title: PropTypes.string,
+  style: PropTypes.object,
+  className: PropTypes.string
 };
 
 export default VolumeButton;

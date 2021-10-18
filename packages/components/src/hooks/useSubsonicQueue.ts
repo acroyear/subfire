@@ -4,11 +4,21 @@ import {
     SubsonicQueueTypes,
     SubsonicTypes
 } from "@subfire/core";
+import { BookmarkQueueRule, SongList } from '@subfire/core/lib/src/SubsonicTypes';
 console.log(SubsonicQueue);
 
 type Song = SubsonicTypes.Song;
 
-export const useSubsonicQueue = () => {
+export interface SubsonicQueueHook extends SubsonicQueueTypes.QueueModel<Song> {
+    next: () => void
+    prev: () => void
+    skipAlbum: () => void
+    skipTo: (i: number) => void
+    shuffle: (b?: boolean) => void
+    set: (s: SongList, idx?: number, time?: number, name?: string, rule?: BookmarkQueueRule) => void
+}
+
+export const useSubsonicQueue = (): SubsonicQueueHook => {
     const [state, setState] = useState<SubsonicQueueTypes.QueueModel<Song>>(SubsonicQueue.getState());
     useEffect(() => {
         console.log('init');

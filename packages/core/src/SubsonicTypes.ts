@@ -31,6 +31,11 @@ export interface Song {
   type: string;
   bookmarkPosition?: number;
   name?: string // ignore me
+
+  // added later
+  src?: string
+  coverArtUrl?: string
+
   [key: string]: string | number | boolean
 }
 

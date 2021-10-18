@@ -165,7 +165,7 @@ export class HtmlMedia {
         }
         return this
     }
-    load = (src: string, metadata: any = {}): HtmlMedia => {
+    load = (src: string, _metadata: any = {}): HtmlMedia => {
         if (this.src !== src) {
             this.state = PlayerState.BUFFERING;
             this.src = src;
@@ -218,6 +218,7 @@ export class HtmlMedia {
                 console.debug(e);
                 //  play doesn't fire an event so we have to update
                 this._checkPlayerState();
+                this.e.autoplay = true;
             });
         } else {
             this.e.pause();
