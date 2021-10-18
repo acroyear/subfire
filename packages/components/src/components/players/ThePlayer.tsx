@@ -141,7 +141,7 @@ export const ThePlayer = (props: any) => {
     useEffect(() => {
         if (!player) return;
         player.on('end', next);
-        return () => { if (player) player.off()}
+        // return () => { if (player) player.off()}
     }, [player]);
 
     const onPlayPauseClick = paused ? player?.play : player?.pause;

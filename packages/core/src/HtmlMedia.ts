@@ -53,6 +53,7 @@ export class HtmlMedia {
         e.addEventListener('duration', this._durationChanged);
         e.addEventListener('volumechange', this._volumeChanged);
         e.addEventListener('pause', this._pauseChanged);
+        e.addEventListener('playing', this._playingChanged);
         e.addEventListener('timeupdate', this._currentTimeChanged);
         e.addEventListener('ended', this._ended);
     }
@@ -63,6 +64,7 @@ export class HtmlMedia {
         e.removeEventListener('duration', this._durationChanged);
         e.removeEventListener('volumechange', this._volumeChanged);
         e.removeEventListener('pause', this._pauseChanged);
+        e.removeEventListener('playing', this._playingChanged);
         e.removeEventListener('timeupdate', this._currentTimeChanged);
         e.removeEventListener('ended', this._ended);
         this.off();
@@ -84,8 +86,10 @@ export class HtmlMedia {
             // no-op
         } else if (this.e.paused) {
             this.state = PlayerState.PAUSED;
+            this.paused = true;
         } else {
             this.state = PlayerState.PLAYING;
+            this.paused = false;
         }
         // TODO: identify ended
         this.trigger('statechange');
@@ -119,6 +123,10 @@ export class HtmlMedia {
     }
     _pauseChanged = (_evt: Event) => {
         this.paused = this.e.paused;
+        this._checkPlayerState();
+    }
+    _playingChanged = (_evt: Event) => {
+        this.paused = false;
         this._checkPlayerState();
     }
     _currentTimeChanged = (_evt: Event) => {

@@ -29,6 +29,9 @@ import {
       });
       h.on('statechange', () => {
         setState(h.state);
+        if (h.state === PlayerState.PLAYING) {
+          setPaused(false);
+        }
       });
       h.on('pause', () => {
         setPaused(h.paused);
