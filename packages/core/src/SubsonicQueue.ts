@@ -2,14 +2,14 @@ import { Subsonic } from '.';
 import { arrayShuffle } from '../js/utils/utils';
 import { BookmarkQueueRule, Song } from './SubsonicTypes';
 
-export interface HasId {
+export interface MinimalMediaObject {
     id: string;
     src?: string;
     coverArt?: string
     coverArtUrl?: string
 }
 
-export interface QueueModel<T extends HasId> {
+export interface QueueModel<T extends MinimalMediaObject> {
     queue: Array<T>
     idx: number
     current?: T
@@ -18,16 +18,16 @@ export interface QueueModel<T extends HasId> {
     rule?: BookmarkQueueRule
 }
 
-export interface SkipAlbumMethod<T extends HasId> {
+export interface SkipAlbumMethod<T extends MinimalMediaObject> {
     (qm: QueueModel<T>): number
 }
 
-export interface SubsonicQueueEvent<T extends HasId> {
+export interface SubsonicQueueEvent<T extends MinimalMediaObject> {
     data: QueueModel<T>;
     previous: QueueModel<T>
 }
 
-export interface SubsonicQueueEventListener<T extends HasId> {
+export interface SubsonicQueueEventListener<T extends MinimalMediaObject> {
     (evt: SubsonicQueueEvent<T>): void
 }
 
@@ -40,7 +40,7 @@ function arrayEquals(a: any, b: any) {
       a.every((val, index) => val === b[index]);
   }
 
-export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
+export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueModel<T> {
     queue: Array<T>
     idx: number
     current?: T
@@ -188,7 +188,7 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
         a = arrayShuffle(this.queue);
         a = arrayShuffle(this.queue);
         a = arrayShuffle(this.queue);
-        const idx = preserveCurrent ? a.findIndex((s:HasId) => s.id === current.id) : 0;
+        const idx = preserveCurrent ? a.findIndex((s:MinimalMediaObject) => s.id === current.id) : 0;
         this.idx = idx;
         this.queue = a;
         this._checkCurrent();
