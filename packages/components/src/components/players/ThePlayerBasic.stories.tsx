@@ -33,7 +33,8 @@ const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.
        {components.volumeButtonBelow}
        <br/>
        {components.slider}
-       {current?.src}
+       {current?.src}<br/>
+       {components.artwork(100)}
     </>
 }
 

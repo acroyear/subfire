@@ -4,7 +4,9 @@ import { BookmarkQueueRule, Song } from './SubsonicTypes';
 
 export interface HasId {
     id: string;
-    src?: string
+    src?: string;
+    coverArt?: string
+    coverArtUrl?: string
 }
 
 export interface QueueModel<T extends HasId> {
@@ -135,7 +137,9 @@ export class SubsonicQueueImpl<T extends HasId> implements QueueModel<T> {
                 this.idx = this.queue.length - 1;
             }
             this.current = this.queue[this.idx];
+
             this.current.src = this.current.src || Subsonic.getStreamingURL(this.current.id);
+            this.current.coverArtUrl = this.current.coverArtUrl || Subsonic.getCoverArtURL(this.current.coverArt || this.current.id || "-1");
         }
     }
 

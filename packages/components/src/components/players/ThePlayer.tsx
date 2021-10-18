@@ -77,7 +77,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export interface ThePlayerArtwork {
-    (size: number, ref: Ref<HTMLImageElement>, handler: ReactEventHandler<HTMLImageElement>, className: string): JSX.Element
+    (size: number, ref?: Ref<HTMLImageElement>, handler?: ReactEventHandler<HTMLImageElement>, className?: string): JSX.Element
 }
 
 export interface ThePlayerComponents {
@@ -178,7 +178,7 @@ export const ThePlayer = (props: any) => {
         element: player?.e,
         mediaMetadata: current ? {
             ...current, artwork: [{
-                src: Subsonic.getCoverArtURL(current.artwork as string, 192),
+                src: Subsonic.getCoverArtURL(current.coverArt, 192),
                 sizes: '192x192', type: 'image/jpeg'
             }]
         } : null,
@@ -310,13 +310,13 @@ export const ThePlayer = (props: any) => {
                 setVolume={v => player.volume(v)}
             />
         ),
-        artwork: (size: number, ref: Ref<HTMLImageElement>, handler: ReactEventHandler<HTMLImageElement>, className: string) => (
+        artwork: (size: number = 0, ref: Ref<HTMLImageElement>, handler: ReactEventHandler<HTMLImageElement>, className: string) => (
             <img
                 className={className}
                 crossOrigin="anonymous"
                 onLoad={handler}
                 ref={ref}
-                src={Subsonic.getCoverArtURL(current.artwork as string, size)}
+                src={current ? Subsonic.getCoverArtURL(current.coverArt, size) : null}
                 style={size ? { width: size, height: 'auto' } : {}}
                 alt=""
             />

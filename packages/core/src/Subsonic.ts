@@ -981,7 +981,7 @@ export class SubsonicClass {
     return url;
   }
 
-  getCoverArtURL = (id: string, size: number) => {
+  getCoverArtURL = (id: string, size?: number) => {
     const params: any = {
       id: id || -1
     };
