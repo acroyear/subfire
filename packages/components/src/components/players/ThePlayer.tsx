@@ -219,8 +219,8 @@ export const ThePlayer = (props: any) => {
                 <Forward30Icon />
             </IconButton>
         ),
-        currentTime: timePretty,
-        duration: durationPretty,
+        currentTime: timePretty || '--:--',
+        duration: durationPretty || '--:--',
         slider: (
             <Slider
                 className={classes.slider}
