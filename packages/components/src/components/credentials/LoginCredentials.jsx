@@ -11,7 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import withStyles from '@mui/styles/withStyles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { useCredentials } from '../../hooks/CredentialsContext';
 
@@ -27,13 +27,16 @@ const styles = theme => ({
     width: '100%'
   },
   selectEmpty: {
-    marginTop: theme.spacing(2)
+    // marginTop: theme.spacing(2)
   }
 });
+
+const useStyles = makeStyles(styles);
 
 const LoginCredentials = props => {
   const value = useCredentials();
   const [original, creds, originalKey, setNewCurrent, updateCreds, deleteCreds] = value; // eslint-disable-line
+  const classes = useStyles();
 
   const [credentials, setCredentials] = useState(original);
   const [current, setCurrent] = useState(originalKey);
@@ -85,7 +88,7 @@ const LoginCredentials = props => {
     setCredentials({ ...credentials });
   };
 
-  const { classes, native } = props;
+  const { native } = props;
   const isDeleteDisabled = originalKey === current || current === NEW;
 
   const currentSelectorField = (
@@ -189,10 +192,9 @@ const LoginCredentials = props => {
 };
 
 LoginCredentials.propTypes = {
-  classes: PropTypes.any,
   native: PropTypes.bool,
   handleClose: PropTypes.func
 };
 LoginCredentials.defaultProps = {};
 
-export default withStyles(styles)(LoginCredentials);
+export default LoginCredentials;
