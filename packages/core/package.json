@@ -5,6 +5,9 @@
   "main": "./lib/src/index.js",
   "module": "./lib-ems/src/index.js",
   "types": "./lib/src/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "test",
     "libbuild": "tsc && tsc --build tsconfig.esm.json && yarn compcss",
@@ -18,5 +21,6 @@
   "dependencies": {
     "@types/chromecast-caf-receiver": "^6.0.6",
     "@types/chromecast-caf-sender": "^1.0.4"
-  }
+  },
+  "gitHead": "812bda9d022463d9bfd5ec6298c91091a74db0b9"
 }
