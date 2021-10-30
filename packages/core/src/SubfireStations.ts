@@ -1,6 +1,6 @@
 import { Subsonic } from './Subsonic';
 import * as SubsonicTypes from './SubsonicTypes';
-import { getRandomIntInclusive, arrayShuffle, arrayRemove, format as f } from '../js/utils/utils';
+import { getRandomIntInclusive, arrayShuffle, arrayRemove, format as f } from './utils/utils';
 
 interface GeneratorParams {
   g?: string

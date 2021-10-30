@@ -1,6 +1,6 @@
-import URI from '../js/utils/URI';
-import md5 from '../js/utils/md5';
-import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from '../js/utils/utils';
+import URI from './utils/URI';
+import md5 from './utils/md5';
+import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from './utils/utils';
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
 import { Album, BookmarkQueueRule, Generic, MusicDirectory, SongList } from './SubsonicTypes';

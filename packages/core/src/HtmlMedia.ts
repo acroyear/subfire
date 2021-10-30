@@ -1,4 +1,4 @@
-import { toHHMMSS } from "../js/utils/utils";
+import { toHHMMSS } from "./utils/utils";
 
 export enum PlayerState {
     IDLE = 'IDLE',

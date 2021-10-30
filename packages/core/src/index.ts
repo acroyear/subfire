@@ -1,5 +1,7 @@
-export * as utils from '../js/utils/utils';
-export { default as Tea } from '../js/utils/Tea';
+export * as utils from './utils/utils';
+export { default as md5} from './utils/md5';
+export { default as Tea } from './utils/Tea';
+export { default as debounce } from './utils/debounce';
 export * as SubsonicTypes from './SubsonicTypes';
 export { SubsonicCache } from './SubsonicCache';
 export { Subsonic } from './Subsonic';

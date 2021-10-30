@@ -1,4 +1,4 @@
-import Tea from '../js/utils/Tea';
+import Tea from './utils/Tea';
 
 export const AuthExchangeActions = {
   sourceSubmit: function (code: string) {

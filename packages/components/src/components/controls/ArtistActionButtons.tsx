@@ -11,7 +11,9 @@ import {
 import Button from "../ui/TipButton";
 
 import makeStyles from '@mui/styles/makeStyles';
-import { Generic } from "@subfire/core/lib/src/SubsonicTypes";
+import { SubsonicTypes } from '@subfire/core';
+
+type Generic = SubsonicTypes.Generic;
 const useStyles = makeStyles((theme) => ({
   buttonRow: {
     display: "flex",

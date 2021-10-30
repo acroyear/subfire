@@ -1,5 +1,5 @@
 import { Subsonic } from '.';
-import { arrayShuffle } from '../js/utils/utils';
+import { arrayShuffle } from './utils/utils';
 import { BookmarkQueueRule, Song } from './SubsonicTypes';
 
 export interface MinimalMediaObject {

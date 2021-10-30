@@ -2,9 +2,9 @@
   "name": "@subfire/core",
   "type": "module",
   "version": "4.0.0",
-  "main": "./lib/src/index.js",
-  "module": "./lib-ems/src/index.js",
-  "types": "./lib/src/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./lib-ems/index.js",
+  "types": "./lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
