@@ -1,7 +1,7 @@
 {
   "name": "@subfire/core",
   "type": "module",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "main": "./lib/index.js",
   "module": "./lib-ems/index.js",
   "types": "./lib/index.d.ts",
