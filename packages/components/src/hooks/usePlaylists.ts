@@ -19,7 +19,7 @@ export const usePlaylistsScanner = (): [SubsonicTypes.CategorizedPlaylists, numb
     return cp;
   };
 
-  useInterval(() => {
+  useInterval(() => { 
     loadPlaylists().then((cp) => { console.log(cp); });
   }, isLoggedIn && delay ? delay : null);
 

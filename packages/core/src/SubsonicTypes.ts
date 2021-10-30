@@ -196,8 +196,10 @@ export interface NowPlayingEntry extends Song {
   playerName: string;
 }
 
+export type NowPlayingEntries = Array<NowPlayingEntry>;
+
 export interface NowPlaying {
-  entry?: (NowPlayingEntry)[] | null;
+  entry?: NowPlayingEntries | null;
 }
 
 export interface SearchResult {
@@ -273,8 +275,10 @@ export interface AlbumListCriteria {
   musicFolderId?: number
 }
 
+export type ChatMessageEntities = Array<ChatMessageEntity>;
+
 export interface ChatMessages {
-  chatMessage?: (ChatMessageEntity)[] | null;
+  chatMessage?: ChatMessageEntities | null;
 }
 
 export interface ChatMessageEntity {

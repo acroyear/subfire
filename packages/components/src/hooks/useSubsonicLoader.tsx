@@ -75,7 +75,7 @@ export function useSong(o: _SubsonicFetchObject) {
   return useSubsonicLoader(() => Subsonic.getSong(id), v);
 }
 
-export function useNowPlaying() {
+export function useNowPlayingLoader() {
   return useSubsonicLoader(() => Subsonic.getNowPlaying());
 }
 
