@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "test",
-    "libbuild": "tsc && tsc --build tsconfig.esm.json && yarn compcss",
-    "compcss": "yarn sass src/:lib/ && yarn sass src/:lib-esm/"
+    "libbuild": "tsc && yarn compcss",
+    "compcss": "yarn sass src/:lib/"
   },
   "author": "Joe Shelby",
   "license": "MIT",

@@ -1,7 +1,5 @@
 import { Route, Switch, useHistory } from "react-router-dom"
-import AuthCodeClient from "../credentials/AuthCodeClient";
-import AuthCodeSource from "../credentials/AuthCodeSource";
-import LoginCredentials from "../credentials/LoginCredentials";
+import { CredentialsProvider, LoginCredentials, AuthCodeSource, AuthCodeClient, ServerSelect } from "../..";
 
 export const ModalSwitch = () => {
     const history = useHistory();

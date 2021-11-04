@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CredentialsProvider, LoginCredentials, AuthCodeSourceImpl, AuthCodeClient, ServerSelect } from "../..";
+import { CredentialsProvider, LoginCredentials, AuthCodeSource, AuthCodeClient, ServerSelect } from "../..";
 
 export default {
   title: 'Credentials/State'
@@ -25,7 +25,7 @@ export const InContext = props => {
         />
       )}
       {isShowingAuthSource && (
-        <AuthCodeSourceImpl
+        <AuthCodeSource
           handleClose={() => {
             setAuthSource(false);
           }}

@@ -7,8 +7,8 @@ import { useCredentials, SubfireCredentials } from './CredentialsContext';
 
 interface SubsonicContextInit {
   children: React.ReactNode,
-  clientName: string,
-  embeddedCredentials: SubfireCredentials
+  clientName?: string,
+  embeddedCredentials?: SubfireCredentials
 }
 
 export interface SubsonicContextContent {
@@ -54,7 +54,7 @@ export const SubsonicProvider: React.FC<SubsonicContextInit> = ({ children, clie
     setLoginState(LoginStates.notLoggedIn);
     const s = Subsonic;
     const { server, username, password, bitrate } = current;
-    s.open(server, username, password, bitrate, clientName)
+    s.open(server, username, password, bitrate, clientName || 'UnknownSubFireClient')
       .then(res => {
         setLoginState(LoginStates.partiallyLoggedIn);
       })

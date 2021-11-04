@@ -1,5 +1,9 @@
 import React, { ComponentType } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, HashRouter } from "react-router-dom";
+import { SubsonicProvider, CredentialsProvider, useLoginSnacker } from "@subfire/components";
+import { SnackbarProvider, SnackbarKey } from "notistack";
+import { Button } from "@mui/material";
+
 import "./App.css";
 import Pages from './pages';
 const Routes = Pages as any;
@@ -14,28 +18,43 @@ const routes = Object.keys(Routes).map((route) => {
   return { path, component: Routes[route] as ComponentType }
 })
 
+const Snacker: React.FC = (props) => {
+  useLoginSnacker();
+  return <>{props.children}</>;
+};
+
 function App() {
+
+  const notistackRef = React.createRef<SnackbarProvider>();
+  const onClickDismiss = (key: SnackbarKey) => {
+    notistackRef.current.closeSnackbar(key);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <SnackbarProvider
+      ref={notistackRef}
+      action={(key) => (
+        <Button
+          style={{ color: "#ffffff" }}
+          size="small"
+          onClick={() => onClickDismiss(key)}
         >
-          Learn React
-        </a>
-        <Switch>
-          {routes.map(({ path, component = React.Fragment }) => (
-            <Route key={path} path={path} component={component} exact={false} />
-          ))}
-        </Switch>
-      </header>
-    </div>
+          Dismiss
+        </Button>
+      )}
+    >
+      <CredentialsProvider>
+        <SubsonicProvider clientName="SubFireM4">
+          <HashRouter><Snacker>
+            <Switch>
+              {routes.map(({ path, component = React.Fragment }) => (
+                <Route key={path} path={path} component={component} exact={false} />
+              ))}
+            </Switch></Snacker>
+          </HashRouter>
+        </SubsonicProvider>
+      </CredentialsProvider></SnackbarProvider>
+
   );
 }
 

@@ -2,7 +2,7 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../../..';
+import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../..';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
     console.warn(props);
