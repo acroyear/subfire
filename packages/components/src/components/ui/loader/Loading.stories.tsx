@@ -1,8 +1,7 @@
-import LoadingCard from './LoadingCard';
+import { LoadingCard } from '../../..';
 
 // TODO: turn this into some sort of decorator
 import { Subsonic, utils } from '@subfire/core';
-
 
 const credentials = {
   server: process.env.sf_server,

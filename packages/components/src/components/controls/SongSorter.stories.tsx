@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { SongSorter, Dir, Song } from './SongSorter';
+import { SongSorter, Dir, Song } from '../..';
 
 export default {
   title: 'controls/SongSorter'

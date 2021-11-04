@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import VolumeControl from "./VolumeControl";
-import VolumeButton from "./VolumeButton";
+import {VolumeButton, VolumeControl} from "../../..";
 import { action } from "@storybook/addon-actions";
 
 export default {

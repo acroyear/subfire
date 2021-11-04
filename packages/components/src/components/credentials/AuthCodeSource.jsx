@@ -40,7 +40,7 @@ const styles = theme => ({
   }
 });
 
-const AuthCodeSource = props => {
+const AuthCodeSourceImpl = props => {
   const inputRef = useRef(null);
 
   const submit = () => {
@@ -156,9 +156,11 @@ const AuthCodeSource = props => {
   );
 };
 
-AuthCodeSource.propTypes = {
+AuthCodeSourceImpl.propTypes = {
   classes: PropTypes.any,
   handleClose: PropTypes.func
 };
 
-export default withStyles(styles)(AuthCodeSource);
+export const AuthCodeSource = withStyles(styles)(AuthCodeSourceImpl);
+export default AuthCodeSource;
+

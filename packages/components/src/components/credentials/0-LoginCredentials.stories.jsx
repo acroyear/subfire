@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { CredentialsProvider } from "../../hooks/CredentialsContext";
-
-import LoginCredentials from './LoginCredentials';
-import AuthCodeSource from './AuthCodeSource';
-import AuthCodeClient from './AuthCodeClient';
-import ServerSelect from './ServerSelect';
+import { CredentialsProvider, LoginCredentials, AuthCodeSourceImpl, AuthCodeClient, ServerSelect } from "../..";
 
 export default {
   title: 'Credentials/Controls'
@@ -46,7 +41,7 @@ export const Server_Select = props => {
 export const AuthCode_Source = props => {
   return (
     <Wrapper>
-      <AuthCodeSource />
+      <AuthCodeSourceImpl />
     </Wrapper>
   );
 };

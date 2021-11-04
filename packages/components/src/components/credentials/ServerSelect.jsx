@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ServerSelect = props => {
+export const ServerSelect = props => {
   const { native, labelId, fullWidth, isLoggedIn } = props;
   const classes = useStyles();
 

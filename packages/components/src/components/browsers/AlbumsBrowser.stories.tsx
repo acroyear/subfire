@@ -4,8 +4,8 @@ import Switch from "@mui/material/Switch";
 import {
   SubsonicProvider,
   buildProcessEnvCredentials,
-} from "../../hooks/SubsonicContext";
-import AlbumsBrowser from "./AlbumsBrowser";
+  AlbumsBrowser
+} from "../..";
 export default {
   title: "browsers/AlbumsBrowser",
 };

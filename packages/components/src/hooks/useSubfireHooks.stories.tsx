@@ -4,10 +4,8 @@ import { useState } from 'react';
 import { Subsonic, SubsonicLoader } from '@subfire/core';
 import { useAlbum, useBookmarks, useSubsonicLoader } from './useSubsonicLoader';
 
-import { buildProcessEnvCredentials, SubsonicProvider } from './SubsonicContext';
-import useNowPlaying from './useNowPlaying';
+import { buildProcessEnvCredentials, SubsonicProvider, useChatMessages, useNowPlaying } from '..';
 import { Npm } from '@mitch528/mdi-material-ui';
-import useChatMessages from './useChatMessages';
 
 export default {
     title: 'hooks/useSubfireHooks'

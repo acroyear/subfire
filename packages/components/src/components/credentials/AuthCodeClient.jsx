@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-const AuthCodeClient = props => {
+const AuthCodeClientImpl = props => {
   const [digits] = useState(AuthExchangeActions.allocateDigits());
   const [isActive, setIsActive] = useState(true);
   const value = useCredentials();
@@ -87,9 +87,10 @@ const AuthCodeClient = props => {
   );
 };
 
-AuthCodeClient.propTypes = {
+AuthCodeClientImpl.propTypes = {
   classes: PropTypes.any,
   handleClose: PropTypes.func
 };
 
-export default withStyles(styles)(AuthCodeClient);
+export const AuthCodeClient = withStyles(styles)(AuthCodeClientImpl);
+export default AuthCodeClient;

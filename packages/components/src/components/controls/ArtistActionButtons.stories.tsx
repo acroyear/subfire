@@ -1,4 +1,4 @@
-import { ArtistActionButtons } from './ArtistActionButtons';
+import { ArtistActionButtons } from '../..';
 
 export default {
   title: 'controls/ArtistActionButtons'

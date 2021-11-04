@@ -3,8 +3,8 @@ import {
   useSubsonic,
   SubsonicProvider,
   buildProcessEnvCredentials,
-} from "./SubsonicContext";
-import useLoginSnacker from "./useLoginSnacker";
+  useLoginSnacker
+} from "..";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button } from "@mui/material";
 

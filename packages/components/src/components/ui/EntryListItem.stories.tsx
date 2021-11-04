@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { action } from '@storybook/addon-actions';
-import { EntryListItem, EntryListItemProps } from './EntryListItem';
+import { EntryListItem, EntryListItemProps } from '../..';
 
 import Shuffle from '@mui/icons-material/Shuffle';
 import List from '@mui/material/List';

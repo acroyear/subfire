@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
-import ConfirmDialog from "./ConfirmDialog";
-import useConfirmDialog from "./useConfirmDialog";
+import {ConfirmDialog, useConfirmDialog} from "../../..";
 import { action } from "@storybook/addon-actions";
 
 export default { title: "ui/confirm" };

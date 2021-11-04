@@ -33,7 +33,7 @@ const styles = theme => ({
 
 const useStyles = makeStyles(styles);
 
-const LoginCredentials = props => {
+export const LoginCredentials = props => {
   const value = useCredentials();
   const [original, creds, originalKey, setNewCurrent, updateCreds, deleteCreds] = value; // eslint-disable-line
   const classes = useStyles();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCredentialsStorage, useCredentials, CredentialsProvider } from './CredentialsContext';
+import { useCredentialsStorage, useCredentials, CredentialsProvider } from '..';
 
 export default {
   title: 'hooks/useCredentials'

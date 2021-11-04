@@ -3,9 +3,7 @@ import { action } from '@storybook/addon-actions';
 
 // TODO: turn this into some sort of decorator
 import { Subsonic, SubsonicLoader } from '@subfire/core';
-import { useAlbum, useBookmarks, useSubsonicLoader } from './useSubsonicLoader';
-
-import { buildProcessEnvCredentials } from './SubsonicContext';
+import { useAlbum, useBookmarks, useSubsonicLoader, buildProcessEnvCredentials } from '..';
 
 const {
   server,

@@ -5,7 +5,7 @@ import { useSubsonic } from './SubsonicContext';
 import { SnackbarKey, useSnackbar } from 'notistack';
 import { UseTimeoutFnReturn } from 'react-use/lib/useTimeoutFn';
 
-function useLoginSnacker() {
+export function useLoginSnacker() {
   const { loginState } = useSubsonic();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const snackRef = useRef<SnackbarKey>();

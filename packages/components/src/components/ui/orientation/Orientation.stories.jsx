@@ -2,7 +2,7 @@ import React from 'react';
 import { useWindowSize } from 'react-use';
 import Grid from '@mui/material/Grid';
 
-import { Portrait, Landscape, PortraitGrid, LandscapeGrid, isPortrait, isLandscape } from './index';
+import { Portrait, Landscape, PortraitGrid, LandscapeGrid, isPortrait, isLandscape } from '../../..';
 
 export default {
   title: 'ui/orientation'

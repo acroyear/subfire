@@ -45,6 +45,6 @@ function useConfirmDialogImpl() {
   };
 }
 
-const useConfirmDialog = singletonHook({} as any, useConfirmDialogImpl);
+export const useConfirmDialog = singletonHook({} as any, useConfirmDialogImpl);
 
 export default useConfirmDialog;

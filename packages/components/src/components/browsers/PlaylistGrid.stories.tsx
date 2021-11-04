@@ -10,11 +10,10 @@ import Shuffle from '@mui/icons-material/Shuffle';
 
 import {
     SubsonicProvider,
-    buildProcessEnvCredentials,
-} from "../../hooks/SubsonicContext";
+    buildProcessEnvCredentials, 
+    PlaylistGrid
+} from "../..";
 import { SubsonicTypes } from '@subfire/core';
-
-import PlaylistGrid from './PlaylistGrid';
 
 export default {
     title: "browsers/PlaylistGrids",

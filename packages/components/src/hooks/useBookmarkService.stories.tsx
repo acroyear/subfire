@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useBookmarksService } from './useBookmarkService';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { buildProcessEnvCredentials } from './SubsonicContext';
+import { useBookmarksService, buildProcessEnvCredentials } from '..';
 
 type Bookmark = SubsonicTypes.Bookmark;
 

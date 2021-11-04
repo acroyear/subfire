@@ -1,6 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { CoverImageListItem, CoverImageListItemProps} from './CoverImageListItem';
+import { CoverImageListItem, CoverImageListItemProps} from '../..';
 
 import Shuffle from '@mui/icons-material/Shuffle';
 import ImageList from '@mui/material/ImageList';

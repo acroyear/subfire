@@ -1,10 +1,8 @@
-import { ThePlayer, ThePlayerComponents, ThePlayerProps } from './ThePlayer';
-import { buildProcessEnvCredentials, SubsonicProvider } from '../../hooks/SubsonicContext';
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { useSubsonicQueue } from '../../hooks/useSubsonicQueue';
+import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../../..';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
     console.warn(props);

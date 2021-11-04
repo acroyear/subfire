@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SubsonicGridList = props => {
+export const SubsonicGridList = props => {
   // let ref = useRef(null);
   // let size = useComponentSize(ref);
   // console.log(size);

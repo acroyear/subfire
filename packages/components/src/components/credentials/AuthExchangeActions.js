@@ -1,6 +1,6 @@
 import { Tea } from "@subfire/core";
 
-const AuthExchangeActions = {
+export const AuthExchangeActions = {
   sourceSubmit: function (code) {
     try {
       const transmissionDigits = code.substring(0, 5);
