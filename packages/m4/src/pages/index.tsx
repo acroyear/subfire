@@ -1,11 +1,29 @@
+import { ComponentType } from 'react';
+
 import Page1 from './Page1';
 import Page2 from './Page2';
 import p404 from './404';
 
-const pages = {
-    "Page1": Page1,
-    "Page2/[id]": Page2,
-    "[any]": p404
-};
+// the real ones
+import { Playlists } from './Playlists';
+import { QueueLoader } from './QueueLoader';
+
+export interface PageRouteData {
+    path: string;
+    component: ComponentType;
+    exact: boolean;
+}
+
+const pages: Array<PageRouteData> = [
+    { path: "/Page1", component: Page1, exact: true },
+    { path: "/Page2/:id", component: Page2, exact: true },
+
+    // the real ones - start with the most greedy first
+    { path: "/load(ing)/:type/:id/:mode?", component: QueueLoader, exact: true },
+    { path: "/bookmark/:bookmarkId/:position/loading/:type/:id/:mode?", component: QueueLoader, exact: true },
+    { path: "/playlists/:pltype?", component: Playlists, exact: true },
+    { path: "/:any", component: p404, exact: true }, // 404 page
+    { path: null, component: p404, exact: true }, // root page later
+]
 
 export default pages;

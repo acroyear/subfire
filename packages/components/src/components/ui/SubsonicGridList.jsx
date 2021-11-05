@@ -117,7 +117,7 @@ export const SubsonicGridList = props => {
         {content.map(n => (
 
           <CoverImageListItem
-            onClick={onClick}
+            onIconClick={onClick}
             onImageClick={onImageClick}
             key={'gl' + n.id}
             name={n.name}
