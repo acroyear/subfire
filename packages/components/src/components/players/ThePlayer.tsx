@@ -10,7 +10,7 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Replay10Icon from '@mui/icons-material/Replay10';
 import Forward30Icon from '@mui/icons-material/Forward30';
-import { DebugStepOver } from '@mitch528/mdi-material-ui';
+import { DebugStepOver } from 'mdi-material-ui';
 import Slider from '@mui/material/Slider';
 import makeStyles from '@mui/styles/makeStyles';
 // import CastButton from 'subfirelib/controls/cast/CastButton';
@@ -101,14 +101,16 @@ export interface ThePlayerComponents {
 }
 
 export interface ThePlayerProps {
-    render: (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList) => JSX.Element
+    render: (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList) => JSX.Element,
+    stopMusicOnUnmount?: boolean,
+    disposeOnUnmount?: boolean
 }
 
-export const ThePlayer = (props: any) => {
+export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }:ThePlayerProps) => {
     const {
         time, timePretty, duration, durationPretty, progress, volumeLevel, muted, paused, state, player
-    } = useHtmlMedia(true, true);
-
+    } = useHtmlMedia(stopMusicOnUnmount, disposeOnUnmount);
+ 
     const setVolumeLevel = (v: number) => {
         player.volume(v);
     }
@@ -135,6 +137,7 @@ export const ThePlayer = (props: any) => {
 
     useEffect(() => {
         if (!player || !current) return;
+        if (player.src === current.src) return;
         player.load(current.src);
     }, [player, current]);
 
@@ -336,8 +339,8 @@ export const ThePlayer = (props: any) => {
         }
     }, {}, [onPlayPauseClick]); // dependent on this method
 
-    const render = props.render || (() => <Tb2>no render function</Tb2>);
-    return render(components, current, queue);
+    const renderer = render || (() => <Tb2>no render function</Tb2>);
+    return renderer(components, current, queue);
 }
 
 export default ThePlayer;

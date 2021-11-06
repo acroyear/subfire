@@ -41,6 +41,7 @@ export class HtmlMedia {
             if (!this.e) this.e = document.querySelector('audio');
             if (!this.e) {
                 const a = document.createElement('audio');
+                a.autoplay = true;
                 document.body.appendChild(a);
                 this.e = a;
             }
@@ -56,6 +57,14 @@ export class HtmlMedia {
         e.addEventListener('playing', this._playingChanged);
         e.addEventListener('timeupdate', this._currentTimeChanged);
         e.addEventListener('ended', this._ended);
+
+        // re-init with what may already be there
+        this.src = this.e.src;
+        if (this.src) {
+            this._checkPlayerState();
+            this._currentTimeChanged();
+            this._volumeChanged();
+        }
     }
 
     destroy = (stopTheMusic?: boolean, killTheMedia?: boolean) => {
@@ -79,7 +88,7 @@ export class HtmlMedia {
         }
     }
 
-    _checkPlayerState = () => {
+    _checkPlayerState = (trigger: boolean = true) => {
         if (!this.e.src) {
             this.state = PlayerState.IDLE;
         } else if (this.state === PlayerState.BUFFERING) {
@@ -91,15 +100,17 @@ export class HtmlMedia {
             this.state = PlayerState.PLAYING;
             this.paused = false;
         }
+
         // TODO: identify ended
         this.trigger('statechange');
         if (this.state === PlayerState.PAUSED) {
             this.trigger('pause');
         } else if (this.state === PlayerState.PLAYING) {
             this.trigger('playing');
-        // } else if (this.state === PlayerState.BUFFERING) {
-        //     this.trigger('buffering');
+            // } else if (this.state === PlayerState.BUFFERING) {
+            //     this.tri}gger('buffering');
         }
+
     }
     _canPlayChanged = (_evt: Event) => {
         // reset to IDLE so buffering isn't a pass-through
@@ -116,7 +127,7 @@ export class HtmlMedia {
         this.progress = this.time / (this.duration || 1) * 100;
         this.trigger('duration');
     }
-    _volumeChanged = (_evt: Event) => {
+    _volumeChanged = (_evt?: Event) => {
         this.volumeLevel = this.e.volume;
         this.muted = this.e.muted;
         this.trigger('volumechange');
@@ -125,11 +136,11 @@ export class HtmlMedia {
         this.paused = this.e.paused;
         this._checkPlayerState();
     }
-    _playingChanged = (_evt: Event) => {
+    _playingChanged = (_evt?: Event) => {
         this.paused = false;
         this._checkPlayerState();
     }
-    _currentTimeChanged = (_evt: Event) => {
+    _currentTimeChanged = (_evt?: Event) => {
         this.time = this.e.currentTime;
         this.duration = this.e.duration;
         this.progress = this.time / (this.duration || 1) * 100;
@@ -145,6 +156,10 @@ export class HtmlMedia {
         }
         // Push callback into event array
         this._events.get(event).push(cb);
+        // call it with the current state for some events:
+        if (['timeupdate', 'volumechange', 'duration', 'statechange'].includes(event)) {
+            cb.apply(this);
+        }
         return this
     }
     // broken

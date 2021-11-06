@@ -7,6 +7,7 @@ import p404 from './404';
 // the real ones
 import { Playlists } from './Playlists';
 import { QueueLoader } from './QueueLoader';
+import { Player1 } from './Player1';
 
 export interface PageRouteData {
     path: string;
@@ -22,6 +23,7 @@ const pages: Array<PageRouteData> = [
     { path: "/load(ing)/:type/:id/:mode?", component: QueueLoader, exact: true },
     { path: "/bookmark/:bookmarkId/:position/loading/:type/:id/:mode?", component: QueueLoader, exact: true },
     { path: "/playlists/:pltype?", component: Playlists, exact: true },
+    { path: "/player", component: Player1, exact: true },
     { path: "/:any", component: p404, exact: true }, // 404 page
     { path: null, component: p404, exact: true }, // root page later
 ]

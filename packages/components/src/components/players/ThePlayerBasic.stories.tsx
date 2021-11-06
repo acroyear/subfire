@@ -60,7 +60,7 @@ export const ThePlayerTest = (_props: any) => {
                 </Button>
             )}
         ><Button onClick={reset}>Load Queue</Button>
-            <ThePlayer render={ThePlayerBasic}></ThePlayer>
+            <ThePlayer render={ThePlayerBasic} disposeOnUnmount={true} stopMusicOnUnmount={true}></ThePlayer>
         </SnackbarProvider>
     </SubsonicWrapper>
     );

@@ -5,7 +5,7 @@ import { Subsonic, SubsonicLoader } from '@subfire/core';
 import { useAlbum, useBookmarks, useSubsonicLoader } from './useSubsonicLoader';
 
 import { buildProcessEnvCredentials, SubsonicProvider, useChatMessages, useNowPlaying } from '..';
-import { Npm } from '@mitch528/mdi-material-ui';
+import { Npm } from 'mdi-material-ui';
 
 export default {
     title: 'hooks/useSubfireHooks'

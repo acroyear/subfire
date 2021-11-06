@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Select, MenuItem, Input, InputLabel, FormControl, Checkbox, SelectProps, SelectChangeEvent, ListSubheader } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { RvTruck } from '@mitch528/mdi-material-ui';
+import { RvTruck } from 'mdi-material-ui';
 import { usePlaylistsScanner } from '../../hooks/usePlaylists';
 
 import { PlaylistSelectPropTypes } from './PlaylistSelect';

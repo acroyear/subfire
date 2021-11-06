@@ -9,7 +9,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
-import { SortAscending, SortDescending } from '@mitch528/mdi-material-ui';
+import { SortAscending, SortDescending } from 'mdi-material-ui';
 import { SubsonicTypes, utils } from '@subfire/core';
 
 const { arrayShuffle } = utils;
