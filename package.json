@@ -1,6 +1,6 @@
 {
   "name": "subfire4",
-  "version": "4.0.0",
+  "version": "4.0.4",
   "description": "Monorepo of SubFire 4",
   "main": "index.js",
   "repository": "https://github.com/acroyear/subfire",
