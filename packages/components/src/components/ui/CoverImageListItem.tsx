@@ -34,7 +34,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   // const onImageClick = props.onImageClick ? props.onImageClick.bind(props.onImageClick, props.id) : undefined;
   const coverArt = props.coverArt || (useIdforArt ? props.id : null);
 
-  const onIconClick: MouseEventHandler<HTMLButtonElement>= (evt) => {
+  const onIconClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
     if (props.onIconClick) {
       props.onIconClick(props.id);
     }
@@ -57,19 +57,21 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
         arrow
         placement="top-start"
       >
-        <img
-          crossOrigin="anonymous"
-          src={Subsonic.getCoverArtURL(coverArt, props.size)}
-          style={{width: props.size, height: "auto"}}
-          alt={props.name || props.title || ""}
-          loading="lazy"
-        /></Tooltip>
+        <div style={{ width: props.size, height: props.size, overflow: 'hidden' }}>
+          <img
+            crossOrigin="anonymous"
+            src={Subsonic.getCoverArtURL(coverArt, props.size)}
+            style={{ width: props.size, height: "auto" }}
+            alt={props.name || props.title || ""}
+            loading="lazy"
+          /></div>
+      </Tooltip>
       <ImageListItemBar
         title={props.name || props.title || ""}
         subtitle={props.subTitle || props.artist || ""}
         position="below"
         actionIcon={
-          <IconButton onClick={onIconClick} size="large"> 
+          <IconButton onClick={onIconClick} size="large">
             <Icon />
           </IconButton>
         }
