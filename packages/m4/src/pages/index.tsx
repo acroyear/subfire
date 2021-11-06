@@ -15,6 +15,10 @@ export interface PageRouteData {
     exact: boolean;
 }
 
+const Index = (_props: any) => {
+    return <>index</>;
+}
+
 const pages: Array<PageRouteData> = [
     { path: "/Page1", component: Page1, exact: true },
     { path: "/Page2/:id", component: Page2, exact: true },
@@ -25,7 +29,7 @@ const pages: Array<PageRouteData> = [
     { path: "/playlists/:pltype?", component: Playlists, exact: true },
     { path: "/player", component: Player1, exact: true },
     { path: "/:any", component: p404, exact: true }, // 404 page
-    { path: null, component: p404, exact: true }, // root page later
+    { path: null, component: Index, exact: true }, // root page later
 ]
 
 export default pages;
