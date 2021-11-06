@@ -1,5 +1,5 @@
 import { Subsonic, SubsonicLoader, SubsonicTypes } from "@subfire/core";
-import { Redirect, Route, Switch, useHistory, useParams } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory, useLocation, useParams } from "react-router-dom";
 import { useSubsonicLoader, useSubsonicQueue, SubfireRouterParams } from "../..";
 
 export interface RouteLoaderProps {
@@ -22,20 +22,20 @@ export const RoutePlayerLoader = ({ targetRoute = "/player", remoteRoute = "/rem
 
     set(result, result.current || 0, result.position || 0, result.name || 'Current Queue', { ...params, bookmarkSource: result.name || 'currentQueue' });
 
-    return <Redirect to={targetRoute} push />;
+    return <Redirect to={targetRoute} />;
 }
 
-export const RouteLoader = ({ targetRoute = "/player", remoteRoute = "/remoteControl" }: RouteLoaderProps) => {
+export const LoaderSwitch = ({ targetRoute = "/player", remoteRoute = "/remoteControl" }: RouteLoaderProps) => {
     return (
-        <>
+        <Switch>
             <Route path="/load(ing)/:type/:id/:mode?" exact={true} strict={true}>
                 <div className="page-bg" />
                 <RoutePlayerLoader targetRoute={targetRoute} remoteRoute={remoteRoute} />
-            </Route>
+            </Route>,
             <Route path="/bookmark/:bookmarkId/:position/loading/:type/:id/:mode?" exact={true} strict={true}>
                 <div className="page-bg" />
                 <RoutePlayerLoader targetRoute={targetRoute} remoteRoute={remoteRoute} />
             </Route>
-        </>
+        </Switch>
     );
 }
