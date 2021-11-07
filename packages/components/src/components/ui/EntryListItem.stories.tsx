@@ -22,7 +22,7 @@ export default {
   title: 'ui/EntryListItem'
 };
 
-export const EntryList = () => {
+export const EntryListItems = () => {
   const [dense, setDense] = useState(false);
   const [secondary, setSecondary] = useState(true);
   const p = useRef(null);

@@ -21,6 +21,7 @@ export interface EntryListItemProps {
   classes?: object,
   item: SubsonicTypes.Generic
   index: SubsonicTypes.Generic
+  subtitle?: string
   showIndexText?: boolean
   onEntryClick?: IdItemClick
   onEntrySecondaryClick?: IdItemClick
@@ -66,6 +67,7 @@ export const EntryListItem = (props: EntryListItemProps) => {
     subsonic,
     item,
     index,
+    subtitle,
     showIndexText,
     useAvatar,
     onEntryClick,
@@ -75,6 +77,8 @@ export const EntryListItem = (props: EntryListItemProps) => {
   } = props;
 
   const classes = useStyles();
+
+  if (!item) return <>huh</>;
 
   const avatar = useAvatar ? (
     <Avatar
@@ -98,7 +102,7 @@ export const EntryListItem = (props: EntryListItemProps) => {
     >
       <ListItemAvatar>{avatar}</ListItemAvatar>
       <ListItemText primary={`${item.name || item.title}`} className={classes.listItemText}
-        secondary={showIndexText ? (index.name || index.title) : null} />
+        secondary={subtitle || (showIndexText ? (index.name || index.title) : null)} />
       {SecondaryIcon && (
         <ListItemSecondaryAction>
           <IconButton
