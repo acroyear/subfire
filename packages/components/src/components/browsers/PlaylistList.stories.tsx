@@ -14,6 +14,7 @@ import {
     PlaylistList
 } from "../..";
 import { SubsonicTypes } from '@subfire/core';
+import { action } from "@storybook/addon-actions";
 
 export default {
     title: "browsers/PlaylistLists",
@@ -36,6 +37,15 @@ const Inner = (_props: any) => {
     const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
     console.log(plType)
     const Icon = shuffle ? Shuffle : PlayArrow;
+
+    const onClick = (id: string) => {
+        action('playlist button click ' + id);
+    }
+
+    const onRowClick = (id: string) => {
+        action('playlist row click ' + id);
+    }
+
     return (
         <div id="pg-root">
             Shuffle: <Switch checked={shuffle} onChange={toggleShuffle} />
@@ -54,7 +64,10 @@ const Inner = (_props: any) => {
             </Select>
             <div>
                 <div>
-                    <PlaylistList actionIcon={Icon} playlistType={plType} scrollSelector="" />
+                    <PlaylistList
+                        onClick={onClick}
+                        onImageClick={onRowClick}
+                        actionIcon={Icon} playlistType={plType} scrollSelector="" />
                 </div>
             </div>
         </div>
