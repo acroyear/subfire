@@ -18,7 +18,6 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@types/chromecast-caf-receiver": "^6.0.6",
     "@types/chromecast-caf-sender": "^1.0.4"
   },
   "gitHead": "812bda9d022463d9bfd5ec6298c91091a74db0b9"
