@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CredentialsProvider, LoginCredentials, AuthCodeSource, AuthCodeClient, ServerSelect } from "../..";
+import { CredentialsProvider } from '@subfire/hooks';
+import { LoginCredentials, AuthCodeSource, AuthCodeClient, ServerSelect } from "../..";
 
 export default {
   title: 'Credentials/State'

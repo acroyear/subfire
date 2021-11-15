@@ -1,9 +1,8 @@
-import { useRef, useEffect, RefObject } from 'react';
+import { useRef, useEffect } from 'react';
 
-import { LoginStates } from '../SubfireTypes';
-import { useSubsonic } from './SubsonicContext';
+import { LoginStates, useSubsonic } from '@subfire/hooks';
+
 import { SnackbarKey, useSnackbar } from 'notistack';
-import { UseTimeoutFnReturn } from 'react-use/lib/useTimeoutFn';
 
 export function useLoginSnacker() {
   const { loginState } = useSubsonic();

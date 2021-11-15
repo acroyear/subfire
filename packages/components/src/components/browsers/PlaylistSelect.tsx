@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Select, MenuItem, Input, InputLabel, FormControl, Checkbox, SelectProps, SelectChangeEvent } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { RvTruck } from 'mdi-material-ui';
-import { usePlaylistsScanner } from '../../hooks/usePlaylists';
+import { usePlaylistsScanner } from '@subfire/hooks';
 
 export interface PlaylistSelectPropTypes extends SelectProps<string> {
     onChange?: any

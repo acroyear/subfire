@@ -7,7 +7,7 @@ import {
     HtmlMedia,
     PlayerState
 } from "@subfire/core";
-import { useHtmlMedia } from "..";
+import { useHtmlMedia } from "@subfire/hooks";
 type Song = SubsonicTypes.Song;
 
 export default {

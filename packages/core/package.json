@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "test",
-    "libbuild": "tsc && yarn compcss",
+    "libbuild": "tsc",
     "compcss": "yarn sass src/:lib/"
   },
   "author": "Joe Shelby",

@@ -22,6 +22,7 @@
     "libbuild": "lerna run libbuild --stream",
     "prestart": "yarn libbuild",
     "start": "lerna run start --stream",
-    "comp-bundle": "cd packages/components/src && find ./components ./hooks -name \"*.*\" | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts"
+    "comp-bundle": "cd packages/components/src && find ./components ./hooks -name \"*.*\" | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",
+    "hooks-bundle": "cd packages/hooks/src && find . -name \"*.*\" | grep -v '^.$' | grep -v 'index' | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts"
   }
 }

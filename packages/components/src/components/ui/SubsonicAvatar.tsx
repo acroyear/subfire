@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import makeStyles from '@mui/styles/makeStyles';
-import { useSubsonic } from '../../hooks/SubsonicContext';
+import { useSubsonic } from '@subfire/hooks';
 
 const useStyles = makeStyles(theme => ({
   avatar: {

@@ -8,7 +8,7 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
 import { SubsonicTypes } from '@subfire/core';
-import { useSubsonic } from '../../hooks/SubsonicContext';
+import { useSubsonic } from '@subfire/hooks';
 
 export interface MusicFolderChooserPropTypes {
   caption?: string

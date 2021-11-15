@@ -4,7 +4,7 @@ import {
     SubsonicTypes
 } from "@subfire/core";
 
-import { useSubsonicQueue } from '..';
+import { useSubsonicQueue } from '@subfire/hooks';
 
 type Song = SubsonicTypes.Song;
 

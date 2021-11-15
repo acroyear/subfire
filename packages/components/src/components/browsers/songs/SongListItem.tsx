@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
-import { useRefCallbackHandler } from '../../../hooks/useRefCallbackHandler';
+import { useRefCallbackHandler } from '@subfire/hooks';
 import { SubsonicTypes } from '@subfire/core';
 
 const overflow = (showCompressed: boolean): React.CSSProperties =>

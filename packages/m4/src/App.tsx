@@ -1,11 +1,12 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import { SubsonicProvider, CredentialsProvider, useLoginSnacker } from "@subfire/components";
+import { useLoginSnacker } from "@subfire/components";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button } from "@mui/material";
 
 import "./App.css";
 import { Routes } from "./Routes";
+import { CredentialsProvider, SubsonicProvider } from "@subfire/hooks";
 
 
 const Snacker: React.FC = (props) => {

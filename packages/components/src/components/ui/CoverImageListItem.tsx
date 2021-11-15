@@ -8,7 +8,7 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 import { SvgIcon } from '@mui/material';
 
 import { Subsonic } from '@subfire/core';
-import { IdItemClick } from '../../SubfireTypes';
+import { IdItemClick } from '@subfire/hooks';
 
 export interface CoverImageListItemProps {
   name: string

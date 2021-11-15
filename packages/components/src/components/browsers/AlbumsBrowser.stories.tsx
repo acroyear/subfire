@@ -2,10 +2,9 @@ import React from "react";
 import { useToggle } from "react-use";
 import Switch from "@mui/material/Switch";
 import {
-  SubsonicProvider,
-  buildProcessEnvCredentials,
   AlbumsBrowser
 } from "../..";
+import { buildProcessEnvCredentials, SubsonicProvider } from "@subfire/hooks";
 export default {
   title: "browsers/AlbumsBrowser",
 };

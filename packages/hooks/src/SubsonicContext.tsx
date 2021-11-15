@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 
 import { Subsonic, SubsonicCache } from '@subfire/core';
-import { LoginStates } from '../SubfireTypes';
+import { LoginStates } from './SubfireTypes';
 import { useCredentials, SubfireCredentials } from './CredentialsContext';
 
 interface SubsonicContextInit {

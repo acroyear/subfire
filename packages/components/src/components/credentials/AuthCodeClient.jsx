@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import AuthExchangeActions from './AuthExchangeActions';
-import { useCredentials } from "../../hooks/CredentialsContext";
+import { useCredentials } from "@subfire/hooks";
 import { Tea } from "@subfire/core";
 
 import withStyles from '@mui/styles/withStyles';

@@ -11,7 +11,7 @@ import { TipIconButton as IconButton } from './TipButton';
 
 import classNames from 'classnames';
 import { Subsonic } from '@subfire/core';
-import { IdItemClick } from '../../SubfireTypes';
+import { IdItemClick } from '@subfire/hooks';
 import { SubsonicTypes } from "@subfire/core";
 import { SvgIcon } from '@mui/material';
 

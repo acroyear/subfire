@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCredentialsStorage, useCredentials, CredentialsProvider } from '..';
+import { useCredentialsStorage, useCredentials, CredentialsProvider } from '@subfire/hooks';
 
 export default {
   title: 'hooks/useCredentials'

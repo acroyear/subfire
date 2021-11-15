@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { useCredentials } from '../../hooks/CredentialsContext';
+import { useCredentials } from '@subfire/hooks';
 
 const NEW = '__new__';
 

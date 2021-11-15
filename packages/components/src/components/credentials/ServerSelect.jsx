@@ -6,7 +6,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 
-import { useCredentials } from "../../hooks/CredentialsContext";
+import { useCredentials } from "@subfire/hooks";
 
 const useStyles = makeStyles(theme => ({
   formControl: {

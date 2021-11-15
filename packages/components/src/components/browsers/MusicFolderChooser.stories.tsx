@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSubsonic, SubsonicProvider, buildProcessEnvCredentials, MusicFolderChooser } from '../..';
+import { MusicFolderChooser } from '../..';
+import { useSubsonic, SubsonicProvider, buildProcessEnvCredentials } from '@subfire/hooks';
 export default {
   title: 'browsers/MusicFolders'
 };

@@ -18,12 +18,9 @@ import makeStyles from '@mui/styles/makeStyles';
 import { useKey } from 'react-use';
 import { Tb2 } from '../ui/TGB';
 import { VolumeButton } from '../ui/volume/VolumeButton';
-import useSubsonicQueue from '../../hooks/useSubsonicQueue';
-import { useSubsonic } from '../../hooks/SubsonicContext';
 import { useBookmarksService } from '../../hooks/useBookmarkService';
-import { useHtmlMedia } from '../../hooks/useHtmlMedia';
-import { useMediaSession } from '../../hooks/useMediaSession';
 import { PlayerState, SubsonicTypes } from '@subfire/core';
+import { useHtmlMedia, useMediaSession, useSubsonic, useSubsonicQueue } from '@subfire/hooks';
 
 type Bookmark = SubsonicTypes.Bookmark;
 

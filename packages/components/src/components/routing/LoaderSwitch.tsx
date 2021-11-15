@@ -1,6 +1,7 @@
 import { Subsonic, SubsonicLoader, SubsonicTypes } from "@subfire/core";
+import { useSubsonicQueue } from "@subfire/hooks";
 import { Redirect, Route, Switch, useHistory, useLocation, useParams } from "react-router-dom";
-import { useSubsonicLoader, useSubsonicQueue, SubfireRouterParams } from "../..";
+import { useSubsonicLoader, SubfireRouterParams } from "../..";
 
 export interface RouteLoaderProps {
     targetRoute?: string;

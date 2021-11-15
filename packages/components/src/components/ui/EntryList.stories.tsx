@@ -4,9 +4,8 @@ import { action } from '@storybook/addon-actions';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { SubsonicGridList, buildProcessEnvCredentials } from '../..';
 import EntryList from './EntryList';
-import { IdItemClick } from '../../SubfireTypes';
+import { buildProcessEnvCredentials } from '@subfire/hooks';
 
 export default {
   title: 'ui/EntryList'

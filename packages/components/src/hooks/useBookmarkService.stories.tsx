@@ -3,7 +3,8 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { useBookmarksService, buildProcessEnvCredentials } from '..';
+import { useBookmarksService } from './useBookmarkService';
+import { buildProcessEnvCredentials } from '@subfire/hooks';
 
 type Bookmark = SubsonicTypes.Bookmark;
 

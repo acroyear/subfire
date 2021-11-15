@@ -1,7 +1,7 @@
 import {FC, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import { usePlaylistsScanner } from '../../hooks/usePlaylists';
+import { usePlaylistsScanner } from '@subfire/hooks';
 import SubsonicGridList from '../ui/SubsonicGridList';
 import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';

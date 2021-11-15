@@ -17,7 +17,7 @@ import EntryListItem from './EntryListItem';
 import ScrollToTopFab from './ScrollToTopFab';
 import { Styles } from '@mui/styles';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { IdItemClick } from '../../SubfireTypes';
+import { IdItemClick } from '@subfire/hooks';
 
 const scrollIntoView = (i: number) => {
   const next = 'grid-category-header' + (i * 1 + 1);

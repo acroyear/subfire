@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import {
   useSubsonic,
   SubsonicProvider,
-  buildProcessEnvCredentials,
-  useLoginSnacker
-} from "..";
+  buildProcessEnvCredentials
+} from "@subfire/hooks";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button } from "@mui/material";
+import { useLoginSnacker } from "./useLoginSnacker";
 
 export default {
   title: "hooks/SubsonicContextAlone",

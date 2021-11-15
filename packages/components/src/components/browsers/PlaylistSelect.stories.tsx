@@ -9,10 +9,10 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 import Shuffle from '@mui/icons-material/Shuffle';
 
 import {
-    SubsonicProvider,
-    buildProcessEnvCredentials, PlaylistSelect, PlaylistSelectPropTypes, RadioSelect
+    PlaylistSelect, PlaylistSelectPropTypes, RadioSelect
 } from "../..";
 import { SubsonicTypes } from '@subfire/core';
+import { buildProcessEnvCredentials, SubsonicProvider } from "@subfire/hooks";
 
 export default {
     title: "browsers/PlaylistSelects",

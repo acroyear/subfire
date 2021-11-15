@@ -1,0 +1,42 @@
+{
+  "name": "@subfire/hooks",
+  "version": "4.0.4",
+  "description": "Hooks from subfire for react/preact w/out material",
+  "author": "Joe Shelby <jws.fbmm@gmail.com>",
+  "homepage": "https://bitbucket.org/jcc70/subfire4#readme",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib-ems/index.js",
+  "types": "./lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "test",
+    "libbuild": "tsc",
+    "compcss": "yarn sass src/:lib/"
+  },
+  "devDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@subfire/core": "^4.0.4",
+    "@types/chromecast-caf-sender": "^1.0.4"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/jcc70/subfire4.git"
+  }
+}

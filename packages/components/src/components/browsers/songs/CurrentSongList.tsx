@@ -1,6 +1,6 @@
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import React from 'react';
-import { useSubsonicQueue } from '../../../hooks/useSubsonicQueue';
+import { useSubsonicQueue } from '@subfire/hooks';
 
 import SongList, { SongListProps } from './SongList';
 import { SongLiteItemContentsOptions } from './SongListItem';
