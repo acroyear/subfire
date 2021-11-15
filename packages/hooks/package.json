@@ -1,6 +1,6 @@
 {
   "name": "@subfire/hooks",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "Hooks from subfire for react/preact w/out material",
   "author": "Joe Shelby <jws.fbmm@gmail.com>",
   "homepage": "https://bitbucket.org/jcc70/subfire4#readme",
@@ -26,7 +26,7 @@
     "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "@subfire/core": "^4.0.4",
+    "@subfire/core": "^4.0.5",
     "@types/chromecast-caf-sender": "^1.0.4"
   },
   "directories": {
