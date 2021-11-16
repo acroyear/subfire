@@ -4,7 +4,8 @@ import { action } from '@storybook/addon-actions';
 // TODO: turn this into some sort of decorator
 import { Subsonic, SubsonicLoader } from '@subfire/core';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
-import { useAlbum, useBookmarks, useSubsonicLoader } from './useSubsonicLoader';
+import { useAlbum, useBookmarks, useSubsonicLoader } from '@subfire/hooks';
+import LoadingCard from '../components/ui/loader/LoadingCard';
 
 const {
   server,

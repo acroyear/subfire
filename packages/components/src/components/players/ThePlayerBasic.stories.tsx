@@ -2,7 +2,7 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { ThePlayer, ThePlayerComponents, ThePlayerProps } from '../..';
+import { LoadingCard, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../..';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider } from '@subfire/hooks';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
@@ -11,6 +11,7 @@ const SubsonicWrapper: React.FC<any> = (props: any) => {
         <SubsonicProvider
             clientName="SubfireStorybook"
             embeddedCredentials={buildProcessEnvCredentials()}
+            LoadingCardComponent={LoadingCard}
         >
             {props.children}
         </SubsonicProvider>

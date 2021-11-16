@@ -11,6 +11,7 @@ import HollowCard from '../HollowCard';
 import FuzzyImageBackground from '../FuzzyImageBackground';
 
 import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { LoadingCardPropsType } from '@subfire/hooks';
 
 const useStyles = makeStyles((_theme: Theme) => ({
   card: {
@@ -27,11 +28,6 @@ const useStyles = makeStyles((_theme: Theme) => ({
     width: 50
   }
 }));
-
-export interface LoadingCardPropsType {
-  object: Partial<SubsonicTypes.Generic>,
-  top: number
-}
 
 export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
   const { object, top } = props;

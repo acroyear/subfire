@@ -1,6 +1,6 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import { useLoginSnacker } from "@subfire/components";
+import { LoadingCard, useLoginSnacker } from "@subfire/components";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button } from "@mui/material";
 
@@ -35,7 +35,7 @@ function App() {
       )}
     >
       <CredentialsProvider>
-        <SubsonicProvider clientName="SubFireM4">
+        <SubsonicProvider clientName="SubFireM4" LoadingCardComponent={LoadingCard}>
           <HashRouter>
             <Snacker>
               <Routes />

@@ -2,7 +2,7 @@ import React from "react";
 import { useToggle } from "react-use";
 import Switch from "@mui/material/Switch";
 import {
-  AlbumsBrowser
+  AlbumsBrowser, LoadingCard
 } from "../..";
 import { buildProcessEnvCredentials, SubsonicProvider } from "@subfire/hooks";
 export default {
@@ -15,6 +15,7 @@ const SubsonicWrapper: React.FC<any> = (props) => {
     <SubsonicProvider
       clientName="SubfireStorybook"
       embeddedCredentials={props.embeddedCredentials}
+      LoadingCardComponent={LoadingCard}
     >
       {props.children}
     </SubsonicProvider>

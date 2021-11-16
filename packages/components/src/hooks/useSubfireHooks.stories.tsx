@@ -1,4 +1,5 @@
 import { buildProcessEnvCredentials, SubsonicProvider, useChatMessages, useNowPlaying } from '@subfire/hooks';
+import { LoadingCard } from '..';
 
 export default {
     title: 'hooks/useSubfireHooks'
@@ -10,6 +11,7 @@ const SubsonicWrapper: React.FC<any> = (props) => {
         <SubsonicProvider
             clientName="SubfireStorybook"
             embeddedCredentials={props.embeddedCredentials}
+            LoadingCardComponent={LoadingCard}
         >
             {props.children}
         </SubsonicProvider>

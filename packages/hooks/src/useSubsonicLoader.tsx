@@ -3,8 +3,9 @@ import { useCounter, useDeepCompareEffect } from 'react-use';
 
 import { SubsonicTypes, Subsonic } from '@subfire/core';
 
-import LoadingCard from '../components/ui/loader/LoadingCard';
 import { AsyncState } from 'react-use/lib/useAsync';
+import { LoadingCardPropsType } from './SubfireTypes';
+import { useSubsonic } from './SubsonicContext';
 
 export interface SubsonicLoaderResult<T> {
   state: AsyncState<any>,
@@ -13,7 +14,38 @@ export interface SubsonicLoaderResult<T> {
   error: any
 }
 
+const CheapLoadingCard: React.FC<LoadingCardPropsType> = (props) => {
+  const { object, top } = props;
+
+  const { innerWidth, innerHeight } = window;
+  let cellSize = innerWidth <= 600 ? innerWidth - 20 : Math.trunc(innerWidth / 2);
+  cellSize = Math.min(cellSize, innerHeight - 100 - top);
+  // load the one already loaded in the previous grid
+  const artSize = innerWidth > 360 ? 170 : 164;
+  // console.warn(object);
+  const coverArt =
+    object && (object.coverArt || object.id)
+      ? Subsonic.getCoverArtURL(object.coverArt || object.id, artSize)
+      : Subsonic.getCoverArtURL("-1", artSize);
+
+  const loadingString =
+    object && (object.name || object.title) ? object.name || object.title : "something. no really. we're loading something.";
+
+  return (
+    <>
+      <div>
+        <img alt="Loading..." src={coverArt} id="the-loading-image" style={{ width: cellSize, height: cellSize }} />
+      </div>
+      <h4>
+        {loadingString}
+      </h4>
+    </>);
+}
+
 export function useSubsonicLoader<T>(f: () => Promise<T>, o?: Partial<SubsonicTypes.Generic>, top?: number): SubsonicLoaderResult<T> {
+  let S = useSubsonic();
+  const LoadingCardComponent = S?.LoadingCardComponent || CheapLoadingCard;
+  console.log({LoadingCardComponent});
   o = o || {
     id: "-1",
     coverArt: "-1",
@@ -23,7 +55,7 @@ export function useSubsonicLoader<T>(f: () => Promise<T>, o?: Partial<SubsonicTy
   console.debug('id', o.id);
   const state = useAsync(f, [o.id]);
   console.debug(state);
-  const card = state.loading ? <LoadingCard object={o} top={top} /> : null;
+  const card = state.loading && LoadingCardComponent ? <LoadingCardComponent object={o} top={top} /> : null;
   const error = state.error ? state.error : null;
   const result = state.loading || state.error ? null : state.value as T;
   return {

@@ -7,6 +7,7 @@ import {
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button } from "@mui/material";
 import { useLoginSnacker } from "./useLoginSnacker";
+import { LoadingCard } from "..";
 
 export default {
   title: "hooks/SubsonicContextAlone",
@@ -18,6 +19,7 @@ const SubsonicWrapper: React.FC<any> = (props) => {
     <SubsonicProvider
       clientName="SubfireStorybook"
       embeddedCredentials={props.embeddedCredentials}
+      LoadingCardComponent={LoadingCard}
     >
       {props.children}
     </SubsonicProvider>

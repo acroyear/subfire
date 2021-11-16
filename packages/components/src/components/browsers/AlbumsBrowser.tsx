@@ -7,8 +7,7 @@ import Switch from '@mui/material/Switch';
 import { SubsonicTypes } from '@subfire/core';
 
 import MusicFolderChooser from './MusicFolderChooser';
-import { useSubsonic } from '@subfire/hooks';
-import { useAlbumList } from '../../hooks/useSubsonicLoader';
+import { useSubsonic, useAlbumList } from '@subfire/hooks';
 
 import { B } from '../ui/TGB';
 import SubsonicGridList from '../ui/SubsonicGridList';

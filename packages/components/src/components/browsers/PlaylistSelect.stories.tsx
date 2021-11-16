@@ -9,6 +9,7 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 import Shuffle from '@mui/icons-material/Shuffle';
 
 import {
+    LoadingCard,
     PlaylistSelect, PlaylistSelectPropTypes, RadioSelect
 } from "../..";
 import { SubsonicTypes } from '@subfire/core';
@@ -24,6 +25,7 @@ const SubsonicWrapper: React.FC<any> = (props) => {
         <SubsonicProvider
             clientName="SubfireStorybook"
             embeddedCredentials={props.embeddedCredentials}
+            LoadingCardComponent={LoadingCard}
         >
             {props.children}
         </SubsonicProvider>

@@ -4,11 +4,13 @@ import { useLocalStorage } from 'react-use';
 import { Subsonic, SubsonicCache } from '@subfire/core';
 import { LoginStates } from './SubfireTypes';
 import { useCredentials, SubfireCredentials } from './CredentialsContext';
+import { LoadingCardPropsType } from '.';
 
 interface SubsonicContextInit {
-  children: React.ReactNode,
-  clientName?: string,
+  children: React.ReactNode
+  clientName?: string
   embeddedCredentials?: SubfireCredentials
+  LoadingCardComponent: React.FunctionComponent<LoadingCardPropsType> | React.ComponentClass<LoadingCardPropsType>
 }
 
 export interface SubsonicContextContent {
@@ -21,6 +23,7 @@ export interface SubsonicContextContent {
   tryAgain: () => void,
   setMusicFolderId: (id: number) => void,
   getObject: typeof Subsonic.getObject
+  LoadingCardComponent: React.FunctionComponent<LoadingCardPropsType> | React.ComponentClass<LoadingCardPropsType>
 }
 
 export function buildProcessEnvCredentials(): SubfireCredentials {
@@ -35,7 +38,7 @@ export function buildProcessEnvCredentials(): SubfireCredentials {
 }
 
 export const SubsonicContext = createContext<SubsonicContextContent>(null);
-export const SubsonicProvider: React.FC<SubsonicContextInit> = ({ children, clientName, embeddedCredentials }) => {
+export const SubsonicProvider: React.FC<SubsonicContextInit> = ({ children, clientName, embeddedCredentials, LoadingCardComponent }) => {
   const value = useCredentials() || [];
   // console.warn(value);
   // console.warn(embeddedCredentials);
@@ -99,7 +102,8 @@ export const SubsonicProvider: React.FC<SubsonicContextInit> = ({ children, clie
     musicFolderId,
     tryAgain,
     setMusicFolderId,
-    getObject
+    getObject,
+    LoadingCardComponent
   };
 
   return <SubsonicContext.Provider value={properties}>{children}</SubsonicContext.Provider>;

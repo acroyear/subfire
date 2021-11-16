@@ -1,5 +1,5 @@
 import React from 'react';
-import { MusicFolderChooser } from '../..';
+import { LoadingCard, MusicFolderChooser } from '../..';
 import { useSubsonic, SubsonicProvider, buildProcessEnvCredentials } from '@subfire/hooks';
 export default {
   title: 'browsers/MusicFolders'
@@ -16,7 +16,7 @@ const {
 const SubsonicWrapper: React.FC<any> = props => {
   console.warn(props);
   return (
-    <SubsonicProvider clientName="SubfireStorybook" embeddedCredentials={props.embeddedCredentials}>
+    <SubsonicProvider clientName="SubfireStorybook" embeddedCredentials={props.embeddedCredentials} LoadingCardComponent={LoadingCard}>
       {props.children}
     </SubsonicProvider>
   );
