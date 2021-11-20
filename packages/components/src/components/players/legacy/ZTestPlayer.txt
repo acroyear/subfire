@@ -1,0 +1,26 @@
+import React, { useEffect } from 'react';
+import { useSubsonicPlayer } from 'subfirelib/hooks';
+
+function Player(props) {
+  const {
+    state,
+    controls = {},
+    marks,
+    toHHMMSS,
+    currentPlaying,
+  } = useSubsonicPlayer();
+
+  return (
+    <>
+      <button onClick={controls.play}>Play</button>
+      <button onClick={controls.pause}>Pause</button>
+      <button onClick={() => controls.seek(20.0)}>20 seconds mark</button>
+      <img alt="" src={currentPlaying?.artwork} />
+      <pre>{JSON.stringify(state)}</pre>
+      <pre>{JSON.stringify(marks)}</pre>
+    </>
+  );
+
+}
+
+export default Player;

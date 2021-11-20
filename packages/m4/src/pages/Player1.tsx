@@ -1,4 +1,4 @@
-import { ThePlayer, ThePlayerComponents } from "@subfire/components";
+import { PortraitPlayer, ThePlayer, ThePlayerComponents } from "@subfire/components";
 import { SubsonicTypes } from "@subfire/core";
 
 const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
@@ -20,5 +20,5 @@ const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.
 }
 
 export const Player1 = (_p: any) => {
-    return <ThePlayer render={ThePlayerBasic}></ThePlayer>
+    return <ThePlayer render={PortraitPlayer}></ThePlayer>
 }

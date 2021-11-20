@@ -1,0 +1,90 @@
+import React from 'react';
+import Paper from '@mui/material/Paper';
+
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+
+import { Tb2 } from 'subfirelib/ui/TG';
+/* eslint react/prop-types: 0 */
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    backgroundColor: theme.palette.secondary.main,
+    transition: 'background 2s ease-in-out',
+    color: theme.palette.secondary.contrastText,
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  paperDark: {
+    backgroundColor: theme.palette.secondary.dark,
+    transition: 'background 2s ease-in-out',
+    color: theme.palette.secondary.contrastText,
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  grid: {
+    backgroundColor: theme.palette.secondary.main,
+    transition: 'background 2s ease-in-out',
+    color: theme.palette.secondary.contrastText,
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+  pad: {
+    paddingLeft: 5,
+    paddingRight: 5
+  },
+  button: {
+    color: theme.palette.secondary.contrastText
+  },
+  sliderwrap: { paddingLeft: 5, paddingRight: 5 },
+  slider: {
+    width: 200,
+    color: theme.palette.primary.main
+  }
+}));
+
+function FullPagePlayer(props) {
+  const { components, currentPlaying } = props;
+  const { state } = components;
+
+  const classes = useStyles();
+
+  const c = components;
+
+  return (
+    <>
+      <Paper className={state.paused || !currentPlaying?.id ? classes.paperDark : classes.paper}>
+        <Grid container className={classes.grid} spacing={0} alignItems="center">
+          <Grid item xs={12}><Tb2>{'woah this worked...'}</Tb2></Grid>
+          <Grid item>{c.back10Button}</Grid>
+          <Grid item className={classes.pad}>
+            <Typography component="span" variant="caption">
+              {c.currentTime}
+            </Typography>
+          </Grid>
+          <Grid item className={classes.sliderwrap}>
+            {c.slider}
+          </Grid>
+          <Grid item className={classes.pad}>
+            <Typography component="span" variant="caption">
+              {c.duration}
+            </Typography>
+          </Grid>
+          <Grid item>{c.skip30Button}</Grid>
+        </Grid>
+        <br />
+        {c.prevButton}
+        {c.playPauseButton}
+        {c.nextButton}
+      </Paper>
+      <Paper>
+        {c.artwork(128)}
+        <Tb2>{currentPlaying.title}</Tb2>
+        <Tb2>{c.queuePosition}</Tb2>
+      </Paper>
+    </>
+  );
+}
+
+export default FullPagePlayer;

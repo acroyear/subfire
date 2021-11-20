@@ -1,0 +1,117 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import classnames from 'classnames';
+
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
+import makeStyles from '@mui/styles/makeStyles';
+import AppsTwoToneIcon from '@mui/icons-material/AppsTwoTone';
+
+import { Tb1 } from 'subfirelib/ui/TG';
+
+/* eslint react/prop-types: 0 */
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    bottom: 0,
+    position: 'fixed',
+    backgroundColor: theme.palette.secondary.main,
+    height: 56,
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  content: {
+    flex: '0 0 auto'
+  },
+  home: {},
+  artworkWrapper: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  button: {},
+  fab: {},
+  popover: {
+    pointerEvents: 'none'
+  },
+  paper: {
+    padding: theme.spacing(1),
+    maxWidth: '80vw',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whitespace: 'no-wrap'
+  }
+}));
+
+function FooterPlayer(props) {
+  const { components: c, currentPlaying: cp, queue: q } = props;
+  const history = useHistory();
+  const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handlePopoverOpen = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const goToHome = () => {
+    history.push('/');
+  };
+
+  const goToPlayer = () => {
+    history.push('/player');
+  };
+
+  return (
+    <div className={classnames(classes.root, 'footer-player')}>
+      {c.volumeButtonAbove}
+      <Button className={classnames(classes.home, classes.content)} onClick={goToHome}>
+        <AppsTwoToneIcon />
+      </Button>
+      <div
+        aria-owns={open ? 'mouse-over-popover' : undefined}
+        aria-haspopup="true"
+        onMouseEnter={handlePopoverOpen}
+        onMouseLeave={handlePopoverClose}
+        className={classes.artworkWrapper}
+        onClick={goToPlayer}
+      >
+        {c.artwork(48)}
+      </div>
+      {c.playPauseButton}
+      {c.nextButton}
+      <div />
+
+      <Popover
+        id="mouse-over-popover"
+        className={classes.popover}
+        classes={{
+          paper: classes.paper
+        }}
+        open={open}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        onClose={handlePopoverClose}
+        disableRestoreFocus
+      >
+        <Tb1 component="span">{q?.idx + 1 + '. ' + cp?.title}</Tb1>
+      </Popover>
+    </div>
+  );
+}
+
+export default FooterPlayer;

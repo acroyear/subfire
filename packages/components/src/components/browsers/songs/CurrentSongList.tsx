@@ -1,5 +1,5 @@
-import { Subsonic, SubsonicTypes } from '@subfire/core';
 import React from 'react';
+import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { useSubsonicQueue } from '@subfire/hooks';
 
 import SongList, { SongListProps } from './SongList';
@@ -13,7 +13,7 @@ export interface CurrentSongListProps extends SongListProps {
   onSongClick: CurrentSongClicked
 }
 
-const CurrentSongList: React.FC<CurrentSongListProps> = props => {
+const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props => {
   const { style, classes, className, onSongClick, children, ...rest } = props; // eslint-disable-line
   const { subsonic } = Subsonic;
   const { queue =  [], idx = 0 , current, set } = useSubsonicQueue();
