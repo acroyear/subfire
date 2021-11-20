@@ -1,7 +1,7 @@
 {
   "name": "@subfire/mobile4",
   "version": "4.0.6",
-  "homepage": "m4",
+  "homepage": "/m4",
   "private": true,
   "dependencies": {
     "@subfire/components": "^4.0.6",
