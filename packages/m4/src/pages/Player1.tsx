@@ -5,6 +5,7 @@ const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.
     return <>
         <p>The Player?: {current?.name || current?.title}</p>
         {components.playPauseButton}
+        {components.prevButton}
         {components.currentTime}
         {components.nextButton}
         {components.duration}

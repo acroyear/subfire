@@ -49,7 +49,7 @@ export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
 
   return (
     <div style={{ paddingTop: 25 }}>
-      <FuzzyImageBackground selector=".page-bg" image={coverArt} showBackground={true} />
+      <FuzzyImageBackground selector=".page-bg" image={coverArt} showBackground={true} fadeBackground={true}/>
       <Grid container spacing={0}>
         <Hidden only="xs">
           <Grid item lg={3} sm={1}></Grid>

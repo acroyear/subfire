@@ -299,7 +299,7 @@ export interface ArtistInfo {
 
 /* everything below here is for Radio Generation */
 
-export type PlaylistsType = 'allPlaylists' | 'playlists' | 'stationPlaylists' | 'receivers' | 'myPlaylists' | 'stations';
+export type PlaylistsType = 'allPlaylists' | 'playlists' | 'normal' | 'all' | 'stationPlaylists' | 'receivers' | 'myPlaylists' | 'stations';
 
 export interface CategorizedPlaylists {
   allPlaylists: Playlist[]

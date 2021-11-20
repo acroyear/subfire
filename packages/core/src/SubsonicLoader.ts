@@ -133,7 +133,8 @@ export const SubsonicLoader = async (params: Params, shuffle: boolean = false): 
 
     console.log(songList);
 
-    const rv = Subsonic.applyShuffleAndFlatten(songList, shuffle);
+    let rv = Subsonic.applyShuffleAndFlatten(songList, shuffle);
+    rv = Object.assign(songList, rv) as SongList; // restore non-array parameters
 
     if (params.bookmarkId) {
         const si = rv.findIndex(r => r.id === params.bookmarkId);

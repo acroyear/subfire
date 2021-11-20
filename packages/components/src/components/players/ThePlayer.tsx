@@ -102,11 +102,11 @@ export interface ThePlayerProps {
     disposeOnUnmount?: boolean
 }
 
-export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }:ThePlayerProps) => {
+export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }: ThePlayerProps) => {
     const {
         time, timePretty, duration, durationPretty, progress, volumeLevel, muted, paused, state, player
     } = useHtmlMedia(stopMusicOnUnmount, disposeOnUnmount);
- 
+
     const setVolumeLevel = (v: number) => {
         player.volume(v);
     }
@@ -141,13 +141,20 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         player.load(current.src);
         if (currentTime) {
             console.log('seeking to', currentTime);
-            player.seek(currentTime);
+            player.seek(currentTime / 1000);
         }
     }, [player, current, currentTime]);
 
     useEffect(() => {
         if (!player) return;
-        player.on('end', next);
+        player.on('end', () => {
+            if (queue.length === 1) {
+                player.seek(0);
+                player.play();
+                return;
+            }
+            next();            
+        });
         // return () => { if (player) player.off()}
     }, [player]);
 
@@ -164,7 +171,7 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
     };
 
     const beginingOrPrevSong = () => {
-        if (time < 10) {
+        if (time < 10 && queue.length > 1) {
             prev();
         } else {
             player.seek(0);
@@ -174,7 +181,13 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
     const mediaSessionControls = {
         play: player?.play,
         pause: player?.pause,
-        nexttrack: next,
+        nexttrack: () => {
+            if (queue.length === 1) {
+                player.seek(0);
+                return;
+            }
+            next();
+        },
         previoustrack: beginingOrPrevSong,
         seekbackward: () => player.seek(time - 10),
         seekforward: () => player.seek(time + 30),

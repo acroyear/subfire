@@ -15,7 +15,7 @@ const styles = theme => {
   };
 };
 
-const ScrollToTopFab = props => {
+export const ScrollToTopFabBase = props => {
   const { theme, label, bottom, right, Icon, parentRef, selector, scrollParent } = props;
 
   const scrollToTop = props => {
@@ -47,7 +47,7 @@ const ScrollToTopFab = props => {
   );
 };
 
-ScrollToTopFab.propTypes = {
+ScrollToTopFabBase.propTypes = {
   classes: PropTypes.object,
   bottom: PropTypes.number,
   right: PropTypes.number,
@@ -59,9 +59,9 @@ ScrollToTopFab.propTypes = {
   scrollParent: PropTypes.bool
 };
 
-ScrollToTopFab.defaultProps = {
+ScrollToTopFabBase.defaultProps = {
   Icon: <TopIcon />,
   label: 'top'
 };
-
-export default withStyles(styles)(withTheme(ScrollToTopFab));
+export const ScrollToTopFab = withStyles(styles)(withTheme(ScrollToTopFabBase));
+export default ScrollToTopFab;

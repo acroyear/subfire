@@ -2,8 +2,16 @@ import React from 'react';
 /* eslint react/prop-types: 0 */
 // TODO: turn this into function/hooks
 // requires external css and div for now - not 'automatic'
-class FuzzyImageBackground extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
+
+export interface FuzzyImageBackgroundProps {
+  showBackground: boolean,
+  fadeBackground: boolean,
+  selector: string,
+  image: string
+}
+
+export class FuzzyImageBackground extends React.Component<FuzzyImageBackgroundProps> {
+  shouldComponentUpdate(nextProps: FuzzyImageBackgroundProps, _nextState: any) {
     return (
       nextProps.selector !== this.props.selector ||
       nextProps.image !== this.props.image ||
@@ -15,7 +23,7 @@ class FuzzyImageBackground extends React.Component {
   componentWillUnmount() {
     // console.log('unmount');
     const { selector } = this.props;
-    const e = document.querySelector(selector || '.page-bg');
+    const e = document.querySelector(selector || '.page-bg') as HTMLElement;
     if (!e) return;
     e.style.display = 'none';
   }
@@ -31,18 +39,16 @@ class FuzzyImageBackground extends React.Component {
     const backgroundImage = 'url(' + image + ')';
     const display = showBackground && image ? 'initial' : 'none';
 
-    const e = document.querySelector(
-      selector || '.page-bg'
-    );
+    const e = document.querySelector(selector || '.page-bg') as HTMLElement;
     if (!e) return;
 
     e.style.backgroundImage = backgroundImage;
-    document.querySelector(selector || '.page-bg').style.display = display;
+    e.style.display = display;
 
     if (fadeBackground) {
-      document.querySelector(selector || '.page-bg').classList.add('faded');
+      e.classList.add('faded');
     } else {
-      document.querySelector(selector || '.page-bg').classList.remove('faded');
+      e.classList.remove('faded');
     }
   }
 

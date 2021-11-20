@@ -1028,16 +1028,17 @@ export class SubsonicClass {
   }
 
   applyShuffleAndFlatten = (a: SongList | SongList[], shuffle: boolean = true): SongList => {
-    if (a.length === 0) return a as SongList;
+    let x = a;
+    if (x.length === 0) return x as SongList;
     if (shuffle) {
-      a = arrayShuffle(a);
-      a = arrayShuffle(a);
-      a = arrayShuffle(a);
-      a = arrayShuffle(a);
-      a = arrayShuffle(a);      
+      x = arrayShuffle(x);
+      x = arrayShuffle(x);
+      x = arrayShuffle(x);
+      x = arrayShuffle(x);
+      x = arrayShuffle(x);      
     }
-    a = a.flat();
-    return a;
+    x = x.flat();
+    return x;
   }
 
   bookmarkQueueRuleToComment = (queueRule: BookmarkQueueRule) : string => {

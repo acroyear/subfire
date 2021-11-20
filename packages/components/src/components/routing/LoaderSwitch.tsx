@@ -20,7 +20,6 @@ export const RoutePlayerLoader = ({ targetRoute = "/player", remoteRoute = "/rem
     console.log(card, result, error, state);
     if (card) return (<>{card}</>);
     if (error) return <p>{JSON.stringify(error)}</p>;
-
     set(result, result.current || 0, result.position || 0, result.name || 'Current Queue', { ...params, bookmarkSource: result.name || 'currentQueue' });
 
     return <Redirect to={targetRoute} />;

@@ -23,9 +23,15 @@ export interface PlaylistGridPropTypes {
 }
 
 export const PlaylistGrid: FC<PlaylistGridPropTypes> = (props) => {
-  const { onClick, onImageClick, scrollSelector, playlistType, actionIcon } = props;
+  const { onClick, onImageClick, scrollSelector, actionIcon } = props;
+  let { playlistType } = props;
+
   if (playlistType === 'stations') {
     return RadioGrid(props);
+  } else if (playlistType === 'normal') {
+    playlistType = 'playlists';
+  } else if (playlistType === 'all') {
+    playlistType = 'allPlaylists';
   }
 
   const hasSeenWarningRef = useRef(false);
