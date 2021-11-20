@@ -2,6 +2,27 @@ import { Subsonic } from '.';
 import { arrayShuffle } from './utils/utils';
 import { BookmarkQueueRule, Song } from './SubsonicTypes';
 
+function persistLastPlayingQueue<T extends MinimalMediaObject>(lpq: QueueModel<T>) {
+    lpq.currentTime = lpq.currentTime || 0;
+    localStorage.setItem('subsonic.lastPlaying', JSON.stringify(lpq));
+    localStorage.setItem('subsonic.lastPlaying.currentMediaTime', "" + lpq.currentTime);
+}
+
+function loadLastPlayingQueue<T extends MinimalMediaObject>(): QueueModel<T> {
+    const lastPlayingQueue = JSON.parse(localStorage.getItem('subsonic.lastPlaying') || "{}") as QueueModel<T>;
+    const lastPlayingTime = lastPlayingQueue.currentTime || parseInt(localStorage.getItem('subsonic.lastPlaying.currentMediaTime') || '0');
+    lastPlayingQueue.currentTime = lastPlayingTime || 0;
+    lastPlayingQueue.queueName = lastPlayingQueue.queueName || 'Last Playing';
+    return lastPlayingQueue;
+}
+
+export function persistCurrentPlayingTime(currentTime: number) {
+    console.log('persisting time', currentTime);
+    const x = loadLastPlayingQueue();
+    x.currentTime = currentTime;
+    persistLastPlayingQueue(x);
+}
+
 export interface MinimalMediaObject {
     id: string;
     src?: string;
@@ -126,6 +147,15 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
         this.previousCurrent = this.current;
         this.previousIdx = this.idx;
         this.previousQueue = [...this.queue];
+
+        persistLastPlayingQueue({
+            queue: this.queue,
+            idx: this.idx,
+            queueName: this.queueName,
+            rule: this.rule,
+            currentTime: 0,
+            current: this.current
+        });
     }
 
     _checkCurrent = () => {
@@ -141,6 +171,16 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
             this.current.src = this.current.src || Subsonic.getStreamingURL(this.current.id);
             this.current.coverArtUrl = this.current.coverArtUrl || Subsonic.getCoverArtURL(this.current.coverArt || this.current.id || "-1");
         }
+    }
+
+    setLastPlayingQueue(lpq: QueueModel<T>) {
+        this.set(
+            lpq.queue,
+            lpq.idx,
+            lpq.currentTime,
+            lpq.queueName,
+            lpq.rule
+        );
     }
 
     set = (queue: Array<T>, idx: number = 0, currentTime?: number, queueName?: string, rule?: BookmarkQueueRule) => {
@@ -219,3 +259,9 @@ const SubsonicSongSkipAlbum = (qm: QueueModel<Song>): number => {
 }
 
 export const SubsonicQueue = new SubsonicQueueImpl<Song>(SubsonicSongSkipAlbum);
+const theLastPlayingQueue = loadLastPlayingQueue<Song>();
+if (theLastPlayingQueue.queue?.length) {
+    SubsonicQueue.setLastPlayingQueue(theLastPlayingQueue);
+}
+
+console.warn("lastPlaying", theLastPlayingQueue);

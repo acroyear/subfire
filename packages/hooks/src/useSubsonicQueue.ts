@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import {
     SubsonicQueue,
     SubsonicQueueTypes,
-    SubsonicTypes
+    SubsonicTypes,
+    persistCurrentPlayingTime
 } from "@subfire/core";
 
 console.log(SubsonicQueue);
@@ -15,7 +16,8 @@ export interface SubsonicQueueHook extends SubsonicQueueTypes.QueueModel<Song> {
     skipAlbum: () => void
     skipTo: (i: number) => void
     shuffle: (b?: boolean) => void
-    set: (s: SubsonicTypes.SongList, idx?: number, time?: number, name?: string, rule?: SubsonicTypes.BookmarkQueueRule) => void
+    set: (s: SubsonicTypes.SongList, idx?: number, time?: number, name?: string, rule?: SubsonicTypes.BookmarkQueueRule) => void,
+    persistCurrentPlayingTime(currentTime: number): void
 }
 
 export const useSubsonicQueue = (): SubsonicQueueHook => {
@@ -40,7 +42,8 @@ export const useSubsonicQueue = (): SubsonicQueueHook => {
         skipAlbum: SubsonicQueue.skipAlbum,
         skipTo: SubsonicQueue.skipTo,
         shuffle: SubsonicQueue.shuffle,
-        set: SubsonicQueue.set
+        set: SubsonicQueue.set,
+        persistCurrentPlayingTime
     }
 }
 

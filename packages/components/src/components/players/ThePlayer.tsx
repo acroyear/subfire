@@ -120,8 +120,11 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         skipAlbum,
         shuffle,
         queueName,
-        rule
+        rule,
+        persistCurrentPlayingTime
     } = useSubsonicQueue();
+
+    useEffect(() => persistCurrentPlayingTime(time), [time]);
 
     const classes = useStyles();
 
@@ -135,7 +138,10 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         if (!player || !current) return;
         if (player.src === current.src) return;
         player.load(current.src);
-    }, [player, current]);
+        if (time && time < duration) {
+            player.seek(time);
+        }
+    }, [player, current, time]);
 
     useEffect(() => {
         if (!player) return;

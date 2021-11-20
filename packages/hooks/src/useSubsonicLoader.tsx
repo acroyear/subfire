@@ -10,8 +10,8 @@ import { useSubsonic } from './SubsonicContext';
 export interface SubsonicLoaderResult<T> {
   state: AsyncState<any>,
   card: JSX.Element | null,
-  result: T
-  error: any
+  result?: T
+  error?: any
 }
 
 const CheapLoadingCard: React.FC<LoadingCardPropsType> = (props) => {
@@ -42,10 +42,10 @@ const CheapLoadingCard: React.FC<LoadingCardPropsType> = (props) => {
     </>);
 }
 
-export function useSubsonicLoader<T>(f: () => Promise<T>, o?: Partial<SubsonicTypes.Generic>, top?: number): SubsonicLoaderResult<T> {
+export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial<SubsonicTypes.Generic>, top?: number): SubsonicLoaderResult<T> {
   let S = useSubsonic();
   const LoadingCardComponent = S?.LoadingCardComponent || CheapLoadingCard;
-  console.log({LoadingCardComponent});
+  // console.log({LoadingCardComponent});
   o = o || {
     id: "-1",
     coverArt: "-1",
@@ -53,7 +53,7 @@ export function useSubsonicLoader<T>(f: () => Promise<T>, o?: Partial<SubsonicTy
   } as SubsonicTypes.Generic;
   top = top | 0;
   console.debug('id', o.id);
-  const state = useAsync(f, [o.id]);
+  const state = useAsync(actualLoader, [o.id]);
   console.debug(state);
   const card = state.loading && LoadingCardComponent ? <LoadingCardComponent object={o} top={top} /> : null;
   const error = state.error ? state.error : null;

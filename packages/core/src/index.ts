@@ -7,7 +7,7 @@ export { SubsonicCache } from './SubsonicCache';
 export { Subsonic } from './Subsonic';
 export { AuthExchangeActions } from './AuthExchangeActions';
 export { createStations } from './SubfireStations';
-export { SubsonicQueue } from './SubsonicQueue';
+export { SubsonicQueue, persistCurrentPlayingTime } from './SubsonicQueue';
 export * as SubsonicQueueTypes from './SubsonicQueue';
 export { HtmlMedia, PlayerState } from './HtmlMedia';
 export { CastTs } from './Cast';
