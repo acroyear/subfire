@@ -115,6 +115,7 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         queue = [],
         idx = 0,
         current,
+        currentTime,
         next,
         prev,
         skipAlbum,
@@ -138,10 +139,11 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         if (!player || !current) return;
         if (player.src === current.src) return;
         player.load(current.src);
-        if (time && time < duration) {
-            player.seek(time);
+        if (currentTime) {
+            console.log('seeking to', currentTime);
+            player.seek(currentTime);
         }
-    }, [player, current, time]);
+    }, [player, current, currentTime]);
 
     useEffect(() => {
         if (!player) return;

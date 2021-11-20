@@ -17,7 +17,6 @@ function loadLastPlayingQueue<T extends MinimalMediaObject>(): QueueModel<T> {
 }
 
 export function persistCurrentPlayingTime(currentTime: number) {
-    console.log('persisting time', currentTime);
     const x = loadLastPlayingQueue();
     x.currentTime = currentTime;
     persistLastPlayingQueue(x);
@@ -158,7 +157,7 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
         });
     }
 
-    _checkCurrent = () => {
+    _checkCurrent = (resetTime: boolean = true) => {
         let x = null;
         if (this.queue.length) {
             if (this.idx >= this.queue.length) {
@@ -170,6 +169,9 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
 
             this.current.src = this.current.src || Subsonic.getStreamingURL(this.current.id);
             this.current.coverArtUrl = this.current.coverArtUrl || Subsonic.getCoverArtURL(this.current.coverArt || this.current.id || "-1");
+            if (resetTime) {
+                this.currentTime = 0;
+            }
         }
     }
 
@@ -189,7 +191,7 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
         this.currentTime = currentTime || null;
         this.queueName = queueName || 'Subsonic Queue';
         this.rule = rule;
-        this._checkCurrent();
+        this._checkCurrent(false);
         this._checkAndDispatchEvents();
     }
 
@@ -231,7 +233,7 @@ export class SubsonicQueueImpl<T extends MinimalMediaObject> implements QueueMod
         const idx = preserveCurrent ? a.findIndex((s:MinimalMediaObject) => s.id === current.id) : 0;
         this.idx = idx;
         this.queue = a;
-        this._checkCurrent();
+        this._checkCurrent(!preserveCurrent);
         this._checkAndDispatchEvents(); 
     }
 
@@ -264,4 +266,4 @@ if (theLastPlayingQueue.queue?.length) {
     SubsonicQueue.setLastPlayingQueue(theLastPlayingQueue);
 }
 
-console.warn("lastPlaying", theLastPlayingQueue);
+console.log("lastPlaying", theLastPlayingQueue.currentTime, theLastPlayingQueue);
