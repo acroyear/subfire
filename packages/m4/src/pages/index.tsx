@@ -7,6 +7,7 @@ import { Playlists } from './Playlists';
 import { Stations } from './Stations';
 import { Player1 } from './Player1';
 import NavGrid from './NavGrid';
+import { Playlist } from './Playlist';
 
 export interface PageRouteData {
     path: string;
@@ -26,6 +27,7 @@ const pages: Array<PageRouteData> = [
 
     // the real ones - start with the most greedy first
     { path: "/playlists/:pltype?", component: Playlists, exact: true },
+    { path: "/playlist/:id", component: Playlist, exact: true },
     { path: "/radio", component: Stations, exact: true },
     { path: "/player", component: Player1, exact: true },
 
