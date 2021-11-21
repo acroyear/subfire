@@ -55,7 +55,7 @@ export const useBookmarksService = (onePerRule?: boolean) => {
     if (replaceType) {
       deleteBookmarkByQueueRule(queueRule);
     }
-    createBookmark(id, position, Subsonic.queueRuleToComment(queueRule));
+    createBookmark(id, position, Subsonic.bookmarkQueueRuleToComment(queueRule));
   };
 
   const bookmarkForId = (id: string) => (bookmarks || []).filter((b:Bookmark) => b.entry.id + '' === id + '')[0];

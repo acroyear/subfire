@@ -19,7 +19,7 @@
   },
   "scripts": {
     "story": "lerna run storybook --stream",
-    "libbuild": "lerna run libbuild --stream",
+    "libbuild": "yarn hooks-bundle && yarn comp-bundle && lerna run libbuild --stream",
     "prestart": "yarn libbuild",
     "start": "lerna run start --stream",
     "comp-bundle": "cd packages/components/src && find ./components ./hooks -name \"*.*\" | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",

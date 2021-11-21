@@ -1,6 +1,6 @@
 import React from 'react';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { useSubsonicQueue } from '@subfire/hooks';
+import { SubsonicTypes } from '@subfire/core';
+import { useSubsonic, useSubsonicQueue } from '@subfire/hooks';
 
 import SongList, { SongListProps } from './SongList';
 import { SongLiteItemContentsOptions } from './SongListItem';
@@ -13,9 +13,9 @@ export interface CurrentSongListProps extends SongListProps {
   onSongClick: CurrentSongClicked
 }
 
-const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props => {
+export const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props => {
   const { style, classes, className, onSongClick, children, ...rest } = props; // eslint-disable-line
-  const { subsonic } = Subsonic;
+  const { Subsonic } = useSubsonic();
   const { queue =  [], idx = 0 , current, set } = useSubsonicQueue();
 
   const onSongItemClick = (idx: number) => {
@@ -38,7 +38,7 @@ const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props => {
     className,
     songItemProperties,
     coverSize: 32,
-    getCoverArtURL: subsonic.getCoverArtURL
+    getCoverArtURL: Subsonic.getCoverArtURL
   };
 
   return <SongList {...songListProperties} songs={queue} current={current}>{children}</SongList>;

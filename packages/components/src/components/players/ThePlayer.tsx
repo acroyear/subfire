@@ -19,7 +19,7 @@ import { useKey } from 'react-use';
 import { Tb2 } from '../ui/TGB';
 import { VolumeButton } from '../ui/volume/VolumeButton';
 import { PlayerState, SubsonicTypes } from '@subfire/core';
-import { useHtmlMedia, useMediaSession, useSubsonic, useSubsonicQueue, useBookmarksService } from '@subfire/hooks';
+import { useHtmlMedia, useSubsonic, useSubsonicQueue, useBookmarksService } from '@subfire/hooks';
 
 type Bookmark = SubsonicTypes.Bookmark;
 

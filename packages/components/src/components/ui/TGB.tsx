@@ -4,18 +4,19 @@ import T from "@mui/material/Typography";
 import G from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-export const Gc = p => <G container {...p} />;
-export const Gci = p => <G container item {...p} />;
-export const Gi = p => <G item {...p} />;
+export const Gc:React.FC<any> = p => <G container {...p} />;
+export const Gci:React.FC<any> = p => <G container item {...p} />;
+export const Gi:React.FC<any> = p => <G item {...p} />;
 
 export { T };
 export { G };
-export const B = p => <Box display="flex" {...p}/>;
+export const B:React.FC<any> = p => <Box display="flex" {...p}/>;
 
-function tv(variant) {
-  return function TV(p) {
+function tv(variant: string) {
+  const TV:React.FC<any> = (p) =>{
     return <T variant={variant} {...p} />;
   };
+  return TV;
 }
 export const Th1 = tv("h1");
 export const Th2 = tv("h2");

@@ -1,5 +1,6 @@
-import { PortraitPlayer, ThePlayer, ThePlayerComponents } from "@subfire/components";
+import { ThePlayer, ThePlayerComponents } from "@subfire/components";
 import { SubsonicTypes } from "@subfire/core";
+import { PortraitPlayer } from "./legacy/PortraitPlayer";
 
 const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
     return <>
@@ -18,6 +19,8 @@ const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.
         {components.artwork(100)}
     </>
 }
+
+console.debug(ThePlayerBasic);
 
 export const Player1 = (_p: any) => {
     return <ThePlayer render={PortraitPlayer}></ThePlayer>

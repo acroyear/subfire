@@ -3,7 +3,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
-export const TipButton = p => {
+export const TipButton:React.FC<any> = p => {
   const { title, placement, ...props} = p;
   return (
     <Tooltip title={title || ''} placement={placement || 'bottom'}>
@@ -12,7 +12,7 @@ export const TipButton = p => {
   );
 }
 
-export const TipIconButton = p => {
+export const TipIconButton:React.FC<any> = p => {
   const { title, placement, ...props} = p;
   return (
     <Tooltip title={title || ''} placement={placement || 'bottom'}>

@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useWindowSize, useComponentSize } from '../../ui/orientation'
 import classnames from 'classnames';
 
 import makeStyles from '@mui/styles/makeStyles';
@@ -11,18 +10,13 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Button from '@mui/material/Button';
 import ArrowForward from '@mui/icons-material/ArrowForward';
 
-import Paper from '@mui/material/Paper';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-// import CurrentSongList from 'subfirelib/browsers/songs/CurrentSongList';
 
-import { Th6, Tb1, Tb2, Tc, B, Gc, Gi } from '../../ui/TGB';
-import CurrentSongList from '../../browsers/songs/CurrentSongList';
-import { ThePlayerComponents } from '../ThePlayer';
-import { PlayerState, SubsonicTypes } from '@subfire/core';
-/* eslint react/prop-types: 0 */
+import { CurrentSongList, useComponentSize, ThePlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi } from '@subfire/components';
+import { SubsonicTypes } from '@subfire/core';
 
 const useStyles = makeStyles(theme => ({
   portratPlayer: {
@@ -115,19 +109,16 @@ const useStyles = makeStyles(theme => ({
 export const PortraitPlayer = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
   const c = components;
   const cp = current;
-  const q = queue;
 
   const [slideLeft, setSlideLeft] = useState(false);
   const [playlistOpen, setPlaylistOpen] = useState(false); // eslint-disable-line
-  const imageRef = useRef();
+  // const imageRef = useRef();
   // const [divRef] = useImageFit(imageRef);
   // console.log(divRef);
-  const size = useComponentSize(imageRef);
+  // const size = useComponentSize(imageRef);
   // const { setImageTag } = useImageColorTheme();
-  const currentImageTag = imageRef.current;
 
   // const { CastButton } = c; 
-  const paused = components.state === PlayerState.PAUSED;
   const history = useHistory();
   const classes = useStyles();
   const goBack = () => history.goBack();
@@ -153,7 +144,7 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
   //   };
   // }, [paused]);
 
-  const coverSize = size.width - 32;
+  const coverSize = 150; // size.width - 32;
   // console.log(coverSize);
 
   const imageLoadHandler = (_evt: any) => {
@@ -199,7 +190,7 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
         }}
         onClick={toggleSlideLeft}
       >
-        {c.artwork(coverSize, imageRef, imageLoadHandler, 'image-shadow')}
+        <img src={current.coverArtUrl} style={{width: 150, height: 'auto'}} alt=""/>
       </div>
       <Gc className={classes.grid}>
         <Gi xs={1} />
@@ -250,12 +241,12 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
       <Gc className={classes.grid}>
         <Gi xs={12}>
           <div className={slideLeft ? classes.actionButtonsLeft : classes.actionButtons}>
-            {c.volumeButtonAbove}
             {c.prevButton}
             {c.back10Button}
             {c.playPauseButton}
             {c.skip30Button}
             {c.nextButton}
+            {c.volumeButtonAbove}
           </div>
         </Gi>
       </Gc>
