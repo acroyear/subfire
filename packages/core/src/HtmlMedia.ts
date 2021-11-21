@@ -12,6 +12,10 @@ export type MediaTriggerEvents = 'error' | 'available' | 'statechange' | 'connec
     'timeupdate' | 'volumechange' | 'mute' | 'unmute' | 'pause' | 'end' | 'buffering' | 'playing'
     | 'subtitlechange' | 'duration' | 'event';
 
+export interface HtmlMedaSelfCallback {
+    (htmlMedia: HtmlMedia): void
+}
+
 export class HtmlMedia {
     src: string
 
@@ -28,6 +32,8 @@ export class HtmlMedia {
     muted: boolean = false
     paused: boolean = true
     state: PlayerState = PlayerState.IDLE
+
+    initialTime:number = 0
 
     lastVolumeLevel: number
     _events: Map<MediaTriggerEvents, any[]>
@@ -116,6 +122,11 @@ export class HtmlMedia {
         // reset to IDLE so buffering isn't a pass-through
         this.state = PlayerState.IDLE;
         this._checkPlayerState();
+        if (this.initialTime) {
+            console.log('seeking to', this.initialTime);
+            this.seek(this.initialTime);
+            this.initialTime = 0;
+        }
     }
     _ended = (_evt: Event) => {
         this._checkPlayerState();
@@ -188,12 +199,13 @@ export class HtmlMedia {
         }
         return this
     }
-    load = (src: string, _metadata: any = {}): HtmlMedia => {
+    load = (src: string, initialTime: number = 0, _metadata: any = {}): HtmlMedia => {
         if (this.src !== src) {
             this.state = PlayerState.BUFFERING;
             this.src = src;
             this.e.src = src;
-            this.e.currentTime = 0;
+            this.e.currentTime = initialTime || 0;
+            this.initialTime = initialTime;
             this._checkPlayerState();
         }
         return this;
@@ -234,7 +246,7 @@ export class HtmlMedia {
         this.muteOrUnmute();
         return this;
     }
-    playOrPause = (): HtmlMedia => {
+    playOrPause = (cb?: HtmlMedaSelfCallback): HtmlMedia => {
         if (!this.e.src) return;
         if (this.e.paused) {
             this.e.play().then(e => {
@@ -242,18 +254,24 @@ export class HtmlMedia {
                 //  play doesn't fire an event so we have to update
                 this._checkPlayerState();
                 this.e.autoplay = true;
+                if (cb) {
+                    cb(this);
+                }
             });
         } else {
             this.e.pause();
+            if (cb) {
+                cb(this);
+            }
         }
         return this;
     }
-    play = (): HtmlMedia => {
-        this.playOrPause();
+    play = (cb?: HtmlMedaSelfCallback): HtmlMedia => {
+        this.playOrPause(cb);
         return this;
     }
-    pause = (): HtmlMedia => {
-        this.playOrPause();
+    pause = (cb?: HtmlMedaSelfCallback): HtmlMedia => {
+        this.playOrPause(cb);
         return this;
     }
 }

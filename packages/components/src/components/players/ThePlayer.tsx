@@ -93,6 +93,7 @@ export interface ThePlayerComponents {
     volumeButtonBelow: JSX.Element
     artwork: ThePlayerArtwork
     queuePosition: string
+    queueName: string
     state: PlayerState
 }
 
@@ -125,40 +126,15 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         persistCurrentPlayingTime
     } = useSubsonicQueue();
 
-    useEffect(() => persistCurrentPlayingTime(time), [time]);
-
     const classes = useStyles();
 
-    const { isLoggedIn, Subsonic } = useSubsonic();
+    const { Subsonic } = useSubsonic();
 
     const { deleteBookmark, createSubfireBookmark, bookmarkForId, bookmarkIcon, savePlayQueue } = useBookmarksService(true);
 
     const [draggingTime, setDraggingTime] = useState(0);
 
-    useEffect(() => {
-        if (!player || !current) return;
-        if (player.src === current.src) return;
-        player.load(current.src);
-        if (currentTime) {
-            console.log('seeking to', currentTime);
-            player.seek(currentTime / 1000);
-        }
-    }, [player, current, currentTime]);
-
-    useEffect(() => {
-        if (!player) return;
-        player.on('end', () => {
-            if (queue.length === 1) {
-                player.seek(0);
-                player.play();
-                return;
-            }
-            next();            
-        });
-        // return () => { if (player) player.off()}
-    }, [player]);
-
-    const onPlayPauseClick = paused ? player?.play : player?.pause;
+    const onPlayPauseClick = paused ? () => player?.play() : () => player?.pause();
     const playPauseContent = paused ? <PlayArrowIcon /> : <PauseIcon />;
 
     const sliderSeekTo = (_evt: any, value: number | number[]) => {
@@ -173,37 +149,28 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
     const beginingOrPrevSong = () => {
         if (time < 10 && queue.length > 1) {
             prev();
-        } else {
-            player.seek(0);
+            return;
         }
+        player.seek(0);
+    }
+
+    const nextOrResetSong = () => {
+        if (queue.length === 1) {
+            player.seek(0);
+            return;
+        }
+        next();
     }
 
     const mediaSessionControls = {
-        play: player?.play,
-        pause: player?.pause,
-        nexttrack: () => {
-            if (queue.length === 1) {
-                player.seek(0);
-                return;
-            }
-            next();
-        },
+        play: () => player?.play(),
+        pause: () => player?.pause(),
+        nexttrack: nextOrResetSong,
         previoustrack: beginingOrPrevSong,
         seekbackward: () => player.seek(time - 10),
         seekforward: () => player.seek(time + 30),
         seekto: (details: any) => player.seek(details.seekTime)
     };
-
-    useMediaSession({
-        element: player?.e,
-        mediaMetadata: current ? {
-            ...current, artwork: [{
-                src: Subsonic.getCoverArtURL(current.coverArt, 192),
-                sizes: '192x192', type: 'image/jpeg'
-            }]
-        } : null,
-        controls: mediaSessionControls
-    });
 
     const bookmarkClick = (_evt: any, id: string, bookmark: Bookmark) => {
         console.log(id, bookmark);
@@ -343,6 +310,7 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         ),
         // CastButton,
         queuePosition: `${idx + 1} / ${queue.length}`,
+        queueName,
         state
     };
 

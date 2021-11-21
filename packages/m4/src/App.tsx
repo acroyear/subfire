@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 
 import "./App.css";
 import { Routes } from "./Routes";
-import { CredentialsProvider, SubsonicProvider } from "@subfire/hooks";
+import { CredentialsProvider, IntegratedPlayerQueue, SubsonicProvider } from "@subfire/hooks";
 
 
 const Snacker: React.FC = (props) => {
@@ -39,6 +39,7 @@ function App() {
           <HashRouter>
             <Snacker>
               <Routes />
+              <IntegratedPlayerQueue />
             </Snacker>
           </HashRouter>
         </SubsonicProvider>

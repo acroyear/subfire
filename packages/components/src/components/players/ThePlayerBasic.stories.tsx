@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { LoadingCard, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../..';
-import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider } from '@subfire/hooks';
+import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
     console.warn(props);
@@ -61,8 +61,10 @@ export const ThePlayerTest = (_props: any) => {
                     Dismiss
                 </Button>
             )}
-        ><Button onClick={reset}>Load Queue</Button>
+        >
+            <Button onClick={reset}>Load Queue</Button>
             <ThePlayer render={ThePlayerBasic} disposeOnUnmount={true} stopMusicOnUnmount={true}></ThePlayer>
+            <IntegratedPlayerQueue />
         </SnackbarProvider>
     </SubsonicWrapper>
     );
