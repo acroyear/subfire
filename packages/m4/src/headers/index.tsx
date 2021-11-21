@@ -17,7 +17,6 @@ const pages: Array<PageRouteData> = [
 
     { path: '/load(ing)/:type/:id/:mode?', component: LoaderHeader, exact: true },
     { path: '/bookmark/:bookmarkId/:position/loading/:type/:id/:mode?', component: LoaderHeader, exact: true },
-    { path: "/:any", component: LoaderHeader, exact: true },
 
     { path: null, component: MainHeader, exact: true },
 ]

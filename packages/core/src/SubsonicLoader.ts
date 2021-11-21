@@ -43,11 +43,11 @@ const loaders: LoaderDescriptors = {
     },
     radiostation: {
         method: () => Subsonic.generateStationSongs,
-        param1: (params: Params) => params.station
+        param1: idp
     },
     station: {
         method: () => Subsonic.generateStationSongs,
-        param1: (params: Params) => params.station
+        param1: idp
     },
     directory: {
         method: () => Subsonic.getMusicDirectorySongs,

@@ -24,9 +24,15 @@ export interface PlaylistListPropTypes {
 }
 
 export const PlaylistList: FC<PlaylistListPropTypes> = (props) => {
-    const { onClick, onImageClick, scrollSelector, playlistType, actionIcon } = props;
+    const { onClick, onImageClick, scrollSelector, actionIcon } = props;
+    let { playlistType } = props;
+  
     if (playlistType === 'stations') {
-        return RadioList(props);
+      return RadioList(props);
+    } else if (playlistType === 'normal') {
+      playlistType = 'playlists';
+    } else if (playlistType === 'all') {
+      playlistType = 'allPlaylists';
     }
 
     const hasSeenWarningRef = useRef(false);

@@ -4,6 +4,7 @@ import P404 from './404';
 
 // the real ones
 import { Playlists } from './Playlists';
+import { Stations } from './Stations';
 import { Player1 } from './Player1';
 import NavGrid from './NavGrid';
 
@@ -25,6 +26,7 @@ const pages: Array<PageRouteData> = [
 
     // the real ones - start with the most greedy first
     { path: "/playlists/:pltype?", component: Playlists, exact: true },
+    { path: "/radio", component: Stations, exact: true },
     { path: "/player", component: Player1, exact: true },
 
     // eventually make these (plus the remote stuff) constants

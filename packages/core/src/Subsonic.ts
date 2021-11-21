@@ -4,6 +4,7 @@ import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from './u
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
 import { Album, BookmarkQueueRule, Generic, MusicDirectory, SongList } from './SubsonicTypes';
+import { Station } from './SubfireStations';
 
 const CurrentPromises = {} as { [key: string]: Promise<any> };
 
@@ -216,8 +217,10 @@ export class SubsonicClass {
     return rv;
   }
 
-  generateStationSongs = async(s: SubsonicTypes.SubfireStation): Promise<SongList> => {
-    const sl = s.generateAll();
+  generateStationSongs = async(id: string, fromCache?: boolean): Promise<SongList> => {
+    const pl = await this.getPlaylist(id, fromCache);
+    const s = new Station(pl);
+    const sl = await s.generateAll();
     sl.name = s.name;
     return sl;
   }
