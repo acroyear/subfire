@@ -297,7 +297,7 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
                 setVolume={v => player.volume(v)}
             />
         ),
-        artwork: (size: number = 0, ref: Ref<HTMLImageElement>, handler: ReactEventHandler<HTMLImageElement>, className: string) => (
+        artwork: (size: number = 0, ref?: Ref<HTMLImageElement>, handler?: ReactEventHandler<HTMLImageElement>, className?: string) => (
             <img
                 className={className}
                 crossOrigin="anonymous"
