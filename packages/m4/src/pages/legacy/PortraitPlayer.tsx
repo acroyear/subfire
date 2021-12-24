@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import classnames from 'classnames';
 
@@ -15,7 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
-import { CurrentSongList, useComponentSize, ThePlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi } from '@subfire/components';
+import { CurrentSongList, useComponentSize, ThePlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
 import { SubsonicTypes } from '@subfire/core';
 
 const useStyles = makeStyles(theme => ({
@@ -107,6 +107,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PortraitPlayer = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+  const { setImageTag, resetTheme } = useImageColorTheme();
+
+  useEffect(() => {
+    // no-op
+    return () => resetTheme();
+  }, []);
+
   const c = components;
   const cp = current;
 
@@ -147,11 +154,11 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
   const coverSize = 150; // size.width - 32;
   // console.log(coverSize);
 
-  const imageLoadHandler = (_evt: any) => {
-    // if (setImageTag) {
-    //   setImageTag({ tag: currentImageTag });
-    // }
-  };
+  const onLoad = (evt: any) => {
+    console.log('loaded', evt.target.src);
+    evt.target.crossOrigin = "Anonymous";
+    setImageTag({ tag: evt.target });
+  }
 
   return <>
     <AppBar className={classes.appbar}>
@@ -190,7 +197,7 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
         }}
         onClick={toggleSlideLeft}
       >
-        <img src={current.coverArtUrl} style={{width: 150, height: 'auto'}} alt=""/>
+        <img src={current.coverArtUrl} style={{width: 150, height: 'auto'}} alt="" onLoad={onLoad}/>
       </div>
       <Gc className={classes.grid}>
         <Gi xs={1} />

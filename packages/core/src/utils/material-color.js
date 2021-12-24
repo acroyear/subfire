@@ -1317,6 +1317,7 @@ export function hexColorToMaterial(color) {
 }
 
 export function colorToMaterial(red, green, blue) {
+  console.warn("colorToMaterial", red, green, blue);
   var compareResult = [];
   for (let i = 0; i < materialData.length; i++) {
     var materialColor = /^(.*)\s(.*)\s(.*)$/.exec(materialData[i]);
@@ -1325,6 +1326,7 @@ export function colorToMaterial(red, green, blue) {
     var materialBlue = Number(materialColor[3]);
     compareResult[i] = Math.abs(materialRed - red) + Math.abs(materialGreen - green) + Math.abs(materialBlue - blue);
   }
+  console.log(compareResult);
 
   // find best match
   var closestMaterial = Math.min.apply(Math, compareResult);
@@ -1335,6 +1337,8 @@ export function colorToMaterial(red, green, blue) {
   var closestMaterialName = materialDataNames[closestMaterialID];
   var closestMaterialCorrectName = materialDataCorrectNames[closestMaterialID];
   var closestMaterialRGB = materialDataRGB[closestMaterialID];
+
+  console.log({closestMaterial, closestMaterialID, closestMaterialHex, closestMaterialName, closestMaterialCorrectName, closestMaterialRGB});
 
   // format it
   var closestMaterialHexNoPound = closestMaterialHex.replace('#', '');
