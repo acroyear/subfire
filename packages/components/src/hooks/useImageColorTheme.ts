@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocalStorage, useMedia } from 'react-use';
 import { singletonHook } from 'react-singleton-hook';
 
 import { MaterialColor, Colors } from '@subfire/core';
@@ -10,6 +11,7 @@ import {
   lime, orange, pink, purple, red, teal, yellow,
 } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
+import { Tv } from '@mui/icons-material';
 
 interface MaterialColorStandardShades {
   50: string;
@@ -62,11 +64,7 @@ const colors: ColorSet = {
 };
 
 const indexes = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
-const aIndex = ['A100', 'A200', 'A400', 'A700'];
-
-const x = amber['500'];
-const y = amber[500];
-console.error(x === y);
+// const aIndex = ['A100', 'A200', 'A400', 'A700'];
 
 function findIndexes(key: string) {
   let m, l, d;
@@ -100,6 +98,8 @@ function parseColor(cname: string): string[] {
   return c;
 }
 
+type ThemeModes = PaletteMode | 'auto';
+
 function genThemePaletteFromColor(c: Colors.RGB | number[], _p: unknown) {
   console.warn("genThemePaletteFromColor", c);
   const mc = Array.isArray(c) ? colorToMaterial(c[0], c[1], c[2]) : colorToMaterial(c.r, c.g, c.b);
@@ -132,11 +132,30 @@ function genThemePaletteFromColor(c: Colors.RGB | number[], _p: unknown) {
   }
 }
 
+export const usePrefersDarkMode = () => {
+  const rv = useMedia("(prefers-color-scheme: dark)", false);
+  return rv;
+}
+
 export function useImageColorThemeImpl() {
-  const appTheme = useTheme();
+  const prefersDark = usePrefersDarkMode();
+  const [_mode, setMode] = useState<ThemeModes>('auto');
+  let mode = _mode;
+  if (_mode === 'auto') {
+    mode = prefersDark ? 'dark' : 'light';
+  }
+
+  const baseTheme = createTheme({
+    palette: {
+      mode: mode as PaletteMode
+    }
+  });
+
   const [imageTag, setImageTag] = useState<ImageElementTag>({ tag: null });
   const [palette, setPalette] = useState(null);
-  const [theme, setTheme] = useState(appTheme);
+  const [theme, setTheme] = useState(null);
+
+  console.warn('mode', mode, _mode, prefersDark);
 
   useEffect(() => {
     console.warn(imageTag); 
@@ -147,7 +166,8 @@ export function useImageColorThemeImpl() {
 
   useEffect(() => {
     if (!palette?.length) {
-      setTheme(appTheme);
+      console.log('theme 1 base theme', mode, _mode);
+      setTheme(baseTheme);
       return;
     }
 
@@ -158,23 +178,21 @@ export function useImageColorThemeImpl() {
       palette: {
         primary: primary,
         secondary: secondary,
-        // mode: 'dark' as PaletteMode
+        mode: mode as PaletteMode
       }
     };
     const theme = createTheme(config);
+    console.log('theme 2', theme.palette.mode, mode, _mode);
     setTheme(theme);
-  }, [palette, setTheme, appTheme]);
+  }, [palette, setTheme, mode]);
 
   const resetTheme = () => {
-    setTheme(createTheme({
-      palette: {
-        // mode: 'dark' as PaletteMode
-      }
-    }));
+    console.log('theme 3', mode, _mode);
+    setTheme(baseTheme);
   }
 
-  return { imageTag, setImageTag, palette, theme, setTheme, resetTheme };
+  return { imageTag, setImageTag, palette, theme, setTheme, resetTheme, mode, setMode, _mode };
 }
 
-export const useImageColorTheme = singletonHook({ imageTag: null, setImageTag: () => {}, palette: null, theme: null, resetTheme: () => {}, setTheme: () => {} }, useImageColorThemeImpl);
+export const useImageColorTheme = singletonHook({ imageTag: null, setImageTag: () => {}, palette: null, theme: null, resetTheme: () => {}, setTheme: () => {}, mode: 'light', _mode: 'auto', setMode: () => {} }, useImageColorThemeImpl);
 export default useImageColorTheme;

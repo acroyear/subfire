@@ -9,6 +9,7 @@ import Eject from '@mui/icons-material/Eject';
 import ListSubheader from '@mui/material/ListSubheader';
 import Button from '@mui/material/Button';
 import ArrowForward from '@mui/icons-material/ArrowForward';
+import {Paper} from '@mui/material';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,8 +28,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-    paddingTop: 15,
-    paddingBottom: 35,
+    // paddingTop: 15,
+    // paddingBottom: 35,
     width: '100%'
   },
   listHeader: {
@@ -184,12 +185,12 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
         </IconButton>
       </Toolbar>
     </AppBar>
-    <div className={classes.portratPlayer}>
+    <Paper className={classes.portratPlayer}>
       <div
         style={{
           width: '100%',
           height: '60%',
-          backgroundColor: 'transparent',
+          
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
@@ -257,7 +258,7 @@ export const PortraitPlayer = (components: ThePlayerComponents, current: Subsoni
           </div>
         </Gi>
       </Gc>
-    </div>
+    </Paper>
     <SwipeableDrawer open={Boolean(playlistOpen)} onClose={handleClose} onOpen={handleDrawer} anchor="right">
       <ListSubheader component="div" className={classes.listHeader}>
         <B flexDirection="row" alignItems="center">
