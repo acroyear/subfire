@@ -5,6 +5,7 @@ import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { useBookmarksService } from '@subfire/hooks';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
+import { BookmarkButton } from '../components/controls/BookmarkButton';
 
 type Bookmark = SubsonicTypes.Bookmark;
 
@@ -21,18 +22,6 @@ const {
   name = "SubsonicStorybook"
 } = buildProcessEnvCredentials();
 
-
-const BookmarkButton = (p: any) => {
-  const { onClick, bookmarkIcon, id, bookmarkForId, ...rest } = p;
-  return (
-    <IconButton
-      {...rest}
-      onClick={evt => onClick(evt, id, bookmarkForId(id))}
-      size="large">
-      {bookmarkIcon(p.id)}
-    </IconButton>
-  );
-};
 
 Subsonic.configure(server, username, password, bitrate, name, false);
 Subsonic.connected = true;
@@ -71,18 +60,6 @@ const BookmarksTest = (props: any) => {
       <button onClick={createBookmarkTest}>Create</button>
       <button onClick={deleteBookmarkTest}>Delete</button>
       {bookmarkIcon('334')}
-      <BookmarkButton
-        bookmarkForId={bookmarkForId}
-        bookmarkIcon={bookmarkIcon}
-        id="334"
-        onClick={(_evt: any, id: string, b: Bookmark) => {
-          if (b) {
-            deleteBookmark(b.entry.id);
-          } else {
-            createBookmarkTest(_evt, id);
-          }
-        }}
-      />
       <button onClick={() => reloadBookmarks()}>Reload</button>
       {loadingCard || bookmarkList}
     </>
@@ -105,7 +82,11 @@ export const Bookmarks = (_p: any) => {
         </Button>
       )}
     >
+      <BookmarkButton
+        id="334"
+      />
       <BookmarksTest></BookmarksTest>
+
     </SnackbarProvider>
   );
 };

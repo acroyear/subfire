@@ -19,7 +19,7 @@ const SubsonicWrapper: React.FC<any> = (props: any) => {
 };
 
 export default {
-    title: "players/ThePlayer"
+    title: "players/ThePlayerDeprecated"
 }
 
 const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {

@@ -24,7 +24,7 @@ export const BookmarksLoadingTest = (_props: any) => {
   Subsonic.connected = true;
 
   const [idx, setIdx] = useState(1);
-  const { card, result, error } = useBookmarks(idx);
+  const { card, result, error } = useBookmarks();
   console.log(card, result, error);
   if (card) return (<>{card}</>);
   if (error) return <p>{JSON.stringify(error)}</p>;

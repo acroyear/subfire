@@ -1,14 +1,15 @@
-import { useAsync } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 import { useCounter, useDeepCompareEffect } from 'react-use';
+import { singletonHook } from 'react-singleton-hook';
 
 import { SubsonicTypes, Subsonic } from '@subfire/core';
 
-import { AsyncState } from 'react-use/lib/useAsync';
+import { AsyncStateRetry } from 'react-use/lib/useAsyncRetry';
 import { LoadingCardPropsType } from './SubfireTypes';
 import { useSubsonic } from './SubsonicContext';
 
 export interface SubsonicLoaderResult<T> {
-  state: AsyncState<any>,
+  state: AsyncStateRetry<any>,
   card: JSX.Element | null,
   result?: T
   error?: any
@@ -43,6 +44,7 @@ const CheapLoadingCard: React.FC<LoadingCardPropsType> = (props) => {
 }
 
 export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial<SubsonicTypes.Generic>, top?: number): SubsonicLoaderResult<T> {
+  const [_fetchCount, { inc: reload }] = useCounter(1);
   let S = useSubsonic();
   const LoadingCardComponent = S?.LoadingCardComponent || CheapLoadingCard;
   // console.log({LoadingCardComponent});
@@ -53,7 +55,7 @@ export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial
   } as SubsonicTypes.Generic;
   top = top | 0;
   console.debug('id', o.id);
-  const state = useAsync(actualLoader, [o.id]);
+  const state = useAsyncRetry(actualLoader, [o.id]);
   console.debug(state);
   const card = state.loading && LoadingCardComponent ? <LoadingCardComponent object={o} top={top} /> : null;
   const error = state.error ? state.error : null;
@@ -169,6 +171,16 @@ export function useAlbumList(id3: boolean, params: SubsonicTypes.AlbumListCriter
 }
 
 // increment fetch count to force server reload
-export function useBookmarks(fetchCount: number) {
-  return useSubsonicLoader(() => Subsonic.getBookmarks(), { id: "" + fetchCount, coverArt: '-1', title: 'Bookmarks' });
+export function useBookmarksImpl() {
+  return useSubsonicLoader(() => Subsonic.getBookmarks(), { id: "-1", coverArt: '-1', title: 'Bookmarks' });
 }
+
+const initBookmarkState: SubsonicLoaderResult<SubsonicTypes.Bookmarks> = {
+  state: {
+    loading: true,
+    retry: () => {}
+  },
+  card: undefined
+}
+
+export const useBookmarks = singletonHook(initBookmarkState, useBookmarksImpl);

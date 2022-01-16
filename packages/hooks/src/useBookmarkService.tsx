@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 import { SubsonicTypes, Subsonic } from '@subfire/core';
 import { Bookmark as BookmarkIcon, BookmarkBorder as BookmarkBorderIcon } from '@mui/icons-material';
@@ -12,18 +12,21 @@ type Song = SubsonicTypes.Song;
 type QueueRule = SubsonicTypes.BookmarkQueueRule;
 
 export const useBookmarksService = (onePerRule?: boolean) => {
-  const [fetchCount, { inc: reloadBookmarks }] = useCounter(1);
-  const bookmarkStatus = useBookmarks(fetchCount);
+  const bookmarkStatus = useBookmarks();
   const loadingCard = bookmarkStatus.card;
   const bookmarksError = bookmarkStatus.error;
-  let bookmarks = bookmarkStatus.result || [];
+  const bookmarks = bookmarkStatus.result || [];
   const [replaceType, setReplaceType] = useState(onePerRule);
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBookmark = (id: string) => {
+  const reloadBookmarks = useCallback(() => {
+    setTimeout(bookmarkStatus.state.retry, 10);
+  }, [bookmarkStatus.state.retry]);
+
+  const deleteBookmark = (id: string, reload: boolean = true) => {
     if (!id) return;
     Subsonic.deleteBookmark(id).then(() => {
-      reloadBookmarks();
+      if (reload) { reloadBookmarks(); }
     });
   };
 
@@ -42,7 +45,7 @@ export const useBookmarksService = (onePerRule?: boolean) => {
           continue;
         }
         if (bq.type === qr.type && bq?.id === qr.id && bq?.mode === qr.mode) {
-          deleteBookmark(b.entry.id);
+          deleteBookmark(b.entry.id, false);
           break;
         }
       } catch (e) {

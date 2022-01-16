@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "@subfire/core": "^4.0.5",
-    "@types/chromecast-caf-sender": "^1.0.5"
+    "@types/chromecast-caf-sender": "^1.0.5",
+    "react-singleton-hook": "^3.2.3"
   },
   "directories": {
     "lib": "lib"

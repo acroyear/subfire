@@ -1,8 +1,7 @@
-import React, { ReactEventHandler, Ref, useEffect, useState } from 'react';
+import React, { ReactEventHandler, Ref, useEffect, useRef, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import FAB from '@mui/material/Fab';
 
-import QueueIcon from '@mui/icons-material/Queue';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import PauseIcon from '@mui/icons-material/Pause';
@@ -19,21 +18,9 @@ import { useKey } from 'react-use';
 import { Tb2 } from '../ui/TGB';
 import { VolumeButton } from '../ui/volume/VolumeButton';
 import { PlayerState, SubsonicTypes } from '@subfire/core';
-import { useHtmlMedia, useSubsonic, useSubsonicQueue, useBookmarksService } from '@subfire/hooks';
-
-type Bookmark = SubsonicTypes.Bookmark;
-
-const BookmarkButton = (p: any) => {
-    const { onClick, bookmarkIcon, id, bookmarkForId, ...rest } = p;
-    return (
-        <IconButton
-            {...rest}
-            onClick={evt => onClick(evt, id, bookmarkForId(id))}
-            size="large">
-            {bookmarkIcon(p.id)}
-        </IconButton>
-    );
-};
+import { useHtmlMedia, useSubsonic, useSubsonicQueue } from '@subfire/hooks';
+import { BookmarkButton } from '../controls/BookmarkButton';
+import { SavePlayQueueButton } from '../controls/SavePlayQueueButton';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -104,9 +91,11 @@ export interface ThePlayerProps {
 }
 
 export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }: ThePlayerProps) => {
+    const timeRef = useRef<number>();
     const {
         time, timePretty, duration, durationPretty, progress, volumeLevel, muted, paused, state, player
     } = useHtmlMedia(stopMusicOnUnmount, disposeOnUnmount);
+    timeRef.current = time;
 
     const setVolumeLevel = (v: number) => {
         player.volume(v);
@@ -129,8 +118,6 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
     const classes = useStyles();
 
     const { Subsonic } = useSubsonic();
-
-    const { deleteBookmark, createSubfireBookmark, bookmarkForId, bookmarkIcon, savePlayQueue } = useBookmarksService(true);
 
     const [draggingTime, setDraggingTime] = useState(0);
 
@@ -170,21 +157,6 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         seekbackward: () => player.seek(time - 10),
         seekforward: () => player.seek(time + 30),
         seekto: (details: any) => player.seek(details.seekTime)
-    };
-
-    const bookmarkClick = (_evt: any, id: string, bookmark: Bookmark) => {
-        console.log(id, bookmark);
-        if (bookmark) {
-            deleteBookmark(id);
-        } else {
-            console.log('context', queue);
-            // need json context here
-            createSubfireBookmark(id, Math.trunc(time * 1000), rule);
-        }
-    };
-
-    const doSavePlayQueue = () => {
-        savePlayQueue(queue || [], current?.id, Math.trunc(time * 1000));
     };
 
     const components: ThePlayerComponents = {
@@ -254,10 +226,11 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         bookmarkButton: (
             <BookmarkButton
                 id={current?.id}
-                bookmarkForId={bookmarkForId}
-                bookmarkIcon={bookmarkIcon}
                 title="Bookmark"
-                onClick={bookmarkClick}
+                time={timeRef}
+                rule={rule}
+                className={classes.button}
+                size="large"
             />
         ),
         shuffleQueueButton: (
@@ -270,13 +243,13 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
             </IconButton>
         ),
         playQueueButton: (
-            <IconButton
+            <SavePlayQueueButton
+                id={current?.id}
                 title="Save Play Queue"
+                queue={queue}
+                time={timeRef}
                 className={classes.button}
-                onClick={doSavePlayQueue}
-                size="large">
-                <QueueIcon />
-            </IconButton>
+                size="large"/>
         ),
         volumeButtonAbove: (
             <VolumeButton
