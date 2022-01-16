@@ -59,11 +59,11 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export interface ThePlayerArtwork {
+export interface DeprecatedPlayerArtwork {
     (size: number, ref?: Ref<HTMLImageElement>, handler?: ReactEventHandler<HTMLImageElement>, className?: string): JSX.Element
 }
 
-export interface ThePlayerComponents {
+export interface DeprecatedPlayerComponents {
     back10Button: JSX.Element
     skip30Button: JSX.Element
     currentTime: string
@@ -78,19 +78,19 @@ export interface ThePlayerComponents {
     playQueueButton: JSX.Element
     volumeButtonAbove: JSX.Element
     volumeButtonBelow: JSX.Element
-    artwork: ThePlayerArtwork
+    artwork: DeprecatedPlayerArtwork
     queuePosition: string
     queueName: string
     state: PlayerState
 }
 
-export interface ThePlayerProps {
-    render: (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList) => JSX.Element,
+export interface DeprecatedPlayerProps {
+    render: (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList) => JSX.Element,
     stopMusicOnUnmount?: boolean,
     disposeOnUnmount?: boolean
 }
 
-export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }: ThePlayerProps) => {
+export const DeprecatedPlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount = false }: DeprecatedPlayerProps) => {
     const timeRef = useRef<number>();
     const {
         time, timePretty, duration, durationPretty, progress, volumeLevel, muted, paused, state, player
@@ -159,7 +159,7 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
         seekto: (details: any) => player.seek(details.seekTime)
     };
 
-    const components: ThePlayerComponents = {
+    const components: DeprecatedPlayerComponents = {
         back10Button: (
             <IconButton
                 title="Back 10 seconds"
@@ -301,6 +301,6 @@ export const ThePlayer = ({ render, stopMusicOnUnmount = false, disposeOnUnmount
     return renderer(components, current, queue);
 }
 
-export default ThePlayer;
+export default DeprecatedPlayer;
 
 

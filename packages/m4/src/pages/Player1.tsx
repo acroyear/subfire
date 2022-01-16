@@ -1,8 +1,8 @@
-import { ThePlayer, ThePlayerComponents } from "@subfire/components";
+import { DeprecatedPlayer as ThePlayer, DeprecatedPlayerComponents } from "@subfire/components";
 import { SubsonicTypes } from "@subfire/core";
 import { PortraitPlayer } from "./legacy/PortraitPlayer";
 
-const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+const ThePlayerBasic = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
     return <>
         <p>The Player?: {current?.name || current?.title}</p>
         {components.playPauseButton}

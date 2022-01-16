@@ -2,7 +2,6 @@ import { SongList, SubfireRouterParams } from "@subfire/components";
 import { Subsonic } from "@subfire/core";
 import { usePlaylist } from "@subfire/hooks";
 import { useParams } from "react-router-dom";
-import { AsyncState } from "react-use/lib/useAsync";
 
 export const Playlist: React.FC<any> = (p) => {
   const { id } = useParams<SubfireRouterParams>();

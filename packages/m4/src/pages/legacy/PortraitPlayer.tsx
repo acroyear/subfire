@@ -16,7 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
-import { CurrentSongList, useComponentSize, ThePlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
+import { CurrentSongList, useComponentSize, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
 import { SubsonicTypes } from '@subfire/core';
 
 const useStyles = makeStyles(theme => ({
@@ -107,7 +107,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export const PortraitPlayer = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
   const { setImageTag, resetTheme } = useImageColorTheme();
 
   useEffect(() => {

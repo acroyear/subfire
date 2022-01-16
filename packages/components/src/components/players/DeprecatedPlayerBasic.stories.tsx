@@ -2,7 +2,7 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { LoadingCard, ThePlayer, ThePlayerComponents, ThePlayerProps } from '../..';
+import { LoadingCard, DeprecatedPlayer, DeprecatedPlayerComponents, DeprecatedPlayerProps } from '../..';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
@@ -22,7 +22,7 @@ export default {
     title: "players/ThePlayerDeprecated"
 }
 
-const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+const ThePlayerBasic = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
     const c = components;
     return <>
        <p>The Player?: {current?.name || current?.title}</p>
@@ -38,7 +38,7 @@ const ThePlayerBasic = (components: ThePlayerComponents, current: SubsonicTypes.
     </>
 }
 
-export const ThePlayerTest = (_props: any) => {
+export const DeprecatedPlayerTest = (_props: any) => {
     const notistackRef = React.createRef<SnackbarProvider>();
     const onClickDismiss = (key: any) => () => {
         const c = notistackRef.current as any;
@@ -63,7 +63,7 @@ export const ThePlayerTest = (_props: any) => {
             )}
         >
             <Button onClick={reset}>Load Queue</Button>
-            <ThePlayer render={ThePlayerBasic} disposeOnUnmount={true} stopMusicOnUnmount={true}></ThePlayer>
+            <DeprecatedPlayer render={ThePlayerBasic} disposeOnUnmount={true} stopMusicOnUnmount={true}></DeprecatedPlayer>
             <IntegratedPlayerQueue />
         </SnackbarProvider>
     </SubsonicWrapper>
