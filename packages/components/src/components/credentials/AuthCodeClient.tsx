@@ -13,15 +13,6 @@ import AuthExchangeActions from './AuthExchangeActions';
 import { useCredentials } from "@subfire/hooks";
 import { Tea } from "@subfire/core";
 
-// import withStyles from '@mui/styles/withStyles';
-// const styles = theme => ({
-//   centerHeader: {
-//     textAlign: 'center',
-//     fontSize: '40pt',
-//     letterSpacing: '.5ch'
-//   }
-// });
-
 const AuthCodeClientImpl = (props: { handleClose?: React.MouseEventHandler<HTMLButtonElement>, classes?: Record<string, any> }) => {
   const [digits] = useState(AuthExchangeActions.allocateDigits());
   const [isActive, setIsActive] = useState(true);
@@ -29,8 +20,13 @@ const AuthCodeClientImpl = (props: { handleClose?: React.MouseEventHandler<HTMLB
 
   const [original, creds, originalKey, setNewCurrent, updateCreds, deleteCreds, importCreds] = value; // eslint-disable-line
 
-  console.log('digits', digits);
-  useEffect(() => {
+  const centerHeader =  {
+        textAlign: 'center',
+        fontSize: '40pt',
+        letterSpacing: '.5ch'
+      };
+
+      useEffect(() => {
     AuthExchangeActions.clientRequest(digits)
     .then((response: any) => {
       if (response) console.log(response.ok);
@@ -76,7 +72,7 @@ const AuthCodeClientImpl = (props: { handleClose?: React.MouseEventHandler<HTMLB
         <DialogContentText>
           On another device where you are already authenticated, enter the following {(digits + '').length} digits.
         </DialogContentText>
-        <Typography variant="h1" className={classes.centerHeader}>
+        <Typography variant="h1" sx={centerHeader}>
           {digits}
         </Typography>
       </DialogContent>
@@ -86,11 +82,6 @@ const AuthCodeClientImpl = (props: { handleClose?: React.MouseEventHandler<HTMLB
     </Dialog>
   );
 };
-
-// AuthCodeClientImpl.propTypes = {
-//   classes: PropTypes.any,
-//   handleClose: PropTypes.func
-// };
 
 export const AuthCodeClient = AuthCodeClientImpl;
 export default AuthCodeClient;

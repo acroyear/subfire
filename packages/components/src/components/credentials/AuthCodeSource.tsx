@@ -14,34 +14,34 @@ import Grid from '@mui/material/Grid';
 
 import AuthExchangeActions from './AuthExchangeActions';
 
-// import withStyles from '@mui/styles/withStyles';
-// const styles = theme => ({
-//   centerHeader: {
-//     textAlign: 'center',
-//     fontSize: '40pt',
-//     letterSpacing: '.5ch',
-//     color: 'white'
-//   },
-//   gridItem: {
-//     justifyContent: 'center',
-//     textAlign: 'center'
-//   },
-//   fab: {
-//     fontSize: '20pt'
-//   },
-//   button: {
-//     fontSize: '16pt'
-//   },
-//   textInput: {
-//     fontSize: '20pt'
-//   },
-//   textField: {
-//     paddingTop: '2em'
-//   }
-// });
 
 const AuthCodeSourceImpl = (props: { handleClose?: React.MouseEventHandler<HTMLButtonElement>, classes?: Record<string, any> }) => {
   const inputRef = useRef(null);
+
+  const styles = {  centerHeader: {
+        textAlign: 'center',
+        fontSize: '40pt',
+        letterSpacing: '.5ch',
+        color: 'white'
+      },
+      gridItem: {
+        justifyContent: 'center',
+        textAlign: 'center'
+      },
+      fab: {
+        fontSize: '20pt'
+      },
+      button: {
+        fontSize: '16pt'
+      },
+      textInput: {
+        fontSize: '20pt'
+      },
+      textField: {
+        paddingTop: '2em'
+      },
+      paperFullScreen: {}
+  };
 
   const submit = () => {
     AuthExchangeActions.sourceSubmit(inputRef.current.value)
@@ -74,80 +74,80 @@ const AuthCodeSourceImpl = (props: { handleClose?: React.MouseEventHandler<HTMLB
   const classes = {} as any;
 
   return (
-    <Dialog open={true} className={classes.paperFullScreen}>
+    <Dialog open={true} sx={styles.paperFullScreen}>
       <DialogTitle>{'Authenticate Via Existing Source'}</DialogTitle>
       <DialogContent>
         <DialogContentText>{"Enter the specified digits from the other device's screen."}</DialogContentText>
         <Grid container spacing={4} justifyContent="center" alignItems="center">
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} autoFocus onClick={handleButtonClick} data-value="1">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} autoFocus onClick={handleButtonClick} data-value="1">
               1
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="2">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="2">
               2
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="3">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="3">
               3
             </Fab>
           </Grid>
 
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="4">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="4">
               4
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="5">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="5">
               5
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="6">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="6">
               6
             </Fab>
           </Grid>
 
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="7">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="7">
               7
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="8">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="8">
               8
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="9">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="9">
               9
             </Fab>
           </Grid>
 
-          <Grid item className={classes.gridItem} xs={4}>
+          <Grid item sx={styles.gridItem} xs={4}>
             &nbsp;
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="primary" className={classes.fab} onClick={handleButtonClick} data-value="0">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="primary" sx={styles.fab} onClick={handleButtonClick} data-value="0">
               0
             </Fab>
           </Grid>
-          <Grid item className={classes.gridItem} xs={4}>
-            <Fab color="secondary" className={classes.fab} onClick={handleButtonClick} data-value="DEL">
+          <Grid item sx={styles.gridItem} xs={4}>
+            <Fab color="secondary" sx={styles.fab} onClick={handleButtonClick} data-value="DEL">
               <KeyboardBackspace data-value="DEL" />
             </Fab>
           </Grid>
         </Grid>
-        <TextField className={classes.textField} InputProps={{ className: classes.textInput }} fullWidth inputRef={inputRef} />
+        <TextField sx={styles.textField} InputProps={{ className: classes.textInput }} fullWidth inputRef={inputRef} />
       </DialogContent>
       <DialogActions>
-        <Button className={classes.button} onClick={props.handleClose}>
+        <Button sx={styles.button} onClick={props.handleClose}>
           Cancel
         </Button>
-        <Button className={classes.button} onClick={submit}>
+        <Button sx={styles.button} onClick={submit}>
           Submit
         </Button>
       </DialogActions>
