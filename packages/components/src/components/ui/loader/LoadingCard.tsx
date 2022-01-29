@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Theme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Grid from '@mui/material/Grid';
 import Hidden from '@mui/material/Hidden';
 import Typography from '@mui/material/Typography';
@@ -13,6 +12,7 @@ import FuzzyImageBackground from '../FuzzyImageBackground';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { LoadingCardPropsType } from '@subfire/hooks';
 
+/*
 const useStyles = makeStyles((_theme: Theme) => ({
   card: {
     textAlign: 'center',
@@ -28,10 +28,10 @@ const useStyles = makeStyles((_theme: Theme) => ({
     width: 50
   }
 }));
-
+*/
 export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
   const { object, top } = props;
-  const classes = useStyles();
+  const classes = {} as any; // useStyles();
 
   const { innerWidth, innerHeight } = window;
   let cellSize = innerWidth <= 600 ? innerWidth - 20 : Math.trunc(innerWidth / 2);

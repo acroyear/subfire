@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 
 import Fab from '@mui/material/Fab';
 import TopIcon from '@mui/icons-material/VerticalAlignTop';
-import withStyles from '@mui/styles/withStyles';
-import withTheme from '@mui/styles/withTheme';
+// import withStyles from '@mui/styles/withStyles';
+// import withTheme from '@mui/styles/withTheme';
 
-const styles = theme => {
-  return {
-    fab: {
-      position: 'fixed',
-      zIndex: 100
-    }
-  };
-};
+// const styles = theme => {
+//   return {
+//     fab: {
+//       position: 'fixed',
+//       zIndex: 100
+//     }
+//   };
+// };
 
-export const ScrollToTopFabBase = props => {
-  const { theme, label, bottom, right, Icon, parentRef, selector, scrollParent } = props;
+export const ScrollToTopFabBase = (props: any) => {
+  const { theme, label, bottom, right, Icon, parentRef, selector, scrollParent, classes = {} } = props;
 
-  const scrollToTop = props => {
+  const scrollToTop = (props: any) => {
     if (selector && selector !== "") {
       const x = document.querySelector(selector);
       x.scrollTo(0, 0);
@@ -41,7 +41,7 @@ export const ScrollToTopFabBase = props => {
   };
 
   return (
-    <Fab {...fabProps} className={props.classes.fab}>
+    <Fab {...fabProps}>
       {Icon}
     </Fab>
   );
@@ -63,5 +63,5 @@ ScrollToTopFabBase.defaultProps = {
   Icon: <TopIcon />,
   label: 'top'
 };
-export const ScrollToTopFab = withStyles(styles)(withTheme(ScrollToTopFabBase));
-export default ScrollToTopFab;
+export const ScrollToTopFab = ScrollToTopFabBase;
+export default ScrollToTopFabBase;

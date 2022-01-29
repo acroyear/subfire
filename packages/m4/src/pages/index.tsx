@@ -15,6 +15,7 @@ export interface PageRouteData {
     exact: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Index = (_props: any) => {
     return <>index</>;
 }

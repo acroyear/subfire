@@ -3,39 +3,37 @@ import PropTypes from 'prop-types';
 
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
-import withStyles from '@mui/styles/withStyles';
 
-const styles = theme => ({
-  root: {
-    color: common.white,
-    width: '25px',
-    minWidth: '50px'
-  },
-  standalone: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-    zIndex: 100
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     color: common.white,
+//     width: '25px',
+//     minWidth: '50px'
+//   },
+//   standalone: {
+//     position: 'fixed',
+//     bottom: theme.spacing(2),
+//     right: theme.spacing(2),
+//     zIndex: 100
+//   }
+// });
 
-const ActionButton = props => {
-  let Component = Button;
+const ActionButton = (props: any) => {
+  let Component: any = Button;
   const coreProps = {
     color: props.color || 'primary',
     onClick: props.action,
     'aria-label': props.label
-  };
+  } as any;
   if (props.disabled) coreProps.disabled = true;
   if (props.fab) {
     // coreProps.variant = "fab";
     Component = Fab;
     if (props.standalone) coreProps.classes = { root: props.classes.standalone };
   } else coreProps.classes = { root: props.classes.root };
-
   if (props.is) {
     // eslint-disable-next-line
-    coreProps.component = ({ className, ...coreProps }) => <button {...coreProps} class={className} is={props.is} />;
+    coreProps.component = ({ className = '', ...coreProps }) => <button {...coreProps} className={className} is={props.is} />;
   }
 
   return (
@@ -58,4 +56,4 @@ ActionButton.propTypes = {
   children: PropTypes.any
 }
 
-export default withStyles(styles)(ActionButton);
+export default ActionButton;

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { CSSProperties, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // import useComponentSize from '@rehooks/component-size';
@@ -13,12 +13,12 @@ import IconButton from '@mui/material/IconButton';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import makeStyles from '@mui/styles/makeStyles';
 
 import CoverImageListItem from './CoverImageListItem';
 import ScrollToTopFab from './ScrollToTopFab';
+import { SubsonicTypes } from '@subfire/core';
 
-const scrollIntoView = i => {
+const scrollIntoView = (i: number) => {
   const next = 'grid-category-header' + (i * 1 + 1);
   document.getElementById(next).scrollIntoView({
     block: 'start',
@@ -27,27 +27,27 @@ const scrollIntoView = i => {
   });
 };
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    // display: "flex",
-    // flexWrap: "wrap",
-    // justifyContent: "space-around",
-    // overflow: "hidden",
-    // paddingLeft: 10
-  },
-  header: {
-    height: 'auto'
-    // backgroundColor: theme.palette.background.paper
-  },
-  gridList: {
-    backgroundColor: '#000000'
-  },
-  icon: {
-    color: 'rgba(255, 255, 255, 0.54)'
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   root: {
+//     // display: "flex",
+//     // flexWrap: "wrap",
+//     // justifyContent: "space-around",
+//     // overflow: "hidden",
+//     // paddingLeft: 10
+//   },
+//   header: {
+//     height: 'auto'
+//     // backgroundColor: theme.palette.background.paper
+//   },
+//   gridList: {
+//     backgroundColor: '#000000'
+//   },
+//   icon: {
+//     color: 'rgba(255, 255, 255, 0.54)'
+//   }
+// }));
 
-export const SubsonicGridList = props => {
+export const SubsonicGridList = (props: any) => {
   // let ref = useRef(null);
   // let size = useComponentSize(ref);
   // console.log(size);
@@ -56,17 +56,17 @@ export const SubsonicGridList = props => {
 
   let { width } = dimensions;
   if (isNaN(width)) width = window.innerWidth;
-  const spacing = width > 640 ? 10 : 6;
+  const gap = width > 640 ? 10 : 6;
   const cellSize = width > 640 ? 192 : 164;
-  const cols = Math.floor(width / (cellSize + spacing))
-  const widthAfterPadding = cols * (cellSize + spacing);
+  const cols = Math.floor(width / (cellSize + gap))
+  const widthAfterPadding = cols * (cellSize + gap);
 
   const {
     onClick,
     onImageClick,
-    Icon,
-    ScrollToTop,
-    getSubTitle,
+    Icon = PlayArrow,
+    addScrollToTop = false,
+    getSubTitle = (id: string) => '',
     sectionHeaderLabel,
     sectionHeaderIndex,
     sectionHeaderCount,
@@ -74,7 +74,7 @@ export const SubsonicGridList = props => {
     scrollSelector
   } = props;
 
-  const classes = useStyles();
+  const classes = {} as Record<string, any>; // useStyles();
   // <ImageListItem className={classes.header} cols={cols}>
   const sectionHeader = !sectionHeaderLabel ? null : (
     <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
@@ -100,21 +100,22 @@ export const SubsonicGridList = props => {
 
   );
 
-  const style = ScrollToTop ? { paddingBottom: 75 } : {};
+  const style = (addScrollToTop ? { paddingBottom: 75 } : {}) as CSSProperties;
   style.overflow = 'visible';
+  style.width = widthAfterPadding;
 
   return (
     <div style={{ width: '100%' }}>
 
-      {sectionHeader}<ImageList
+      {sectionHeader}
+      <ImageList
         rowHeight={cellSize + 54}
-        width={widthAfterPadding}
         cols={cols}
-        gap={spacing}
+        gap={gap}
         style={style}
         variant="standard"
       >
-        {content.map(n => (
+        {content.map((n: SubsonicTypes.Generic & { artist: string }) => (
 
           <CoverImageListItem
             onIconClick={onClick}
@@ -132,29 +133,29 @@ export const SubsonicGridList = props => {
           />
         ))}
       </ImageList>
-      {ScrollToTop && scrollSelector != null && <ScrollToTopFab selector={scrollSelector} />}
+      {addScrollToTop && scrollSelector != null && <ScrollToTopFab selector={scrollSelector} />}
 
     </div>
   );
 };
 
-SubsonicGridList.propTypes = {
-  Icon: PropTypes.object,
-  onClick: PropTypes.func,
-  onImageClick: PropTypes.func,
-  content: PropTypes.arrayOf(PropTypes.object),
-  ScrollToTop: PropTypes.bool,
-  getSubTitle: PropTypes.func,
-  sectionHeaderLabel: PropTypes.string,
-  sectionHeaderIndex: PropTypes.number,
-  sectionHeaderCount: PropTypes.number,
-  scrollSelector: PropTypes.string
-};
+// SubsonicGridList.propTypes = {
+//   Icon: PropTypes.object,
+//   onClick: PropTypes.func,
+//   onImageClick: PropTypes.func,
+//   content: PropTypes.arrayOf(PropTypes.object),
+//   ScrollToTop: PropTypes.bool,
+//   getSubTitle: PropTypes.func,
+//   sectionHeaderLabel: PropTypes.string,
+//   sectionHeaderIndex: PropTypes.number,
+//   sectionHeaderCount: PropTypes.number,
+//   scrollSelector: PropTypes.string
+// };
 
-SubsonicGridList.defaultProps = {
-  Icon: PlayArrow,
-  ScrollToTop: false,
-  getSubTitle: () => null
-};
+// SubsonicGridList.defaultProps = {
+//   Icon: PlayArrow,
+//   ScrollToTop: false,
+//   getSubTitle: () => null
+// };
 
 export default SubsonicGridList;

@@ -1,7 +1,7 @@
 import { Tea } from "@subfire/core";
 // TODO: move me to @subfire/core
 export const AuthExchangeActions = {
-  sourceSubmit: function (code) {
+  sourceSubmit: function (code: string) {
     try {
       const transmissionDigits = code.substring(0, 5);
       // AH - bypasses the store by just going to local storage
@@ -15,7 +15,7 @@ export const AuthExchangeActions = {
       fd.set("code", transmissionDigits);
       fd.set("payload", payload);
 
-      const myInit = {
+      const myInit: RequestInit = {
         method: "POST",
         headers: myHeaders,
         mode: "cors",
@@ -31,11 +31,11 @@ export const AuthExchangeActions = {
     }
   },
 
-  clientRequest: function (code) {
+  clientRequest: function (code: string) {
     const transmissionDigits = code.substring(0, 5);
 
     const myHeaders = new Headers();
-    const myInit = {
+    const myInit: RequestInit = {
       method: "GET",
       headers: myHeaders,
       mode: "cors",

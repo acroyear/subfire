@@ -6,11 +6,11 @@ export default {
   title: 'Credentials/State'
 };
 
-const Wrapper = props => {
+const Wrapper = (props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal; }) => {
   return <CredentialsProvider>{props.children}</CredentialsProvider>;
 };
 
-export const InContext = props => {
+export const InContext = (props: any) => {
   const [isShowingLogin, setShowingLogin] = useState(false);
   const [isShowingAuthClient, setAuthClient] = useState(false);
   const [isShowingAuthSource, setAuthSource] = useState(false);

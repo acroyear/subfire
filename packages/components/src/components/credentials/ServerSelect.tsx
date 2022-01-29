@@ -2,24 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Select from '@mui/material/Select';
-import makeStyles from '@mui/styles/makeStyles';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useCredentials } from "@subfire/hooks";
 
-const useStyles = makeStyles(theme => ({
-  formControl: {
-    margin: 0
-  },
-  notConnected: {
-    fontStyle: 'italic'
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   formControl: {
+//     margin: 0
+//   },
+//   notConnected: {
+//     fontStyle: 'italic'
+//   }
+// }));
 
-export const ServerSelect = props => {
-  const { native, labelId, fullWidth, isLoggedIn } = props;
-  const classes = useStyles();
+export const ServerSelect = (props: { native?: any; labelId?: any; fullWidth?: any; isLoggedIn: any; }) => {
+  const { native, labelId, fullWidth = true, isLoggedIn } = props;
+  const classes = {} as any; // useStyles();
 
   const value = useCredentials();
   const [
@@ -31,7 +30,7 @@ export const ServerSelect = props => {
 
   const className = isLoggedIn ? classes.connected : classes.notConnected;
 
-  const handleServerChange = evt => {
+  const handleServerChange = (evt: { target: { value: string; }; }) => {
     setNewCurrent(evt.target.value);
   };
 
@@ -65,15 +64,15 @@ export const ServerSelect = props => {
   );
 };
 
-ServerSelect.propTypes = {
-  native: PropTypes.bool,
-  handleClose: PropTypes.func,
-  labelId: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  isLoggedIn: PropTypes.bool
-};
-ServerSelect.defaultProps = {
-  fullWidth: true
-};
+// ServerSelect.propTypes = {
+//   native: PropTypes.bool,
+//   handleClose: PropTypes.func,
+//   labelId: PropTypes.string,
+//   fullWidth: PropTypes.bool,
+//   isLoggedIn: PropTypes.bool
+// };
+// ServerSelect.defaultProps = {
+//   fullWidth: true
+// };
 
 export default ServerSelect;

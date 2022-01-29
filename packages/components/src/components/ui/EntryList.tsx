@@ -11,11 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import makeStyles from '@mui/styles/makeStyles';
 import EntryListItem from './EntryListItem';
 
 import ScrollToTopFab from './ScrollToTopFab';
-import { Styles } from '@mui/styles';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { IdItemClick } from '@subfire/hooks';
 
@@ -42,25 +40,25 @@ export interface EntryListProps {
   sectionHeaderCount?: number
 };
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    // display: "flex",
-    // flexWrap: "wrap",
-    // justifyContent: "space-around",
-    // overflow: "hidden",
-    // paddingLeft: 10
-  },
-  header: {
-    height: 'auto'
-    // backgroundColor: theme.palette.background.paper
-  },
-  gridList: {
-    backgroundColor: '#000000'
-  },
-  icon: {
-    color: 'rgba(255, 255, 255, 0.54)'
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   root: {
+//     // display: "flex",
+//     // flexWrap: "wrap",
+//     // justifyContent: "space-around",
+//     // overflow: "hidden",
+//     // paddingLeft: 10
+//   },
+//   header: {
+//     height: 'auto'
+//     // backgroundColor: theme.palette.background.paper
+//   },
+//   gridList: {
+//     backgroundColor: '#000000'
+//   },
+//   icon: {
+//     color: 'rgba(255, 255, 255, 0.54)'
+//   }
+// }));
 
 export const EntryList: React.FC<EntryListProps> = (props) => {
   // let ref = useRef(null);
@@ -90,7 +88,7 @@ export const EntryList: React.FC<EntryListProps> = (props) => {
     content = []
   } = props;
 
-  const classes = useStyles();
+  const classes = {}; // useStyles();
   // <ImageListItem className={classes.header} cols={cols}>
   const sectionHeader = !sectionHeaderLabel ? null : (
     <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">

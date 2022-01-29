@@ -1,21 +1,20 @@
 import React from 'react';
 import Avatar from '@mui/material/Avatar';
-import makeStyles from '@mui/styles/makeStyles';
 import { useSubsonic } from '@subfire/hooks';
 
-const useStyles = makeStyles(theme => ({
-  avatar: {
-    // background: theme.palette.secondary.dark,
-    color: '#ffffff'
-  }
-}));
+// const useStyles = makeStyles(theme => ({
+//   avatar: {
+//     // background: theme.palette.secondary.dark,
+//     color: '#ffffff'
+//   }
+// }));
 
 export interface SubsonicAvatarProps {
   user?: string
 }
 
 export const SubsonicAvatar: React.FC<SubsonicAvatarProps> = (props) => {
-  const classes = useStyles();
+  const classes = {avatar: ''}; // useStyles();
   const { Subsonic: subsonic } = useSubsonic();
 
   const username = props.user || subsonic._u || 'X'; // eslint-disable-line

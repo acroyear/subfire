@@ -13,16 +13,16 @@ import AuthExchangeActions from './AuthExchangeActions';
 import { useCredentials } from "@subfire/hooks";
 import { Tea } from "@subfire/core";
 
-import withStyles from '@mui/styles/withStyles';
-const styles = theme => ({
-  centerHeader: {
-    textAlign: 'center',
-    fontSize: '40pt',
-    letterSpacing: '.5ch'
-  }
-});
+// import withStyles from '@mui/styles/withStyles';
+// const styles = theme => ({
+//   centerHeader: {
+//     textAlign: 'center',
+//     fontSize: '40pt',
+//     letterSpacing: '.5ch'
+//   }
+// });
 
-const AuthCodeClientImpl = props => {
+const AuthCodeClientImpl = (props: { handleClose?: React.MouseEventHandler<HTMLButtonElement>, classes?: Record<string, any> }) => {
   const [digits] = useState(AuthExchangeActions.allocateDigits());
   const [isActive, setIsActive] = useState(true);
   const value = useCredentials();
@@ -32,18 +32,16 @@ const AuthCodeClientImpl = props => {
   console.log('digits', digits);
   useEffect(() => {
     AuthExchangeActions.clientRequest(digits)
-      .then(function (response, err) {
-        if (response) console.log(response.ok);
-        if (err) console.error(err);
-
-        if (response.ok) return response.json();
+    .then((response: any) => {
+      if (response) console.log(response.ok);
+      if (response.ok) return response.json();
         return response.json();
       })
       .then(function (j) {
         console.log('back', j);
         if (j.status === 200) {
           // if parse failure, let the exception fire
-          let data = Tea.decrypt(j.data, digits);
+          let data: any = Tea.decrypt(j.data, digits);
           console.log(data);
           data = JSON.parse(data);
           console.log(data);
@@ -54,12 +52,12 @@ const AuthCodeClientImpl = props => {
           if (isActive) {
             importCreds(data);
           }
-          if (props.handleClose) props.handleClose();
+          if (props.handleClose) props.handleClose(null);
         }
       })
       .catch(function (err) {
         console.error(err);
-        if (props.handleClose) props.handleClose();
+        if (props.handleClose) props.handleClose(null);
       });
     return () => {
       // unmounting
@@ -67,7 +65,9 @@ const AuthCodeClientImpl = props => {
     };
   }, []); // eslint-disable-line
 
-  const { classes, handleClose } = props;
+  const { handleClose } = props;
+
+  const classes = {} as any;
 
   return (
     <Dialog open={true} className={classes.paperFullScreen}>
@@ -87,10 +87,10 @@ const AuthCodeClientImpl = props => {
   );
 };
 
-AuthCodeClientImpl.propTypes = {
-  classes: PropTypes.any,
-  handleClose: PropTypes.func
-};
+// AuthCodeClientImpl.propTypes = {
+//   classes: PropTypes.any,
+//   handleClose: PropTypes.func
+// };
 
-export const AuthCodeClient = withStyles(styles)(AuthCodeClientImpl);
+export const AuthCodeClient = AuthCodeClientImpl;
 export default AuthCodeClient;

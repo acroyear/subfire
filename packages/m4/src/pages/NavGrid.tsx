@@ -1,4 +1,4 @@
-import { FuzzyImageBackground, isLandscape, useWindowSize } from '@subfire/components';
+import { isLandscape, useWindowSize } from '@subfire/components';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 

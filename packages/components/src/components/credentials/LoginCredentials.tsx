@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { KeyboardEventHandler, useState } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,32 +11,31 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import makeStyles from '@mui/styles/makeStyles';
 
 import { useCredentials } from '@subfire/hooks';
 
 const NEW = '__new__';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  formControl: {
-    margin: 0,
-    width: '100%'
-  },
-  selectEmpty: {
-    // marginTop: theme.spacing(2)
-  }
-});
+// const styles = theme => ({
+//   root: {
+//     display: 'flex',
+//     flexWrap: 'wrap'
+//   },
+//   formControl: {
+//     margin: 0,
+//     width: '100%'
+//   },
+//   selectEmpty: {
+//     // marginTop: theme.spacing(2)
+//   }
+// });
 
-const useStyles = makeStyles(styles);
+// const useStyles = makeStyles(styles);
 
-export const LoginCredentials = props => {
+export const LoginCredentials = (props: { handleClose?: any; native?: any; }) => {
   const value = useCredentials();
   const [original, creds, originalKey, setNewCurrent, updateCreds, deleteCreds] = value; // eslint-disable-line
-  const classes = useStyles();
+  const classes = {} as any; // useStyles();
 
   const [credentials, setCredentials] = useState(original);
   const [current, setCurrent] = useState(originalKey);
@@ -62,15 +61,15 @@ export const LoginCredentials = props => {
     handleClose();
   };
 
-  const handlePasswordKeyDown = evt => {
+  const handlePasswordKeyDown: KeyboardEventHandler<HTMLDivElement> = (evt) => {
     if (evt.keyCode + '' === '13') {
       handleSubmit();
       return false;
     }
     return true;
-  };
+  } ;
 
-  const handleChangeCurrent = e => {
+  const handleChangeCurrent = (e: { target: { value: string } }) => {
     setCurrent(e.target.value);
     setCredentials(
       creds[e.target.value] || {
@@ -83,8 +82,9 @@ export const LoginCredentials = props => {
     );
   };
 
-  const handleChange = property => e => {
-    credentials[property] = e.target.value;
+  const handleChange = (property: string) => (e: { target: { value: string } }) => {
+    const creds = credentials as unknown as Record<string, string>;
+    creds[property] = e.target.value;
     setCredentials({ ...credentials });
   };
 
@@ -129,7 +129,7 @@ export const LoginCredentials = props => {
     </FormControl>
   );
 
-  let passwordValues = {};
+  let passwordValues = {label: '', value: ''};
   if (original && original.password === credentials.password) {
     passwordValues.label = 'Password: unchanged';
     passwordValues.value = '';
@@ -191,10 +191,10 @@ export const LoginCredentials = props => {
   );
 };
 
-LoginCredentials.propTypes = {
-  native: PropTypes.bool,
-  handleClose: PropTypes.func
-};
-LoginCredentials.defaultProps = {};
+// LoginCredentials.propTypes = {
+//   native: PropTypes.bool,
+//   handleClose: PropTypes.func
+// };
+// LoginCredentials.defaultProps = {};
 
 export default LoginCredentials;

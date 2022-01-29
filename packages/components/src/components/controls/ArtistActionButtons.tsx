@@ -10,26 +10,26 @@ import {
 } from "@mui/icons-material";
 import Button from "../ui/TipButton";
 
-import makeStyles from '@mui/styles/makeStyles';
 import { SubsonicTypes } from '@subfire/core';
-
 type Generic = SubsonicTypes.Generic;
-const useStyles = makeStyles((theme) => ({
-  buttonRow: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-around",
-  },
-  buttonCell: {
-    textAlign: "center",
-  },
-  button: {
-    // margin: theme.spacing(1),
-  },
-  rightIcon: {
-    // marginLeft: theme.spacing(1),
-  },
-}));
+
+// import makeStyles from '@mui/styles/makeStyles';
+// const useStyles = makeStyles((theme) => ({
+//   buttonRow: {
+//     display: "flex",
+//     width: "100%",
+//     justifyContent: "space-around",
+//   },
+//   buttonCell: {
+//     textAlign: "center",
+//   },
+//   button: {
+//     // margin: theme.spacing(1),
+//   },
+//   rightIcon: {
+//     // marginLeft: theme.spacing(1),
+//   },
+// }));
 
 export interface ArtistActionButtonsPropTypes {
   history?: any;
@@ -50,7 +50,7 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
   let { artistId, isArtist, isSong } = props;
   const isAlbum = !!artistId;
   isArtist = isArtist || isAlbum;
-  const classes = useStyles();
+  const classes = {} as any; // useStyles();
 
   // console.log(id, artistId, isAlbum);
 

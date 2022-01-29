@@ -6,7 +6,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
-import makeStyles from '@mui/styles/makeStyles';
 import { TipIconButton as IconButton } from './TipButton';
 
 import classNames from 'classnames';
@@ -29,38 +28,36 @@ export interface EntryListItemProps {
   SecondaryIcon?: typeof SvgIcon
 };
 
-/* todo: change this to useStyles */
+// const useStyles = makeStyles(theme => ({
+//   listRoot: {
+//     width: '100%',
+//     overflow: 'auto',
+//     display: 'inline-block'
+//   },
+//   listItemText: {
 
-const useStyles = makeStyles(theme => ({
-  listRoot: {
-    width: '100%',
-    overflow: 'auto',
-    display: 'inline-block'
-  },
-  listItemText: {
-
-  },
-  subheader: {
-    // backgroundColor: theme.palette.background.paper
-  },
-  li: {
-    listStyle: 'none'
-  },
-  listSection: {
-    backgroundColor: 'inherit'
-  },
-  ul: {
-    backgroundColor: 'inherit',
-    padding: 0
-  },
-  avatar: {
-    margin: 5
-  },
-  bigAvatar: {
-    width: 40,
-    height: 40
-  }
-}));
+//   },
+//   subheader: {
+//     // backgroundColor: theme.palette.background.paper
+//   },
+//   li: {
+//     listStyle: 'none'
+//   },
+//   listSection: {
+//     backgroundColor: 'inherit'
+//   },
+//   ul: {
+//     backgroundColor: 'inherit',
+//     padding: 0
+//   },
+//   avatar: {
+//     margin: 5
+//   },
+//   bigAvatar: {
+//     width: 40,
+//     height: 40
+//   }
+// }));
 
 export const EntryListItem = (props: EntryListItemProps) => {
   const {
@@ -76,7 +73,7 @@ export const EntryListItem = (props: EntryListItemProps) => {
     SecondaryIcon
   } = props;
 
-  const classes = useStyles();
+  const classes = {} as Record<string, any>; // useStyles();
 
   if (!item) return <>huh</>;
 

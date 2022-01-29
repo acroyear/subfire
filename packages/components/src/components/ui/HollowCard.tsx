@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Card from '@mui/material/Card';
-import makeStyles from '@mui/styles/makeStyles';
 
 const styles = {
   paper: {
@@ -12,12 +11,12 @@ const styles = {
   }
 };
 
-const useStyles = makeStyles((_t: any) => {
-  return styles;
-})
+// const useStyles = makeStyles((_t: any) => {
+//   return styles;
+// })
 
 export const HollowCard: React.FC = props => {
-  const classes = useStyles();
+  const classes = {paper: ''}; // useStyles();
   return (
     <Card raised className={classes.paper}>
       {props.children}

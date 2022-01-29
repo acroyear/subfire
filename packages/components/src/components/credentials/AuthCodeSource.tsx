@@ -14,53 +14,51 @@ import Grid from '@mui/material/Grid';
 
 import AuthExchangeActions from './AuthExchangeActions';
 
-import withStyles from '@mui/styles/withStyles';
-const styles = theme => ({
-  centerHeader: {
-    textAlign: 'center',
-    fontSize: '40pt',
-    letterSpacing: '.5ch',
-    color: 'white'
-  },
-  gridItem: {
-    justifyContent: 'center',
-    textAlign: 'center'
-  },
-  fab: {
-    fontSize: '20pt'
-  },
-  button: {
-    fontSize: '16pt'
-  },
-  textInput: {
-    fontSize: '20pt'
-  },
-  textField: {
-    paddingTop: '2em'
-  }
-});
+// import withStyles from '@mui/styles/withStyles';
+// const styles = theme => ({
+//   centerHeader: {
+//     textAlign: 'center',
+//     fontSize: '40pt',
+//     letterSpacing: '.5ch',
+//     color: 'white'
+//   },
+//   gridItem: {
+//     justifyContent: 'center',
+//     textAlign: 'center'
+//   },
+//   fab: {
+//     fontSize: '20pt'
+//   },
+//   button: {
+//     fontSize: '16pt'
+//   },
+//   textInput: {
+//     fontSize: '20pt'
+//   },
+//   textField: {
+//     paddingTop: '2em'
+//   }
+// });
 
-const AuthCodeSourceImpl = props => {
+const AuthCodeSourceImpl = (props: { handleClose?: React.MouseEventHandler<HTMLButtonElement>, classes?: Record<string, any> }) => {
   const inputRef = useRef(null);
 
   const submit = () => {
     AuthExchangeActions.sourceSubmit(inputRef.current.value)
-      .then(function (response, err) {
+      .then((response: any) => {
         if (response) console.log(response.ok);
-        if (err) console.error(err);
-
         if (response.ok) return response.json();
         return response.json();
       })
       .then(function (j) {
-        if (props.handleClose) props.handleClose();
+        if (props.handleClose) props.handleClose(null);
       })
       .catch(function (err) {
         console.error(err);
       });
   };
 
-  const handleButtonClick = e => {
+  const handleButtonClick = (e: any) => {
     let value = e.target.dataset.value;
     if (value === undefined) value = e.target.parentElement.dataset.value;
 
@@ -73,7 +71,8 @@ const AuthCodeSourceImpl = props => {
     }
   };
 
-  const { classes } = props;
+  const classes = {} as any;
+
   return (
     <Dialog open={true} className={classes.paperFullScreen}>
       <DialogTitle>{'Authenticate Via Existing Source'}</DialogTitle>
@@ -156,11 +155,11 @@ const AuthCodeSourceImpl = props => {
   );
 };
 
-AuthCodeSourceImpl.propTypes = {
-  classes: PropTypes.any,
-  handleClose: PropTypes.func
-};
+// AuthCodeSourceImpl.propTypes = {
+//   classes: PropTypes.any,
+//   handleClose: PropTypes.func
+// };
 
-export const AuthCodeSource = withStyles(styles)(AuthCodeSourceImpl);
+export const AuthCodeSource = AuthCodeSourceImpl;
 export default AuthCodeSource;
 

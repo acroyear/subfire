@@ -1,8 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import classnames from 'classnames';
 
-import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '@mui/material/IconButton';
 import Eject from '@mui/icons-material/Eject';
 
@@ -16,96 +15,96 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
-import { CurrentSongList, useComponentSize, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
+import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
 import { SubsonicTypes } from '@subfire/core';
 
-const useStyles = makeStyles(theme => ({
-  portratPlayer: {
-    display: 'flex',
-    position: 'fixed',
-    top: 72,
-    height: 'calc(100% - 72px - 50px)',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-    // paddingTop: 15,
-    // paddingBottom: 35,
-    width: '100%'
-  },
-  listHeader: {
+// const useStyles = makeStyles(theme => ({
+//   portratPlayer: {
+//     display: 'flex',
+//     position: 'fixed',
+//     top: 72,
+//     height: 'calc(100% - 72px - 50px)',
+//     flexDirection: 'column',
+//     justifyContent: 'space-between',
+//     alignItems: 'stretch',
+//     // paddingTop: 15,
+//     // paddingBottom: 35,
+//     width: '100%'
+//   },
+//   listHeader: {
 
-  },
-  caption: {
+//   },
+//   caption: {
 
-  },
-  menuButton: {
+//   },
+//   menuButton: {
 
-  },
-  appbar: {
-    maxHeight: 72
-  },
-  flex: {
-    flex: 1,
-    color: 'inherit'
-  },
-  grid: {
-    flex: '0 1 auto'
-  },
-  title: {
-    color: 'inherit'
-  },
-  list: {
-    position: 'relative',
-    overflow: 'auto'
-  },
-  closeButton: {
-    backgroundColor: '#000000'
-  },
-  songListItem: {
-    maxWidth: 352
-  },
-  selectedSongListItem: {
-    maxWidth: 352,
-    fontStyle: 'italic',
-    marginLeft: 10
-  },
-  secondaryActionButtonsCentered: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    // background: theme.palette.secondary.main,
-    // color: theme.palette.secondary.contrastText
-  },
-  actionButtons: {
-    // position: 'absolute',
-    // width: '80%',
-    // left: '10%',
-    // bottom: theme.spacing(5),
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    flex: '0 0 auto'
-  },
-  actionButtonsLeft: {
-    // position: 'absolute',
-    // width: '80%',
-    // left: '3%',
-    // bottom: theme.spacing(5),
-    display: 'flex',
-    justifyContent: 'start',
-    flex: '0 0 auto'
-  },
-  left: {
-    display: 'block'
-  },
-  right: {
-    display: 'block',
-    textAlign: 'right'
-  },
-  songList: {
-    width: '85vw',
-    maxWidth: '85vw'
-  }
-}));
+//   },
+//   appbar: {
+//     maxHeight: 72
+//   },
+//   flex: {
+//     flex: 1,
+//     color: 'inherit'
+//   },
+//   grid: {
+//     flex: '0 1 auto'
+//   },
+//   title: {
+//     color: 'inherit'
+//   },
+//   list: {
+//     position: 'relative',
+//     overflow: 'auto'
+//   },
+//   closeButton: {
+//     backgroundColor: '#000000'
+//   },
+//   songListItem: {
+//     maxWidth: 352
+//   },
+//   selectedSongListItem: {
+//     maxWidth: 352,
+//     fontStyle: 'italic',
+//     marginLeft: 10
+//   },
+//   secondaryActionButtonsCentered: {
+//     width: '100%',
+//     display: 'flex',
+//     justifyContent: 'space-evenly',
+//     // background: theme.palette.secondary.main,
+//     // color: theme.palette.secondary.contrastText
+//   },
+//   actionButtons: {
+//     // position: 'absolute',
+//     // width: '80%',
+//     // left: '10%',
+//     // bottom: theme.spacing(5),
+//     display: 'flex',
+//     justifyContent: 'space-evenly',
+//     flex: '0 0 auto'
+//   },
+//   actionButtonsLeft: {
+//     // position: 'absolute',
+//     // width: '80%',
+//     // left: '3%',
+//     // bottom: theme.spacing(5),
+//     display: 'flex',
+//     justifyContent: 'start',
+//     flex: '0 0 auto'
+//   },
+//   left: {
+//     display: 'block'
+//   },
+//   right: {
+//     display: 'block',
+//     textAlign: 'right'
+//   },
+//   songList: {
+//     width: '85vw',
+//     maxWidth: '85vw'
+//   }
+// }));
 
 export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
   const { setImageTag, resetTheme } = useImageColorTheme();
@@ -113,6 +112,7 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
   useEffect(() => {
     // no-op
     return () => resetTheme();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const c = components;
@@ -128,7 +128,7 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
 
   // const { CastButton } = c; 
   const history = useHistory();
-  const classes = useStyles();
+  const classes = {} as any; // useStyles();
   const goBack = () => history.goBack();
   const handleDrawer = () => setPlaylistOpen(true);
   const handleClose = () => setPlaylistOpen(false);
@@ -152,7 +152,7 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
   //   };
   // }, [paused]);
 
-  const coverSize = 150; // size.width - 32;
+  // const coverSize = 150; // size.width - 32;
   // console.log(coverSize);
 
   const onLoad = (evt: any) => {

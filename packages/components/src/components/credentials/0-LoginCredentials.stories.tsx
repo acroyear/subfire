@@ -6,11 +6,11 @@ export default {
   title: 'Credentials/Controls'
 };
 
-const Wrapper = props => {
+const Wrapper = (props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal; }) => {
   return <CredentialsProvider>{props.children}</CredentialsProvider>;
 };
 
-export const Login_Credentials = props => {
+export const Login_Credentials = (props: any) => {
   return (
     <Wrapper>
       <LoginCredentials
@@ -22,7 +22,7 @@ export const Login_Credentials = props => {
   );
 };
 
-export const Server_Select = props => {
+export const Server_Select = (props: any) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   return (
@@ -39,7 +39,7 @@ export const Server_Select = props => {
   );
 };
 
-export const AuthCode_Source = props => {
+export const AuthCode_Source = (props: any) => {
   return (
     <Wrapper>
       <AuthCodeSource />
@@ -47,7 +47,7 @@ export const AuthCode_Source = props => {
   );
 };
 
-export const AuthCode_Client = props => {
+export const AuthCode_Client = (props: any) => {
   return (
     <Wrapper>
       <AuthCodeClient />

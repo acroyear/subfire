@@ -11,7 +11,7 @@ import Replay10Icon from '@mui/icons-material/Replay10';
 import Forward30Icon from '@mui/icons-material/Forward30';
 import { DebugStepOver } from 'mdi-material-ui';
 import Slider from '@mui/material/Slider';
-import makeStyles from '@mui/styles/makeStyles';
+// import makeStyles from '@mui/styles/makeStyles';
 // import CastButton from 'subfirelib/controls/cast/CastButton';
 
 import { useKey } from 'react-use';
@@ -22,42 +22,42 @@ import { useHtmlMedia, useSubsonic, useSubsonicQueue } from '@subfire/hooks';
 import { BookmarkButton } from '../controls/BookmarkButton';
 import { SavePlayQueueButton } from '../controls/SavePlayQueueButton';
 
-const useStyles = makeStyles(theme => ({
-    paper: {
-        // backgroundColor: theme.palette.secondary.main,
-        transition: 'background 2s ease-in-out',
-        // color: theme.palette.secondary.contrastText,
-        paddingTop: 5,
-        paddingBottom: 5
-    },
-    paperDark: {
-        // backgroundColor: theme.palette.secondary.dark,
-        transition: 'background 2s ease-in-out',
-        // color: theme.palette.secondary.contrastText,
-        paddingTop: 5,
-        paddingBottom: 5
-    },
-    grid: {
-        // backgroundColor: theme.palette.secondary.main,
-        transition: 'background 2s ease-in-out',
-        // color: theme.palette.secondary.contrastText,
-        paddingTop: 5,
-        paddingBottom: 5
-    },
-    pad: {
-        paddingLeft: 5,
-        paddingRight: 5
-    },
-    button: {
-        // color: 'inherit', // theme.palette.secondary.contrastText,
-        // minWidth: 36
-    },
-    sliderwrap: { paddingLeft: 5, paddingRight: 5 },
-    slider: {
-        width: 'calc(100% - 5px)',
-        // color: theme.palette.primary.main
-    }
-}));
+// const useStyles = makeStyles(theme => ({
+//     paper: {
+//         // backgroundColor: theme.palette.secondary.main,
+//         transition: 'background 2s ease-in-out',
+//         // color: theme.palette.secondary.contrastText,
+//         paddingTop: 5,
+//         paddingBottom: 5
+//     },
+//     paperDark: {
+//         // backgroundColor: theme.palette.secondary.dark,
+//         transition: 'background 2s ease-in-out',
+//         // color: theme.palette.secondary.contrastText,
+//         paddingTop: 5,
+//         paddingBottom: 5
+//     },
+//     grid: {
+//         // backgroundColor: theme.palette.secondary.main,
+//         transition: 'background 2s ease-in-out',
+//         // color: theme.palette.secondary.contrastText,
+//         paddingTop: 5,
+//         paddingBottom: 5
+//     },
+//     pad: {
+//         paddingLeft: 5,
+//         paddingRight: 5
+//     },
+//     button: {
+//         // color: 'inherit', // theme.palette.secondary.contrastText,
+//         // minWidth: 36
+//     },
+//     sliderwrap: { paddingLeft: 5, paddingRight: 5 },
+//     slider: {
+//         width: 'calc(100% - 5px)',
+//         // color: theme.palette.primary.main
+//     }
+// }));
 
 export interface DeprecatedPlayerArtwork {
     (size: number, ref?: Ref<HTMLImageElement>, handler?: ReactEventHandler<HTMLImageElement>, className?: string): JSX.Element
@@ -115,7 +115,7 @@ export const DeprecatedPlayer = ({ render, stopMusicOnUnmount = false, disposeOn
         persistCurrentPlayingTime
     } = useSubsonicQueue();
 
-    const classes = useStyles();
+    const classes = {} as Record<string, any>; // useStyles();
 
     const { Subsonic } = useSubsonic();
 
