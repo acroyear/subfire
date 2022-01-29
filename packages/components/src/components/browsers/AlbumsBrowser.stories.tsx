@@ -2,7 +2,7 @@ import React from "react";
 import { useToggle } from "react-use";
 import Switch from "@mui/material/Switch";
 import {
-  AlbumsBrowser, LoadingCard
+  AlbumsBrowser, LoadingCard, Tb1
 } from "../..";
 import { buildProcessEnvCredentials, SubsonicProvider } from "@subfire/hooks";
 export default {
@@ -26,7 +26,7 @@ const Inner = (_props: any) => {
   const [native, toggleNative] = useToggle(false);
   return (
     <>
-      <Switch checked={native} onChange={toggleNative} />
+      <Switch checked={native} onChange={toggleNative} /><Tb1>Native</Tb1>
       <div>
         <div>
           <AlbumsBrowser native={native} />

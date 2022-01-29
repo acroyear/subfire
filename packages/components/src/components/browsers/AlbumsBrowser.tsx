@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 import { PlayArrow, GridOn, ViewList } from '@mui/icons-material';
-import Switch from '@mui/material/Switch';
+import { List, Switch } from '@mui/material';
 
 import { SubsonicTypes } from '@subfire/core';
 
@@ -14,6 +14,7 @@ import SubsonicGridList from '../ui/SubsonicGridList';
 import EntryListItem from '../ui/EntryListItem';
 
 import AlbumQueryChooser from '../controls/AlbumQueryChooser';
+import { EntryList } from '../..';
 
 export interface AlbumsBrowserPropTypes {
   native?: boolean
@@ -94,13 +95,15 @@ export const AlbumsBrowser: React.FC<any> = props => {
     musicFolderChooser
   };
 
+  const getSubTitle = (a: SubsonicTypes.Generic) => `${(a as SubsonicTypes.Album).artist}  (${(a as SubsonicTypes.Album).year})`;
+
   return (
     <>
       <AlbumQueryChooser {...aqcProps} />
       {status.card}
       {!status.card && showGrid && (
         <SubsonicGridList
-          getSubTitle={() => { }}
+          getSubTitle={getSubTitle}
           Icon={PlayArrow}
           content={albums}
           onClick={onSecondaryClick}
@@ -110,14 +113,27 @@ export const AlbumsBrowser: React.FC<any> = props => {
         />
       )}
       {!status.card && !showGrid &&
-        albums.map(a => <EntryListItem key={a.id} item={a} index={{ name: 'albums' } as SubsonicTypes.Generic} subsonic={subsonic}
-          onEntryClick={onClick}
-          onEntrySecondaryClick={onSecondaryClick}
-          secondaryActionLabel="Play"
-          SecondaryIcon={PlayArrow} />)
-      }
+        <EntryList
+        Icon={PlayArrow}
+        getSubTitle={getSubTitle}
+        content={albums}
+        onEntrySecondaryClick={onSecondaryClick}
+        onEntryClick={onClick}
+        ScrollToTop
+        scrollSelector={scrollSelector}
+    />}
     </>
   );
 };
 
 export default AlbumsBrowser;
+
+/* 
+      (<List>{
+        albums.map(a => <EntryListItem key={a.id} item={a} index={{ name: 'albums' } as SubsonicTypes.Generic} subsonic={subsonic}
+          onEntryClick={onClick}
+          onEntrySecondaryClick={onSecondaryClick}
+          secondaryActionLabel="Play"
+          SecondaryIcon={PlayArrow} />)
+      }</List>)}
+*/
