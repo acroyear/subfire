@@ -11,25 +11,26 @@ import {
 import Button from "../ui/TipButton";
 
 import { SubsonicTypes } from '@subfire/core';
+import { SxProps, Theme, useTheme } from "@mui/material/styles";
+import { Box } from "@mui/material";
 type Generic = SubsonicTypes.Generic;
 
-// import makeStyles from '@mui/styles/makeStyles';
-// const useStyles = makeStyles((theme) => ({
-//   buttonRow: {
-//     display: "flex",
-//     width: "100%",
-//     justifyContent: "space-around",
-//   },
-//   buttonCell: {
-//     textAlign: "center",
-//   },
-//   button: {
-//     // margin: theme.spacing(1),
-//   },
-//   rightIcon: {
-//     // marginLeft: theme.spacing(1),
-//   },
-// }));
+const useSxStyles = ((theme: Theme): Record<string, SxProps<Theme>> => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  buttonRow: {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-around",
+  },
+  buttonCell: {
+    textAlign: "center",
+  },
+  rightIcon: {
+    marginLeft: theme.spacing(1),
+  }
+}));
 
 export interface ArtistActionButtonsPropTypes {
   history?: any;
@@ -50,9 +51,8 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
   let { artistId, isArtist, isSong } = props;
   const isAlbum = !!artistId;
   isArtist = isArtist || isAlbum;
-  const classes = {} as any; // useStyles();
-
-  // console.log(id, artistId, isAlbum);
+  const theme = useTheme();
+  const styles = useSxStyles(theme);
 
   if (!artistId) artistId = id;
   let top = null as JSX.Element;
@@ -60,18 +60,18 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
   let backButton = null as JSX.Element;
   if (showBackButton && history) {
     backButton = (
-      <div className={classes.buttonCell}>
+      <Box sx={styles.buttonCell}>
         <Button placement="right-end" title="Go Back" onClick={() => onClick('back')}>
           <Reply />
         </Button>
-      </div>
+      </Box>
     );
   }
 
   if (isArtist) {
     // music directory isn't fully in cache, so no name, so this doesn't work :()
     top = (
-      <div className={classes.buttonCell}>
+      <Box sx={styles.buttonCell}>
         <Button
           placement="right-end"
           title="Top Songs"
@@ -81,11 +81,11 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
         >
           <ThumbUp />
         </Button>
-      </div>
+      </Box>
     );
 
     radio = (
-      <div className={classes.buttonCell}>
+      <Box sx={styles.buttonCell}>
         <Button
           placement="right-end"
           title="Radio"
@@ -95,17 +95,17 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
         >
           <Radio />
         </Button>
-      </div>
+      </Box>
     );
   }
 
   return (
-    <div className={classes.buttonRow}>
+    <Box sx={styles.buttonRow}>
       {backButton}
       {top}
       {!isAlbum && (
         <>
-          <div className={classes.buttonCell}>
+          <Box sx={styles.buttonCell}>
             <Button
               placement="right-end"
               title="Play All"
@@ -115,8 +115,8 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
             >
               <VideoLibrary />
             </Button>
-          </div>
-          <div className={classes.buttonCell}>
+          </Box>
+          <Box sx={styles.buttonCell}>
             <Button
               placement="right-end"
               title="Shuffle"
@@ -126,8 +126,8 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
             >
               <Shuffle />
             </Button>
-          </div>
-          <div className={classes.buttonCell}>
+          </Box>
+          <Box sx={styles.buttonCell}>
             <Button
               placement="right-end"
               title="Shuffle Albums"
@@ -137,12 +137,12 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
             >
               <Album />
             </Button>
-          </div>
+          </Box>
         </>
       )}
       {isAlbum && (
         <>
-          <div className={classes.buttonCell}>
+          <Box sx={styles.buttonCell}>
             <Button
               placement="right-end"
               title="Play"
@@ -152,8 +152,8 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
             >
               <VideoLibrary />
             </Button>
-          </div>
-          <div className={classes.buttonCell}>
+          </Box>
+          <Box sx={styles.buttonCell}>
             <Button
               title="Shuffle"
               onClick={() => {
@@ -162,12 +162,12 @@ export const ArtistActionButtons: React.FC<ArtistActionButtonsPropTypes> = (prop
             >
               <Shuffle />
             </Button>
-          </div>
+          </Box>
         </>
       )}
       {radio}
       {children}
-    </div>
+    </Box>
   );
 };
 

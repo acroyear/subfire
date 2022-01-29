@@ -13,29 +13,33 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 
 import { useCredentials } from '@subfire/hooks';
+import { Theme, useTheme } from '@mui/material/styles';
+import { Key } from 'mdi-material-ui';
 
 const NEW = '__new__';
 
-// const styles = theme => ({
-//   root: {
-//     display: 'flex',
-//     flexWrap: 'wrap'
-//   },
-//   formControl: {
-//     margin: 0,
-//     width: '100%'
-//   },
-//   selectEmpty: {
-//     // marginTop: theme.spacing(2)
-//   }
-// });
+const useSxStyles = ( theme: Theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  formControl: {
+    margin: 0,
+    width: '100%'
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  },
+  paperFullScreen: {
 
-// const useStyles = makeStyles(styles);
+  }
+});
 
 export const LoginCredentials = (props: { handleClose?: any; native?: any; }) => {
   const value = useCredentials();
   const [original, creds, originalKey, setNewCurrent, updateCreds, deleteCreds] = value; // eslint-disable-line
-  const classes = {} as any; // useStyles();
+  const theme = useTheme();
+  const styles = useSxStyles(theme);
 
   const [credentials, setCredentials] = useState(original);
   const [current, setCurrent] = useState(originalKey);
@@ -62,7 +66,8 @@ export const LoginCredentials = (props: { handleClose?: any; native?: any; }) =>
   };
 
   const handlePasswordKeyDown: KeyboardEventHandler<HTMLDivElement> = (evt) => {
-    if (evt.keyCode + '' === '13') {
+    // why oh why has there not been a js or ts constants/enum for this???
+    if (evt.key === "Enter") {
       handleSubmit();
       return false;
     }
@@ -92,7 +97,7 @@ export const LoginCredentials = (props: { handleClose?: any; native?: any; }) =>
   const isDeleteDisabled = originalKey === current || current === NEW;
 
   const currentSelectorField = (
-    <FormControl className={classes.formControl}>
+    <FormControl sx={styles.formControl}>
       <InputLabel htmlFor="current-selection">Current Selection</InputLabel>
       <Select
         native={native}
@@ -139,7 +144,7 @@ export const LoginCredentials = (props: { handleClose?: any; native?: any; }) =>
   }
 
   return (
-    <Dialog open={true} className={classes.paperFullScreen}>
+    <Dialog open={true} sx={styles.paperFullScreen}>
       <DialogTitle>{'Server Credentials'}</DialogTitle>
       <DialogContent>
         {currentSelectorField}
@@ -190,11 +195,5 @@ export const LoginCredentials = (props: { handleClose?: any; native?: any; }) =>
     </Dialog>
   );
 };
-
-// LoginCredentials.propTypes = {
-//   native: PropTypes.bool,
-//   handleClose: PropTypes.func
-// };
-// LoginCredentials.defaultProps = {};
 
 export default LoginCredentials;
