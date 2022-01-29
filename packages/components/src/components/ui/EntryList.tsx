@@ -16,6 +16,7 @@ import EntryListItem from './EntryListItem';
 import ScrollToTopFab from './ScrollToTopFab';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { IdItemClick } from '@subfire/hooks';
+import { useTheme } from '@mui/material/styles';
 
 const scrollIntoView = (i: number) => {
   const next = 'grid-category-header' + (i * 1 + 1);
@@ -40,31 +41,7 @@ export interface EntryListProps {
   sectionHeaderCount?: number
 };
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     // display: "flex",
-//     // flexWrap: "wrap",
-//     // justifyContent: "space-around",
-//     // overflow: "hidden",
-//     // paddingLeft: 10
-//   },
-//   header: {
-//     height: 'auto'
-//     // backgroundColor: theme.palette.background.paper
-//   },
-//   gridList: {
-//     backgroundColor: '#000000'
-//   },
-//   icon: {
-//     color: 'rgba(255, 255, 255, 0.54)'
-//   }
-// }));
-
 export const EntryList: React.FC<EntryListProps> = (props) => {
-  // let ref = useRef(null);
-  // let size = useComponentSize(ref);
-  // console.log(size);
-  // let { width } = size;
   const dimensions = useWindowSize();
 
   let { width } = dimensions;
@@ -72,7 +49,6 @@ export const EntryList: React.FC<EntryListProps> = (props) => {
   const spacing = width > 640 ? 10 : 6;
   const cellSize = width > 640 ? 192 : 164;
   const cols = Math.floor(width / (cellSize + spacing))
-  const widthAfterPadding = cols * (cellSize + spacing);
 
   const {
     useAvatar = false,
@@ -88,8 +64,6 @@ export const EntryList: React.FC<EntryListProps> = (props) => {
     content = []
   } = props;
 
-  const classes = {}; // useStyles();
-  // <ImageListItem className={classes.header} cols={cols}>
   const sectionHeader = !sectionHeaderLabel ? null : (
     <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
       <Typography variant="h4">{sectionHeaderLabel}</Typography>

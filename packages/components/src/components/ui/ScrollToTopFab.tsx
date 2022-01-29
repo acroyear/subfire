@@ -3,20 +3,14 @@ import PropTypes from 'prop-types';
 
 import Fab from '@mui/material/Fab';
 import TopIcon from '@mui/icons-material/VerticalAlignTop';
-// import withStyles from '@mui/styles/withStyles';
-// import withTheme from '@mui/styles/withTheme';
-
-// const styles = theme => {
-//   return {
-//     fab: {
-//       position: 'fixed',
-//       zIndex: 100
-//     }
-//   };
-// };
 
 export const ScrollToTopFabBase = (props: any) => {
-  const { theme, label, bottom, right, Icon, parentRef, selector, scrollParent, classes = {} } = props;
+  const { label, bottom, right, Icon, parentRef, selector, scrollParent } = props;
+
+  const  fab = {
+          position: 'fixed',
+          zIndex: 100
+        }
 
   const scrollToTop = (props: any) => {
     if (selector && selector !== "") {
@@ -33,6 +27,7 @@ export const ScrollToTopFabBase = (props: any) => {
 
   const fabProps = {
     'aria-label': label,
+    sx: fab,
     onClick: scrollToTop || scrollToTop.bind(this, props),
     style: {
       bottom: bottom || 30,

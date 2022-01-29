@@ -27,26 +27,6 @@ const scrollIntoView = (i: number) => {
   });
 };
 
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     // display: "flex",
-//     // flexWrap: "wrap",
-//     // justifyContent: "space-around",
-//     // overflow: "hidden",
-//     // paddingLeft: 10
-//   },
-//   header: {
-//     height: 'auto'
-//     // backgroundColor: theme.palette.background.paper
-//   },
-//   gridList: {
-//     backgroundColor: '#000000'
-//   },
-//   icon: {
-//     color: 'rgba(255, 255, 255, 0.54)'
-//   }
-// }));
-
 export const SubsonicGridList = (props: any) => {
   // let ref = useRef(null);
   // let size = useComponentSize(ref);
@@ -74,8 +54,6 @@ export const SubsonicGridList = (props: any) => {
     scrollSelector
   } = props;
 
-  const classes = {} as Record<string, any>; // useStyles();
-  // <ImageListItem className={classes.header} cols={cols}>
   const sectionHeader = !sectionHeaderLabel ? null : (
     <ListSubheader id={'grid-category-header' + sectionHeaderIndex} component="div">
       <Typography variant="h4">{sectionHeaderLabel}</Typography>

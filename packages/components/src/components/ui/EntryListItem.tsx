@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItem from '@mui/material/ListItem';
@@ -8,7 +6,6 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
 import { TipIconButton as IconButton } from './TipButton';
 
-import classNames from 'classnames';
 import { Subsonic } from '@subfire/core';
 import { IdItemClick } from '@subfire/hooks';
 import { SubsonicTypes } from "@subfire/core";
@@ -28,36 +25,36 @@ export interface EntryListItemProps {
   SecondaryIcon?: typeof SvgIcon
 };
 
-// const useStyles = makeStyles(theme => ({
-//   listRoot: {
-//     width: '100%',
-//     overflow: 'auto',
-//     display: 'inline-block'
-//   },
-//   listItemText: {
+const styles = {
+  listRoot: {
+    width: '100%',
+    overflow: 'auto',
+    display: 'inline-block'
+  },
+  listItemText: {
+  },
+  subheader: {
+    // backgroundColor: theme.palette.background.paper
+  },
+  li: {
+    listStyle: 'none'
+  },
+  listSection: {
+    backgroundColor: 'inherit'
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0
+  },
+  avatar: {
+    margin: 5
+  },
+  bigAvatar: {
+    width: 40,
+    height: 40
+  }
+}
 
-//   },
-//   subheader: {
-//     // backgroundColor: theme.palette.background.paper
-//   },
-//   li: {
-//     listStyle: 'none'
-//   },
-//   listSection: {
-//     backgroundColor: 'inherit'
-//   },
-//   ul: {
-//     backgroundColor: 'inherit',
-//     padding: 0
-//   },
-//   avatar: {
-//     margin: 5
-//   },
-//   bigAvatar: {
-//     width: 40,
-//     height: 40
-//   }
-// }));
 
 export const EntryListItem = (props: EntryListItemProps) => {
   const {
@@ -73,32 +70,29 @@ export const EntryListItem = (props: EntryListItemProps) => {
     SecondaryIcon
   } = props;
 
-  const classes = {} as Record<string, any>; // useStyles();
-
   if (!item) return <>huh</>;
 
   const avatar = useAvatar ? (
     <Avatar
       alt={`${item.name}`}
       src={subsonic.getCoverArtURL(item.coverArt, 40)}
-      className={classNames(classes.avatar, classes.bigAvatar)}
+      sx={[styles.avatar, styles.bigAvatar]}
     />
   ) : (
     <img
       alt={`${item.name}`}
       src={subsonic.getCoverArtURL(item.coverArt, 40)}
-      className={classNames(classes.avatar, classes.bigAvatar)}
+      style={{...styles.avatar, ...styles.bigAvatar}}
     />
   );
   return (
     <ListItem
-      classes={{ container: classes.li }}
       key={`item-${index.name || index.title}-${item.id}`}
       button
       onClick={() => { console.log('click'); onEntryClick(item.id); }}
     >
       <ListItemAvatar>{avatar}</ListItemAvatar>
-      <ListItemText primary={`${item.name || item.title}`} className={classes.listItemText}
+      <ListItemText primary={`${item.name || item.title}`} sx={styles.listItemText}
         secondary={subtitle || (showIndexText ? (index.name || index.title) : null)} />
       {SecondaryIcon && (
         <ListItemSecondaryAction>

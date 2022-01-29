@@ -11,27 +11,26 @@ import FuzzyImageBackground from '../FuzzyImageBackground';
 
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { LoadingCardPropsType } from '@subfire/hooks';
+import { Box } from '@mui/material';
 
-/*
-const useStyles = makeStyles((_theme: Theme) => ({
-  card: {
-    textAlign: 'center',
-    color: 'black' // where is white coming from?
-  },
-  centerprogress: {
-    height: 50,
-    left: '50%',
-    marginLeft: -25,
-    marginTop: -50,
-    position: 'absolute',
-    top: '50%',
-    width: 50
-  }
-}));
-*/
 export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
   const { object, top } = props;
-  const classes = {} as any; // useStyles();
+
+  const styles = {
+    card: {
+      textAlign: 'center',
+      color: 'black' // where is white coming from?
+    },
+    centerprogress: {
+      height: 50,
+      left: '50%',
+      marginLeft: "-25px",
+      marginTop: "0px",
+      position: 'absolute',
+      top: '50%',
+      width: 50
+    }
+  };
 
   const { innerWidth, innerHeight } = window;
   let cellSize = innerWidth <= 600 ? innerWidth - 20 : Math.trunc(innerWidth / 2);
@@ -56,14 +55,14 @@ export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
         </Hidden>
         <Grid item lg={6} sm={10} xs={12}>
           <HollowCard>
-            <Typography variant="h4" className={classes.card}>
+            <Typography variant="h4" sx={styles.card}>
               Loading...
             </Typography>
-            <div className={classes.card}>
+            <Box sx={styles.card}>
               <img alt="Loading..." src={coverArt} id="the-loading-image" style={{ width: cellSize, height: cellSize }} />
-              <CircularProgress className={classes.centerprogress} size={50} />
-            </div>
-            <Typography variant="h4" className={classes.card}>
+              <CircularProgress sx={styles.centerprogress} size={50} />
+            </Box>
+            <Typography variant="h4" sx={styles.card}>
               {loadingString}
             </Typography>
           </HollowCard>
