@@ -1,60 +1,49 @@
-import React from 'react';
-/* eslint react/prop-types: 0 */
-// TODO: turn this into function/hooks
-// requires external css and div for now - not 'automatic'
+import { CSSProperties, useCallback, useState } from "react";
+import { useLifecycles } from "react-use";
+import { FuzzyBackgroundImageStates, useFuzzyImageBackgroundImage, useFuzzyImageBackgroundState, useFuzzyImageBackgroundStates } from "../../hooks/useFuzzyImageBackground";
 
-export interface FuzzyImageBackgroundProps {
-  showBackground: boolean,
-  fadeBackground: boolean,
-  selector: string,
-  image: string
+export interface FuzzyBackgroundImageState {
+    states: Record<string, CSSProperties>;
+    currentState: string;
+    currentImage: string;
 }
 
-export class FuzzyImageBackground extends React.Component<FuzzyImageBackgroundProps> {
-  shouldComponentUpdate(nextProps: FuzzyImageBackgroundProps, _nextState: any) {
-    return (
-      nextProps.selector !== this.props.selector ||
-      nextProps.image !== this.props.image ||
-      nextProps.showBackground !== this.props.showBackground ||
-      nextProps.fadeBackground !== this.props.fadeBackground
-    );
-  }
+export const FuzzyImageBackground: React.FC<FuzzyBackgroundImageState> = (props) => {
+    const [states, setStates] = useFuzzyImageBackgroundStates();
+    const [currentState, setCurrentState] = useFuzzyImageBackgroundState();
+    const [currentImage, setCurrentImage] = useFuzzyImageBackgroundImage();
+    console.debug('in', props);
+    console.debug('hooks', states, currentState, currentImage);
 
-  componentWillUnmount() {
-    // console.log('unmount');
-    const { selector } = this.props;
-    const e = document.querySelector(selector || '.page-bg') as HTMLElement;
-    if (!e) return;
-    e.style.display = 'none';
-  }
+    useLifecycles(() => {
+        console.debug('mount', props);
+        setStates(() => states || props.states);
+        setCurrentState(() => currentState || props.currentState);
+        setCurrentImage(() => currentImage || props.currentImage);
+    },
+        () => {
+            console.debug('unmount');
+            setStates(() => null as FuzzyBackgroundImageStates);
+            setCurrentState(() => null as string);
+            setCurrentImage(() => null as string);
+        });
 
-  componentDidMount() {
-    // console.log('mount');
-    this.componentDidUpdate();
-  }
-
-  componentDidUpdate() {
-    // console.log('update');
-    const { showBackground, fadeBackground, image, selector } = this.props;
-    const backgroundImage = 'url(' + image + ')';
-    const display = showBackground && image ? 'initial' : 'none';
-
-    const e = document.querySelector(selector || '.page-bg') as HTMLElement;
-    if (!e) return;
-
-    e.style.backgroundImage = backgroundImage;
-    e.style.display = display;
-
-    if (fadeBackground) {
-      e.classList.add('faded');
-    } else {
-      e.classList.remove('faded');
-    }
-  }
-
-  render() {
-    return <></>;
-  }
+    let style: CSSProperties = states && currentState ? { ...states[currentState] } || {} : {};
+    style = {
+        ...style,
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+    };
+    style.backgroundImage = states && currentState && states[currentState] && currentImage ? `url(${currentImage})` : 'none';
+    // TODO: memo this if it gets called too often
+    console.debug(currentState, states, style);
+    return <>
+        <div style={style} className="fuzzy-image-background"></div>
+        <div style={{ position: "relative", zIndex: 1 }}>{props.children}</div>
+    </>
 }
 
 export default FuzzyImageBackground;

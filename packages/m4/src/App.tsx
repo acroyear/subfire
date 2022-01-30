@@ -50,7 +50,8 @@ function App() {
                 <Snacker>
                   <Routes />
                   <IntegratedPlayerQueue />
-                </Snacker></Paper>
+                </Snacker>
+              </Paper>
             </ThemeProvider>
           </HashRouter>
         </SubsonicProvider>

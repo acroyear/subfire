@@ -7,14 +7,18 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import HollowCard from '../HollowCard';
-import FuzzyImageBackground from '../FuzzyImageBackground';
 
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { LoadingCardPropsType } from '@subfire/hooks';
 import { Box } from '@mui/material';
+import { useLifecycles, useMount } from 'react-use';
 
-export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
-  const { object, top } = props;
+interface BackgroundLoadingState {
+  backgroundLoadingState?: string
+}
+
+export const LoadingCard: React.FC<LoadingCardPropsType & BackgroundLoadingState> = (props) => {
+  const { object, top, backgroundLoadingState } = props;
 
   const styles = {
     card: {
@@ -46,9 +50,19 @@ export const LoadingCard: React.FC<LoadingCardPropsType> = (props) => {
   const loadingString =
     object && (object.name || object.title) ? object.name || object.title : "something. no really. we're loading something.";
 
+  // const [currentFuzzyState, setBackgroundImageState] = []; // useFuzzyImageBackground();
+  // useLifecycles(() => {
+  //   setBackgroundImageState({
+  //     ...currentFuzzyState, currentState: backgroundLoadingState || 'loading', currentImage: coverArt
+  //   });
+  // }, () => {
+  //   setBackgroundImageState({
+  //     ...currentFuzzyState, currentState: null, currentImage: null
+  //   });
+  // });
+
   return (
     <div style={{ paddingTop: 25 }}>
-      <FuzzyImageBackground selector=".page-bg" image={coverArt} showBackground={true} fadeBackground={true}/>
       <Grid container spacing={0}>
         <Hidden only="xs">
           <Grid item lg={3} sm={1}></Grid>
