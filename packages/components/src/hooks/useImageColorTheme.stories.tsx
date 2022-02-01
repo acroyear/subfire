@@ -66,7 +66,7 @@ const InteriorTest = (p: any) => {
     } = credentials;
     Subsonic.configure(server, username, password, bitrate, clientName);
 
-    const [id, setId] = useState('');
+    const [id, setId] = useState('22430');
     const url = Subsonic.getCoverArtURL(id || '-1', 450);
 
     const onChange = (evt: any) => {

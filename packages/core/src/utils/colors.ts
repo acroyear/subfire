@@ -7,6 +7,11 @@ export interface ColorThiefLib {
   getPalette: (img: HTMLImageElement | null, quantity?: number, quality?: number) => ColorThiefColor[];
 }
 
+export const colorThiefColorToRGB = (ctc: ColorThiefColor): string => {
+  const s = `#${ctc[0].toString(16)}${ctc[1].toString(16)}${ctc[2].toString(16)}`
+  return s;
+}
+
 interface GradientsPalette {
   gradients: string[],
   palette: ColorThiefColor[];
