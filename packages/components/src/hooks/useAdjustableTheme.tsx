@@ -7,6 +7,8 @@ import { FC, useEffect, useState } from 'react';
 import { createGlobalState } from 'react-use';
 import { Tb1 } from '..';
 
+// TODO migrate over use system dark mode 'auto' setting from the deprecated file
+
 const initial: PaletteOptions = {
     mode: 'dark',
     primary: {
@@ -32,11 +34,11 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             setPaletteOptions(initial);
             return;
         };
+        // refactor me - consolidate these methods with the RGB methods and typescript that crap
         const colors = getPalette(img);
         if (colors?.length) {
             let primary = colorThiefColorToRGB(colors[0]);
             let secondary = colorThiefColorToRGB(colors[1]);
-            console.warn(material);
             if (material) {
                 primary = hexColorToMaterial(primary).closestMaterialRGB        
                 secondary = hexColorToMaterial(secondary).closestMaterialRGB        
@@ -47,15 +49,27 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             if (secondary.startsWith("#")) {
                 secondary = hexToRgb(secondary);
             }
+            let primaryRGB = parseRGB(primary);
+            const secondaryRGB = parseRGB(secondary);
+            let primaryRelative = getPerceptualBrightness(primaryRGB);
+            const secondaryRelative = getPerceptualBrightness(secondaryRGB);
+            console.warn(primaryRelative, secondaryRelative);
             if (mode === 'dark') {
-                const primaryRGB = parseRGB(primary);
-                const secondaryRGB = parseRGB(secondary);
-                const primaryRelative = getPerceptualBrightness(primaryRGB);
-                const secondaryRelative = getPerceptualBrightness(secondaryRGB);
+                // if both colors are too dark, gray one out
+                if (primaryRelative <= 350 && secondaryRelative <= 350) {
+                    primary = "#EEEEEE";
+                    primaryRGB = [238, 238, 238];
+                    primaryRelative = getPerceptualBrightness(primaryRGB);
+                }
                 if (secondaryRelative > primaryRelative) {
                     const tmp = primary;
                     primary = secondary;
                     secondary = tmp;
+                }
+            } else {
+                // if primary is bright on white, lets drop it down
+                if (primaryRelative >= 1350) {
+                    primary = 'rgb(20,20,20)';
                 }
             }
             setPaletteOptions({

@@ -8,8 +8,7 @@ export interface ColorThiefLib {
 }
 
 export const colorThiefColorToRGB = (ctc: ColorThiefColor): string => {
-  const s = `#${ctc[0].toString(16)}${ctc[1].toString(16)}${ctc[2].toString(16)}`
-  return s;
+  return "#" + (new RGB(ctc).toHexString());
 }
 
 interface GradientsPalette {
