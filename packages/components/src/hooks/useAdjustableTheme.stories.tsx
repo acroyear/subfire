@@ -1,4 +1,4 @@
-import { AdjustableThemeProvider, useAdjustableImagePalette, useAdjustableThemeDark } from "./useAdjustableTheme";
+import { AdjustableThemeProvider, useAdjustableImagePalette, useAdjustableThemeDark, useAdjustableThemeMaterialPalette } from "./useAdjustableTheme";
 import React, { useState, useEffect, useRef } from "react";
 import { useTheme, Theme } from '@mui/material/styles';
 import {
@@ -55,7 +55,6 @@ const ButtonAppBar = (p: any) => {
             </AppBar>
             <Paper>
                 <pre>{JSON.stringify(pal)} {theme.palette.mode}</pre>
-                <Checkbox defaultChecked />
             </Paper>
         </Box>
     );
@@ -80,7 +79,7 @@ export const AdjustableImageTheme = () => {
     }
 
     const [mode, setMode] = useAdjustableThemeDark();
-
+    const [material, setMaterial] = useAdjustableThemeMaterialPalette();
     const img = useRef<HTMLImageElement>();
     useAdjustableImagePalette(img.current);
     return (<AdjustableThemeProvider>
@@ -91,7 +90,7 @@ export const AdjustableImageTheme = () => {
             <input onChange={onChange} value={id}></input>
             <img ref={img} src={url} alt="" style={{ width: 100, height: 'auto' }} />
             Dark: <Switch checked={mode === 'dark'} onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}></Switch>
-            <Checkbox defaultChecked />
+            <Checkbox checked={material} onChange={(e) => setMaterial(e.target.checked)} />
         </Paper>
     </AdjustableThemeProvider>);
 }

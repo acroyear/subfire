@@ -13,6 +13,8 @@ import {
 import { PaletteMode } from '@mui/material';
 import { Tv } from '@mui/icons-material';
 
+/** these are all deprecated in favor of useAdjustableTheme */
+
 interface MaterialColorStandardShades {
   50: string;
   100: string;

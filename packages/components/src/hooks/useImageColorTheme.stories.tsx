@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useImageColorTheme } from './useImageColorTheme';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -13,7 +13,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { CssBaseline, StyledEngineProvider } from "@mui/material";
+
+/** these are all deprecated in favor of useAdjustableTheme */
 
 const ButtonAppBar = (p: any) => {
     const theme = useTheme() as any;
