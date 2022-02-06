@@ -1291,6 +1291,18 @@ var materialDataRGB = [
   'rgb(255,255,255)'
 ];
 
+export function parseRGB(s) {
+  var rgb = s.match(/\d+/g);
+  return rgb.map(x => parseInt(x, 10));
+}
+
+export function getPerceptualBrightness(colorArray) {
+  const r = colorArray[0];
+  const g = colorArray[1];
+  const b = colorArray[2];
+  return r*2 + g*3 + b;
+}
+
 export function hexToRgb(hex) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

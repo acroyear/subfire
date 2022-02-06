@@ -1,8 +1,8 @@
-import { PaletteMode, Paper, StyledEngineProvider } from '@mui/material';
+import { hexToRgb, PaletteMode, Paper, StyledEngineProvider } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider, styled, PaletteOptions } from '@mui/material/styles';
 import { getPalette, colorThiefColorToRGB } from '@subfire/core/lib/utils/colors';
-import { hexColorToMaterial } from '@subfire/core/lib/utils/material-color';
+import { getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core/lib/utils/material-color';
 import { FC, useEffect, useState } from 'react';
 import { createGlobalState } from 'react-use';
 import { Tb1 } from '..';
@@ -22,6 +22,7 @@ export const useAdjustableThemeMaterialPalette = createGlobalState<boolean>(true
 export const useAdjustableThemeColors = createGlobalState<PaletteOptions>(initial);
 
 export const useAdjustableImagePalette = (img: HTMLImageElement) => {
+    const [mode] = useAdjustableThemeDark();
     const [paletteOptions, setPaletteOptions] = useAdjustableThemeColors();
     const [material] = useAdjustableThemeMaterialPalette();
     const [src, setSrc] = useState(img?.src);
@@ -40,6 +41,23 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
                 primary = hexColorToMaterial(primary).closestMaterialRGB        
                 secondary = hexColorToMaterial(secondary).closestMaterialRGB        
             }
+            if (primary.startsWith("#")) {
+                primary = hexToRgb(primary);
+            }
+            if (secondary.startsWith("#")) {
+                secondary = hexToRgb(secondary);
+            }
+            if (mode === 'dark') {
+                const primaryRGB = parseRGB(primary);
+                const secondaryRGB = parseRGB(secondary);
+                const primaryRelative = getPerceptualBrightness(primaryRGB);
+                const secondaryRelative = getPerceptualBrightness(secondaryRGB);
+                if (secondaryRelative > primaryRelative) {
+                    const tmp = primary;
+                    primary = secondary;
+                    secondary = tmp;
+                }
+            }
             setPaletteOptions({
                 primary: {
                     main: primary,
@@ -51,7 +69,7 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
         } else {
             setPaletteOptions(initial);
         }
-    }, [src, material]);
+    }, [src, material, mode]);
 
     useEffect(() => {
         const i = img;
