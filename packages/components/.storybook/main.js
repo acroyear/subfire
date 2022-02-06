@@ -7,6 +7,9 @@ module.exports = {
     "../src/**/*.stories.mdx", //fix #1, previous: "../stories/**/*.stories.mdx"
     "../src/**/*.stories.@(js|jsx|ts|tsx)" //fix #1, previous: "../stories/**/*.stories.@(js|jsx|ts|tsx)"
   ],
+  features: {
+    emotionAlias: false,
+  },
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
