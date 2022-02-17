@@ -3,7 +3,7 @@ import { useSnackbar } from 'notistack';
 import { SubsonicTypes, Subsonic } from '@subfire/core';
 import { Bookmark as BookmarkIcon, BookmarkBorder as BookmarkBorderIcon } from '@mui/icons-material';
 
-import { useBookmarks } from './useSubsonicLoader';
+import { useBookmarks } from '@subfire/hooks/src/useSubsonicLoader';
 import { useCounter } from 'react-use';
 
 type Bookmark = SubsonicTypes.Bookmark;

@@ -1,6 +1,5 @@
 export * from "./useMediaSession"
 export * from "./IntegratedPlayerQueue"
-export * from "./useBookmarkService"
 export * from "./useNowPlaying"
 export * from "./useNetwork"
 export * from "./useSubsonicLoader"

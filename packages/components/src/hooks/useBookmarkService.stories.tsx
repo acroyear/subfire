@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { SnackbarProvider } from 'notistack';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
-import { useBookmarksService } from '@subfire/hooks';
+import { useBookmarksService } from './useBookmarkService';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
 import { BookmarkButton } from '../components/controls/BookmarkButton';
 
