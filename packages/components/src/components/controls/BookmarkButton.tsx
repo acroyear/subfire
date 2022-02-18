@@ -1,7 +1,7 @@
 import React, { ReactEventHandler, Ref, useCallback, useEffect, useState } from 'react';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { useBookmarksService } from '@subfire/hooks';
 import { PlayerState, SubsonicTypes } from '@subfire/core';
+import { useBookmarksService } from '../../hooks/useBookmarkService';
 
 export interface BookmarkButtonProps extends IconButtonProps {
     id: string;

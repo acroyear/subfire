@@ -1,8 +1,8 @@
 import React, { ReactEventHandler, Ref, useCallback, useEffect, useState } from 'react';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { useBookmarksService } from '@subfire/hooks';
 import { PlayerState, SubsonicTypes } from '@subfire/core';
 import QueueIcon from '@mui/icons-material/Queue';
+import { useBookmarksService } from '../../hooks/useBookmarkService';
 
 export interface SavePlayQueueButtonProps extends IconButtonProps {
     id: string;
