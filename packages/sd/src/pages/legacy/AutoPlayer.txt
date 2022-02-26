@@ -1,0 +1,235 @@
+import React, { useRef, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
+import classnames from 'classnames';
+import Clock from 'react-live-clock';
+
+import makeStyles from '@mui/styles/makeStyles';
+import ListSubheader from '@mui/material/ListSubheader';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import IconButton from '@mui/material/IconButton';
+import Eject from '@mui/icons-material/Eject';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MenuIcon from '@mui/icons-material/FormatListBulleted';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import CurrentSongList from 'subfirelib/browsers/songs/CurrentSongList';
+import { useImageColorTheme } from 'subfirelib/hooks';
+import ArrowForward from '@mui/icons-material/ArrowForward';
+
+import { Th6, Th5, Tst1, Tc, B } from 'subfirelib/ui/TG';
+/* eslint react/prop-types: 0 */
+
+const useStyles = makeStyles(theme => ({
+  time: {
+    display: 'inline-block',
+    paddingRight: 20
+  },
+  title: {
+    textAlign: 'left'
+  },
+  subtitle: {
+    textAlign: 'left'
+  },
+  contentCard: {
+    background: 'transparent',
+    display: 'flex',
+    justifyContent: 'start'
+  },
+  cover: {
+    maxWidth: '400px',
+    maxHeight: '400px',
+    width: '100%',
+    height: 'auto'
+  },
+  controls: {
+    overflow: 'visible',
+    backgroundColor: 'rgba(66,66,66,.7)'
+  },
+  controls2: {
+    overflow: 'visible',
+    backgroundColor: 'rgba(66,66,66,.9)'
+  },
+  caption: {
+    position: 'absolute',
+    marginTop: '.5em'
+  },
+  left: {
+    marginLeft: '1em'
+  },
+  right: {
+    textAlign: 'right',
+    right: '1em'
+  },
+  contentLayout: {
+    display: 'flex',
+    left: '0px',
+    right: '0px',
+    marginLeft: '3%',
+    marginRight: '3%',
+    flexDirection: 'column'
+  },
+  controlsLayout: {
+    position: 'absolute',
+    bottom: '10%',
+    width: '94%',
+    marginRight: '3%',
+    marginLeft: '3%'
+  },
+  buttons: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    maxWidth: 400,
+    margin: 'auto'
+  },
+  songList: {
+    maxWidth: '40vw'
+  }
+}));
+
+const ToggleIconButton = props => (
+  <IconButton
+    className={props.buttonClass}
+    aria-label="Toggle"
+    onClick={props.handler}
+    size="large">
+    <MoreVertIcon className={props.iconClass} />
+  </IconButton>
+);
+
+export function AutoPlayer(props) {
+  const { components: c, currentPlaying: cp, queue: q } = props;
+  const { CastButton } = c;
+  const { paused } = c.state;
+  const [playlistOpen, setPlaylistOpen] = useState(false);
+  const handleDrawer = () => setPlaylistOpen(true);
+  const handleClose = () => setPlaylistOpen(false);
+  const history = useHistory();
+  const classes = useStyles();
+  const imageRef = useRef();
+  const { setImageTag } = useImageColorTheme();
+  const currentImageTag = imageRef.current;
+
+  useEffect(() => {
+    if (paused) {
+      document.querySelector('.page-bg').classList.add('faded');
+    } else {
+      document.querySelector('.page-bg').classList.remove('faded');
+    }
+    return () => {
+      const pagebg = document.querySelector('.page-bg');
+      if (pagebg) pagebg.classList.remove('faded');
+    };
+  }, [paused]);
+
+  const imageLoadHandler = evt => {
+    if (setImageTag) {
+      setImageTag({ tag: currentImageTag });
+    }
+  };
+
+  const [showingSecondButtons, setShowingSecondButtons] = React.useState(false);
+
+  const goBack = () => history.goBack();
+
+  /*
+  <div style={{ width: 128, height: 128 }}>
+    <GradientGeneratingImage src={coverArtURL} size={coverSize} />
+  </div>
+  */
+  const subtitle = q.queue[q.idx]?.album + ' - ' + q.queue[q.idx]?.artist;
+
+  const contentCard = (
+    <Card className={classes.contentCard} elevation={0}>
+      <div style={{ width: 128, height: 128 }}>{c.artwork(128, imageRef, imageLoadHandler)}</div>
+      <div style={{ paddingLeft: 20 }}>
+        <Th6 className={classes.title}>{cp?.title || cp?.name || '...loading...'}</Th6>
+        <Tst1 className={classes.subtitle}>
+          {subtitle}
+          {' - '}
+          <Tc component="span">
+            ({cp.year} - {c.queuePosition})
+          </Tc>
+        </Tst1>
+      </div>
+    </Card>
+  );
+
+  return <>
+    <B justifyContent="space-between" alignItems="center" style={{ padding: 20 }}>
+      <IconButton
+        className={classes.menuButton}
+        color="inherit"
+        onClick={goBack}
+        size="large">
+        <Eject />
+      </IconButton>
+      <Th5> {q.queueName || 'SubFire Mobile 3'}</Th5>
+      <CastButton/>
+      <Th5
+        onClick={() => {
+          /* toggle day / night mode */
+        }}
+        color="inherit"
+        className={classes.time}
+      >
+        <Clock format="h:mm a" ticking={true} interval={10000} />
+        {c.volumeButtonBelow}
+        <IconButton
+          className={classes.menuButton}
+          color="inherit"
+          onClick={handleDrawer}
+          size="large">
+          <MenuIcon />
+        </IconButton>
+      </Th5>
+    </B>
+    <div id="contentCard" className={classes.contentLayout}>
+      {contentCard}
+    </div>
+    <div id="controlsCard" className={classes.controlsLayout}>
+      {c.slider}
+      <Card className={showingSecondButtons ? classes.controls2 : classes.controls}>
+        <Tc className={classnames(classes.left, classes.caption)}>{c.currentTime}</Tc>
+        <Tc className={classnames(classes.right, classes.caption)}>{c.duration}</Tc>
+        <div className={classes.buttons}>
+          {showingSecondButtons ? (
+            <>
+              {c.bookmarkButton}
+              {c.playQueueButton}
+              {c.skipAlbumButton}
+              {c.skip30Button}
+              <ToggleIconButton handler={() => setShowingSecondButtons(false)} />
+            </>
+          ) : (
+            <>
+              {c.volumeButtonAbove}
+              {c.prevButton}
+              {c.playPauseButton}
+              {c.nextButton}
+              <ToggleIconButton handler={() => setShowingSecondButtons(true)} />
+            </>
+          )}
+        </div>
+      </Card>
+    </div>
+    <SwipeableDrawer open={Boolean(playlistOpen)} onClose={handleClose} onOpen={handleDrawer} anchor="right">
+      <ListSubheader component="div" className={classes.listHeader}>
+        <B flexDirection="row" alignItems="center">
+          {c.bookmarkButton}
+          {c.playQueueButton}
+          {c.skipAlbumButton}
+          {c.shuffleQueueButton}
+          <div style={{ flex: '1 0 auto' }}></div>
+          <Button onClick={handleClose}>
+            Close
+            <ArrowForward />
+          </Button>
+        </B>
+      </ListSubheader>
+      <CurrentSongList className={classes.songList} onSongClick={handleClose} />
+    </SwipeableDrawer>
+  </>;
+}
+export default AutoPlayer;
