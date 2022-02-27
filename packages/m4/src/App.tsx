@@ -6,7 +6,7 @@ import { Button, Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 import "./App.css";
-import { Routes } from "./Routes";
+import { Layout } from "./Layout";
 import { CredentialsProvider, IntegratedPlayerQueue, SubsonicProvider } from "@subfire/hooks";
 
 const Snacker: React.FC = (props) => {
@@ -48,7 +48,7 @@ function App() {
             <ThemeProvider theme={theme}>
               <Paper className="page-bg">
                 <Snacker>
-                  <Routes />
+                  <Layout />
                   <IntegratedPlayerQueue />
                 </Snacker>
               </Paper>

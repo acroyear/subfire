@@ -1,19 +1,11 @@
-import { ComponentType } from 'react';
-
 import P404 from './404';
-
 // the real ones
 import { Playlists } from './Playlists';
 import { Stations } from './Stations';
 import { Player1 } from './Player1';
 import NavGrid from './NavGrid';
 import { Playlist } from './Playlist';
-
-export interface PageRouteData {
-    path: string;
-    component: ComponentType;
-    exact: boolean;
-}
+import { PageRouteData } from '@subfire/components';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Index = (_props: any) => {

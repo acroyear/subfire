@@ -1,15 +1,9 @@
-import { ComponentType } from 'react';
 import MainHeader from './MainHeader';
+import { PageRouteData } from '@subfire/components';
 
 const PlayerHeader = () => <>Player Header</>;
 
 const LoaderHeader = () => <> Loader Header</>;
-
-interface PageRouteData {
-    path: string;
-    component: ComponentType;
-    exact: boolean;
-}
 
 const pages: Array<PageRouteData> = [
 
