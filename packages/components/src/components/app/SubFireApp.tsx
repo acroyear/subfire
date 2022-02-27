@@ -1,11 +1,13 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import { LoadingCard, useImageColorTheme, useLoginSnacker } from "@subfire/components";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button, Paper } from "@mui/material";
 import { ThemeProvider, createTheme, ThemeOptions } from "@mui/material/styles";
 
 import { CredentialsProvider, IntegratedPlayerQueue, SubsonicProvider } from "@subfire/hooks";
+import { useLoginSnacker } from "../../hooks/useLoginSnacker";
+import { useImageColorTheme } from "../../hooks/useImageColorTheme";
+import { LoadingCard } from "../ui/loader/LoadingCard";
 
 const Snacker: React.FC = (props) => {
   useLoginSnacker();
@@ -60,3 +62,4 @@ export const SubFireApp = (props: AppProps) => {
   );
 }
 
+export default SubFireApp;
