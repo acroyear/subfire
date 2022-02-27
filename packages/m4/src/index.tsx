@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import "./App.css";
+import { SubFireApp } from './SubFireApp';
 import reportWebVitals from './reportWebVitals';
-
+import { Layout } from './Layout';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <SubFireApp Contents={Layout} clientName="SubFireM4" themeOptions={{
+      palette: {
+        mode: 'dark'
+      }
+    }} />
   </React.StrictMode>,
   document.getElementById('root')
 );

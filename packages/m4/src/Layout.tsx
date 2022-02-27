@@ -3,7 +3,7 @@ import { useSubsonic } from '@subfire/hooks';
 import pages from './pages';
 import headers from './headers';
 
-export const Layout = (_props: any) => {
+export const Layout: React.FC = (_props: any) => {
     const { isLoggedIn } = useSubsonic();
     return (
         <>

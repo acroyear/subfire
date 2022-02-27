@@ -289,7 +289,7 @@ function MainHeader(props: any): any {
                 history.push("/");
               }}
             >
-              SubFire Mobile 3
+              SubFire Desktop
             </span>
           </Typography>
           <div>

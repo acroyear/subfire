@@ -3,10 +3,8 @@ import { HashRouter } from "react-router-dom";
 import { LoadingCard, useImageColorTheme, useLoginSnacker } from "@subfire/components";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button, Paper } from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme, ThemeOptions } from "@mui/material/styles";
 
-import "./App.css";
-import { Layout } from "./Layout";
 import { CredentialsProvider, IntegratedPlayerQueue, SubsonicProvider } from "@subfire/hooks";
 
 const Snacker: React.FC = (props) => {
@@ -14,18 +12,21 @@ const Snacker: React.FC = (props) => {
   return <>{props.children}</>;
 };
 
-function App() {
+export interface AppProps {
+  themeOptions?: ThemeOptions;
+  Contents: React.ComponentType;
+  clientName: string;
+}
+
+export const SubFireApp = (props: AppProps) => {
+  const { themeOptions, Contents, clientName } = props;
   const notistackRef = React.createRef<SnackbarProvider>();
   const onClickDismiss = (key: SnackbarKey) => {
     notistackRef.current.closeSnackbar(key);
   };
   let { theme, resetTheme, mode, _mode } = useImageColorTheme();
   if (!theme) {
-    theme = createTheme({
-      palette: {
-        mode: 'dark'
-      }
-    });
+    theme = createTheme(themeOptions);
     resetTheme();
   }
   console.log('app rendering', mode, _mode, theme.palette.mode);
@@ -43,12 +44,12 @@ function App() {
       )}
     >
       <CredentialsProvider>
-        <SubsonicProvider clientName="SubFireM4" LoadingCardComponent={LoadingCard}>
+        <SubsonicProvider clientName={clientName} LoadingCardComponent={LoadingCard}>
           <HashRouter>
             <ThemeProvider theme={theme}>
               <Paper className="page-bg">
                 <Snacker>
-                  <Layout />
+                  <Contents />
                   <IntegratedPlayerQueue />
                 </Snacker>
               </Paper>
@@ -56,8 +57,6 @@ function App() {
           </HashRouter>
         </SubsonicProvider>
       </CredentialsProvider></SnackbarProvider>
-
   );
 }
 
-export default App;

@@ -221,7 +221,7 @@ function MainHeader(props: any): any {
           <ListItem>
             <ListItemText
               primary={
-                "Version 3.14.0 " +
+                "Version 4.0.0 alpha " +
                 String.fromCharCode(169) +
                 " Joseph W Shelby, MIT License"
               }
@@ -289,7 +289,7 @@ function MainHeader(props: any): any {
                 history.push("/");
               }}
             >
-              SubFire Mobile 3
+              SubFire Mobile 4
             </span>
           </Typography>
           <div>
