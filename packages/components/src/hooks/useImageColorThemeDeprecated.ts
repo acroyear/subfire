@@ -134,13 +134,13 @@ function genThemePaletteFromColor(c: Colors.RGB | number[], _p: unknown) {
   }
 }
 
-export const usePrefersDarkMode = () => {
+export const usePrefersDarkModeDeprecated = () => {
   const rv = useMedia("(prefers-color-scheme: dark)", false);
   return rv;
 }
 
-export function useImageColorThemeImpl() {
-  const prefersDark = usePrefersDarkMode();
+export function useImageColorThemeImplDeprecated() {
+  const prefersDark = usePrefersDarkModeDeprecated();
   const [_mode, setMode] = useState<ThemeModes>('auto');
   let mode = _mode;
   if (_mode === 'auto') {
@@ -196,5 +196,5 @@ export function useImageColorThemeImpl() {
   return { imageTag, setImageTag, palette, theme, setTheme, resetTheme, mode, setMode, _mode };
 }
 
-export const useImageColorTheme = singletonHook({ imageTag: null, setImageTag: () => {}, palette: null, theme: null, resetTheme: () => {}, setTheme: () => {}, mode: 'light', _mode: 'auto', setMode: () => {} }, useImageColorThemeImpl);
-export default useImageColorTheme;
+export const useImageColorThemeDeprecated = singletonHook({ imageTag: null, setImageTag: () => {}, palette: null, theme: null, resetTheme: () => {}, setTheme: () => {}, mode: 'light', _mode: 'auto', setMode: () => {} }, useImageColorThemeImplDeprecated);
+export default useImageColorThemeDeprecated;

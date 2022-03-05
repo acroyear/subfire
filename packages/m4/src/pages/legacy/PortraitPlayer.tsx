@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import classnames from 'classnames';
 
@@ -15,7 +15,7 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
-import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
+import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useAdjustableImagePalette } from '@subfire/components';
 import { SubsonicTypes } from '@subfire/core';
 
 // const useStyles = makeStyles(theme => ({
@@ -107,13 +107,9 @@ import { SubsonicTypes } from '@subfire/core';
 // }));
 
 export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
-  const { setImageTag, resetTheme } = useImageColorTheme();
 
-  useEffect(() => {
-    // no-op
-    return () => resetTheme();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const img = useRef<HTMLImageElement>();
+  useAdjustableImagePalette(img.current);
 
   const c = components;
   const cp = current;
@@ -155,12 +151,6 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
   // const coverSize = 150; // size.width - 32;
   // console.log(coverSize);
 
-  const onLoad = (evt: any) => {
-    console.log('loaded', evt.target.src);
-    evt.target.crossOrigin = "Anonymous";
-    setImageTag({ tag: evt.target });
-  }
-
   return <>
     <AppBar className={classes.appbar}>
       <Toolbar>
@@ -198,7 +188,7 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
         }}
         onClick={toggleSlideLeft}
       >
-        <img src={current.coverArtUrl} style={{width: 150, height: 'auto'}} alt="" onLoad={onLoad}/>
+        <img ref={img} src={current.coverArtUrl} style={{width: 150, height: 'auto'}} alt=""/>
       </div>
       <Gc className={classes.grid}>
         <Gi xs={1} />

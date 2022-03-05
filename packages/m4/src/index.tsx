@@ -8,11 +8,7 @@ import { SubFireApp } from '@subfire/components';
 
 ReactDOM.render(
   <React.StrictMode>
-    <SubFireApp Contents={Layout} clientName="SubFireM4" themeOptions={{
-      palette: {
-        mode: 'dark'
-      }
-    }} />
+    <SubFireApp Contents={Layout} clientName="SubFireM4" darkMode="auto" />
   </React.StrictMode>,
   document.getElementById('root')
 );

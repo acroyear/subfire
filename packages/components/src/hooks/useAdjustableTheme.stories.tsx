@@ -90,7 +90,7 @@ export const AdjustableImageTheme = () => {
             <input onChange={onChange} value={id}></input>
             <img ref={img} src={url} alt="" style={{ width: 100, height: 'auto' }} />
             Dark: <Switch checked={mode === 'dark'} onChange={(e) => setMode(e.target.checked ? 'dark' : 'light')}></Switch>
-            <Checkbox checked={material} onChange={(e) => setMaterial(e.target.checked)} />
+            2014 Palette: <Checkbox checked={material} onChange={(e) => setMaterial(e.target.checked)} />
         </Paper>
     </AdjustableThemeProvider>);
 }

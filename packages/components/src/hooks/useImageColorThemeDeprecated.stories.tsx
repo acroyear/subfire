@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useImageColorTheme } from './useImageColorTheme';
+import { useImageColorThemeDeprecated } from './useImageColorThemeDeprecated';
 import { useTheme } from '@mui/material/styles';
 import {
     Subsonic
@@ -54,7 +54,7 @@ const credentials = {
 };
 
 export default {
-    title: 'hooks/ColorStuffs'
+    title: 'hooks/_DeprecatedColorStuffs'
 };
 
 const InteriorTest = (p: any) => {
@@ -75,7 +75,7 @@ const InteriorTest = (p: any) => {
         setId(evt.target.value);
     }
 
-    const { setImageTag, palette, theme } = useImageColorTheme();
+    const { setImageTag, palette, theme } = useImageColorThemeDeprecated();
 
     const onLoad = (evt: any) => {
         console.log('loaded', evt.target.src);

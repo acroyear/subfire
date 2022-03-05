@@ -4,13 +4,13 @@ import { createTheme, ThemeProvider, styled, PaletteOptions } from '@mui/materia
 import { getPalette, colorThiefColorToRGB } from '@subfire/core/lib/utils/colors';
 import { getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core/lib/utils/material-color';
 import { FC, useEffect, useState } from 'react';
-import { createGlobalState } from 'react-use';
-import { Tb1 } from '..';
+import { createGlobalState, useMedia } from 'react-use';
+import { SubfireRouterParams, Tb1 } from '..';
 
 // TODO migrate over use system dark mode 'auto' setting from the deprecated file
 
 const initial: PaletteOptions = {
-    mode: 'dark',
+    mode: 'light',
     primary: {
         main: '#Ab1fb7',
     },
@@ -19,12 +19,27 @@ const initial: PaletteOptions = {
     }
 };
 
-export const useAdjustableThemeDark = createGlobalState<PaletteMode>(initial.mode);
+export type SubFirePaletteMode = PaletteMode | 'auto';
+
+export const useAdjustableThemeDark = createGlobalState<SubFirePaletteMode>(initial.mode);
 export const useAdjustableThemeMaterialPalette = createGlobalState<boolean>(true);
 export const useAdjustableThemeColors = createGlobalState<PaletteOptions>(initial);
 
+export const usePrefersDarkMode = (): boolean => {
+    const rv = useMedia("(prefers-color-scheme: dark)", false);
+    return rv;
+}
+
+const getActualMode = (mode: SubFirePaletteMode, prefersDark = false): PaletteMode => {
+    if (mode === 'auto') {
+        return prefersDark ? 'dark' : 'light'
+    }
+    return mode as PaletteMode;
+}
+
 export const useAdjustableImagePalette = (img: HTMLImageElement) => {
     const [mode] = useAdjustableThemeDark();
+    const prefersDark = usePrefersDarkMode();
     const [paletteOptions, setPaletteOptions] = useAdjustableThemeColors();
     const [material] = useAdjustableThemeMaterialPalette();
     const [src, setSrc] = useState(img?.src);
@@ -40,8 +55,8 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             let primary = colorThiefColorToRGB(colors[0]);
             let secondary = colorThiefColorToRGB(colors[1]);
             if (material) {
-                primary = hexColorToMaterial(primary).closestMaterialRGB        
-                secondary = hexColorToMaterial(secondary).closestMaterialRGB        
+                primary = hexColorToMaterial(primary).closestMaterialRGB
+                secondary = hexColorToMaterial(secondary).closestMaterialRGB
             }
             if (primary.startsWith("#")) {
                 primary = hexToRgb(primary);
@@ -54,7 +69,8 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             let primaryRelative = getPerceptualBrightness(primaryRGB);
             const secondaryRelative = getPerceptualBrightness(secondaryRGB);
             console.warn(primaryRelative, secondaryRelative);
-            if (mode === 'dark') {
+            const actualMode = getActualMode(mode, prefersDark);
+            if (actualMode === 'dark') {
                 // if both colors are too dark, gray one out
                 if (primaryRelative <= 350 && secondaryRelative <= 350) {
                     primary = "#EEEEEE";
@@ -101,17 +117,21 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
 export const AdjustableThemeProvider: FC = (props) => {
     const [colors] = useAdjustableThemeColors();
     const [mode] = useAdjustableThemeDark();
+    const prefersDark = usePrefersDarkMode();
+
+    const actualMode = getActualMode(mode, prefersDark);
 
     const theme = createTheme({
         palette: {
             ...colors,
-            mode
+            mode: actualMode
         }
     });
 
+//             <Paper><Tb1>{mode} {JSON.stringify(colors)}</Tb1></Paper>
+
     return (
         <ThemeProvider theme={theme}>
-            <Paper><Tb1>{mode} {JSON.stringify(colors)}</Tb1></Paper>
             {props.children}
         </ThemeProvider>)
 }

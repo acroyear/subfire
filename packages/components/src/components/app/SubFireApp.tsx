@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HashRouter } from "react-router-dom";
 import { SnackbarProvider, SnackbarKey } from "notistack";
-import { Button, Paper } from "@mui/material";
+import { Button, PaletteMode, PaletteOptions, Paper } from "@mui/material";
 import { ThemeProvider, createTheme, ThemeOptions } from "@mui/material/styles";
 
 import { CredentialsProvider, IntegratedPlayerQueue, SubsonicProvider } from "@subfire/hooks";
 import { useLoginSnacker } from "../../hooks/useLoginSnacker";
-import { useImageColorTheme } from "../../hooks/useImageColorTheme";
+import { AdjustableThemeProvider, SubFirePaletteMode, useAdjustableImagePalette, useAdjustableThemeColors, useAdjustableThemeDark, useAdjustableThemeMaterialPalette } from "../../hooks/useAdjustableTheme";
 import { LoadingCard } from "../ui/loader/LoadingCard";
 
 const Snacker: React.FC = (props) => {
@@ -15,23 +15,37 @@ const Snacker: React.FC = (props) => {
 };
 
 export interface AppProps {
-  themeOptions?: ThemeOptions;
+  paletteOptions?: PaletteOptions;
+  darkMode?: SubFirePaletteMode;
+  materialPalette?: boolean;
+
   Contents: React.ComponentType;
   clientName: string;
 }
 
 export const SubFireApp = (props: AppProps) => {
-  const { themeOptions, Contents, clientName } = props;
+  const { paletteOptions, darkMode, materialPalette, Contents, clientName } = props;
   const notistackRef = React.createRef<SnackbarProvider>();
   const onClickDismiss = (key: SnackbarKey) => {
     notistackRef.current.closeSnackbar(key);
   };
-  let { theme, resetTheme, mode, _mode } = useImageColorTheme();
-  if (!theme) {
-    theme = createTheme(themeOptions);
-    resetTheme();
-  }
-  console.log('app rendering', mode, _mode, theme.palette.mode);
+
+  const [_mode, setDarkMode] = useAdjustableThemeDark();
+  const [_material, setMaterial] = useAdjustableThemeMaterialPalette();
+  const [_paletteOptions, setPaletteOptions] = useAdjustableThemeColors();
+
+  useEffect(() => {
+    setPaletteOptions(() => paletteOptions);
+  }, [paletteOptions]);
+
+  useEffect(() => {
+    setMaterial(() => materialPalette);
+  }, [materialPalette]);
+
+  useEffect(() => {
+    setDarkMode(() => darkMode);
+  }, [darkMode]);
+
   return (
     <SnackbarProvider
       ref={notistackRef}
@@ -48,14 +62,14 @@ export const SubFireApp = (props: AppProps) => {
       <CredentialsProvider>
         <SubsonicProvider clientName={clientName} LoadingCardComponent={LoadingCard}>
           <HashRouter>
-            <ThemeProvider theme={theme}>
+            <AdjustableThemeProvider>
               <Paper className="page-bg">
                 <Snacker>
                   <Contents />
                   <IntegratedPlayerQueue />
                 </Snacker>
               </Paper>
-            </ThemeProvider>
+            </AdjustableThemeProvider>
           </HashRouter>
         </SubsonicProvider>
       </CredentialsProvider></SnackbarProvider>
