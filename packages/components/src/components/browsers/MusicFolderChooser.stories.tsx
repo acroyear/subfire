@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingCard, MusicFolderChooser } from '../..';
+import { Gc, Gi, LoadingCard, MusicFolderChooser } from '../..';
 import { useSubsonic, SubsonicProvider, buildProcessEnvCredentials } from '@subfire/hooks';
 export default {
   title: 'browsers/MusicFolders'
@@ -47,9 +47,11 @@ export const Music_Folders = (_props: any) => {
   console.warn(credentials);
   return (
     <SubsonicWrapper embeddedCredentials={credentials}>
-      <MusicFolderChooser native={false} />
-      <MusicFolderChooser native={true} caption="Music Folder (native)" />
-      <Inner />
+      <Gc>
+        <Gi xs={12} sx={{paddingTop: 1, paddingBottom: 1}}><MusicFolderChooser native={false} selectId="mf1"/></Gi>
+        <Gi xs={12} sx={{paddingTop: 1, paddingBottom: 1}}><MusicFolderChooser native={true} caption="Music Folder (native)" selectId="mf2"/></Gi>
+        <Gi xs={12}><Inner /></Gi>
+      </Gc>
     </SubsonicWrapper>
   );
 };

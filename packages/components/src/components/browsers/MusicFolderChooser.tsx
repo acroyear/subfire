@@ -16,6 +16,7 @@ export interface MusicFolderChooserPropTypes {
   musicFolderId?: number
   musicFolderChanged?: (id: number) => void
   musicFolders?: Array<SubsonicTypes.MusicFolder>
+  selectId?: string
 }
 
 export const MusicFolderPicker: React.FC<MusicFolderChooserPropTypes> = props => {
@@ -23,10 +24,10 @@ export const MusicFolderPicker: React.FC<MusicFolderChooserPropTypes> = props =>
   // musicFolder (id)
   // musicFolders
   // musicFolderChanged (optional)
-  const { caption, native, musicFolderId, musicFolderChanged } = props;
+  const { caption, native, musicFolderId, musicFolderChanged, selectId } = props;
   let { musicFolders } = props;
   if (musicFolders.length === 0) musicFolders = [{ id: -1, name: "still loading..." }];
-
+  const labelId = `${selectId}-label`;
   const handleChange = (evt: any) => {
     musicFolderChanged(evt.target.value);
   };
@@ -47,12 +48,14 @@ export const MusicFolderPicker: React.FC<MusicFolderChooserPropTypes> = props =>
 
   return (
     <FormControl fullWidth>
-      <InputLabel htmlFor="folder-query-select">{caption}</InputLabel>
+      <InputLabel id={labelId}>{caption}</InputLabel>
       <Select
+        labelId={labelId}
         native={native}
         value={musicFolderId}
         onChange={handleChange}
-        input={<Input name="folder-query" id="folder-query-select" />}
+        id={selectId}
+        label={caption}
       >
         {folderItems}
       </Select>
@@ -75,6 +78,7 @@ export const MusicFolderChooser: React.FC<MusicFolderChooserPropTypes> = props =
   const { MusicFolders } = SubsonicCache;
   return (
     <MusicFolderPicker
+      selectId={props.selectId}
       caption={props.caption}
       native={props.native}
       musicFolderId={musicFolderId}
