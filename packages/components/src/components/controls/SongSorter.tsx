@@ -50,7 +50,7 @@ let lastId = 0;
 
 export const SongSorterSelect: React.FC<SongSorterSelectProperties> = props => {
   const { classes = {}, onChange, sortProperty = 'unsorted', sortDirection = 'asc', fullWidth, native, label, helperText, id, ...rest } = props;
-  const theRest = {...rest} as any;
+  const theRest = { ...rest } as any;
   const theOnChange = (evt: any) => {
     onChange(evt.target.value, sortDirection);
   };
@@ -68,16 +68,18 @@ export const SongSorterSelect: React.FC<SongSorterSelectProperties> = props => {
   return (
     <Box display="flex" flexDirection="row" flexWrap="nowrap" justifyContent="flex-start" alignItems="flex-end">
       <Box flexGrow={1}>
-        <FormControl className={classes.formControl} fullWidth={fullWidth}>
-          <InputLabel shrink htmlFor={theId}>
+        <FormControl className={classes.formControl} fullWidth={fullWidth} variant="outlined">
+          <InputLabel shrink id={theId + "-label"}>
             {label || 'Sort By'}
           </InputLabel>
           <SelectComponent
             value={sortProperty}
             onChange={theOnChange}
-            input={<Input name="sortby-input" id={theId} />}
             name="sortby"
             className={classes.selectEmpty}
+            id={theId}
+            labelId={theId + "-label"}
+            label={label || 'Sort By'}
             {...theRest}
           >
             {Object.entries(SongSorterOptions).map(([k, v]) => {
@@ -100,7 +102,7 @@ export const SongSorterSelect: React.FC<SongSorterSelectProperties> = props => {
           <SortIcon />
         </Button>
       </Box>
-    </Box>
+    </Box >
   );
 };
 
@@ -166,7 +168,7 @@ export const sort = (prop: string, dir: Dir, songList: Song[], contentProp: stri
   let prop3 = null;
   if (prop === 'album') {
     prop2 = 'discNumber',
-    prop3 = 'track';
+      prop3 = 'track';
   }
   if (prop === 'artist') {
     prop2 = 'album';
@@ -178,7 +180,7 @@ export const sort = (prop: string, dir: Dir, songList: Song[], contentProp: stri
   }
   if (prop === 'discTrack') {
     prop = 'discNumber',
-    prop2 = 'track'
+      prop2 = 'track'
   }
   const sc = new SongComparison(prop, dir, prop2, prop3, contentProp, numericProp(prop));
   const rv = songList.slice().sort(sc.songCompare);
@@ -193,6 +195,7 @@ export interface SongSorterProperties {
   contentProp?: string
   sortProperty: string
   sortDirection: string
+  id?: string
 }
 
 export const SongSorter: React.FC<SongSorterProperties> = (props) => {
@@ -203,7 +206,8 @@ export const SongSorter: React.FC<SongSorterProperties> = (props) => {
     optionsRendererProps = {},
     contentProp = null,
     sortProperty,
-    sortDirection = 'asc'
+    sortDirection = 'asc',
+    id = "song-sorter"
   } = props;
 
   const onChange = (newSortProperty: string, newSortDirection: Dir, forceReverse: boolean) => {
@@ -222,7 +226,7 @@ export const SongSorter: React.FC<SongSorterProperties> = (props) => {
   };
 
   return (
-    <OptionsRenderer onChange={onChange} sortProperty={sortProperty} sortDirection={sortDirection as Dir} {...optionsRendererProps} />
+    <OptionsRenderer id={id} onChange={onChange} sortProperty={sortProperty} sortDirection={sortDirection as Dir} {...optionsRendererProps} />
   );
 };
 

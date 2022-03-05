@@ -9,6 +9,7 @@ import InputLabel from '@mui/material/InputLabel';
 
 import { SubsonicTypes } from '@subfire/core';
 import { useSubsonic } from '@subfire/hooks';
+import { NativeSelect } from '@mui/material';
 
 export interface MusicFolderChooserPropTypes {
   caption?: string
@@ -25,6 +26,8 @@ export const MusicFolderPicker: React.FC<MusicFolderChooserPropTypes> = props =>
   // musicFolders
   // musicFolderChanged (optional)
   const { caption, native, musicFolderId, musicFolderChanged, selectId } = props;
+  const theRest: Record<string, any> = {};
+
   let { musicFolders } = props;
   if (musicFolders.length === 0) musicFolders = [{ id: -1, name: "still loading..." }];
   const labelId = `${selectId}-label`;
@@ -46,19 +49,23 @@ export const MusicFolderPicker: React.FC<MusicFolderChooserPropTypes> = props =>
     );
   });
 
+  const SelectComponent = native ? NativeSelect : Select;
+  if (!native) theRest.displayEmpty = true;
+
   return (
     <FormControl fullWidth>
       <InputLabel id={labelId}>{caption}</InputLabel>
-      <Select
+      <SelectComponent
         labelId={labelId}
         native={native}
         value={musicFolderId}
         onChange={handleChange}
         id={selectId}
         label={caption}
+        {...theRest}
       >
         {folderItems}
-      </Select>
+      </SelectComponent>
     </FormControl>
   );
 };

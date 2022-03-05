@@ -25,9 +25,10 @@ export const Song_Sorter = (_props: any) => {
   }
 
   return <>
-    <SongSorter {...s} setSongList={theSetSongList} optionsRendererProps={{ native: false }} />
+    <SongSorter {...s} setSongList={theSetSongList} optionsRendererProps={{ native: true }} id="ss2"/>
+    <br/>
+    <SongSorter {...s} setSongList={theSetSongList} optionsRendererProps={{ native: false }} id="ss1"/>
     <br />
-    <SongSorter {...s} setSongList={theSetSongList} optionsRendererProps={{ native: true }} />
     <hr />
     {s.songList.map((s) => <div key={s.id}>{s.title}</div>)}
   </>
