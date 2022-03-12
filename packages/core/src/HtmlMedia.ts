@@ -47,6 +47,7 @@ export class HtmlMedia {
             if (!this.e) this.e = document.querySelector('audio');
             if (!this.e) {
                 const a = document.createElement('audio');
+                a.id = "html-media-element";
                 a.autoplay = false;
                 document.body.appendChild(a);
                 this.e = a;

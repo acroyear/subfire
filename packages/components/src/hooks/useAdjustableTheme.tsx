@@ -1,7 +1,7 @@
 import { hexToRgb, PaletteMode, Paper, StyledEngineProvider } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider, styled, PaletteOptions } from '@mui/material/styles';
-import { getPalette, colorThiefColorToRGB, ColorThiefColor } from '@subfire/core/lib/utils/colors';
+import { getPalette, colorThiefColorToRGB, ColorThiefColor, colorThiefColorToHEX } from '@subfire/core/lib/utils/colors';
 import { getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core/lib/utils/material-color';
 import { FC, useEffect, useState } from 'react';
 import { createGlobalState, useMedia } from 'react-use';
@@ -56,8 +56,8 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
         const colors = getPalette(img);
         setColors(colors);
         if (colors?.length) {
-            let primary = colorThiefColorToRGB(colors[0]);
-            let secondary = colorThiefColorToRGB(colors[1]);
+            let primary = colorThiefColorToHEX(colors[0]);
+            let secondary = colorThiefColorToHEX(colors[1]);
             if (material) {
                 primary = hexColorToMaterial(primary).closestMaterialRGB
                 secondary = hexColorToMaterial(secondary).closestMaterialRGB

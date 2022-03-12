@@ -1322,6 +1322,9 @@ export function hexToRgb(hex) {
 
 export function hexColorToMaterial(color) {
   var rgb = hexToRgb(color);
+  if (!rgb) {
+    console.warn('???', color);
+  }
   var red = rgb.r;
   var green = rgb.g;
   var blue = rgb.b;
