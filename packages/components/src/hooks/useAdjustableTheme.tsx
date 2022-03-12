@@ -1,11 +1,13 @@
 import { hexToRgb, PaletteMode, Paper, StyledEngineProvider } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider, styled, PaletteOptions } from '@mui/material/styles';
-import { getPalette, colorThiefColorToRGB } from '@subfire/core/lib/utils/colors';
+import { getPalette, colorThiefColorToRGB, ColorThiefColor } from '@subfire/core/lib/utils/colors';
 import { getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core/lib/utils/material-color';
 import { FC, useEffect, useState } from 'react';
 import { createGlobalState, useMedia } from 'react-use';
 import { SubfireRouterParams, Tb1 } from '..';
+
+const useImagePalette = createGlobalState<ColorThiefColor[]>();
 
 // TODO migrate over use system dark mode 'auto' setting from the deprecated file
 
@@ -43,6 +45,7 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
     const [paletteOptions, setPaletteOptions] = useAdjustableThemeColors();
     const [material] = useAdjustableThemeMaterialPalette();
     const [src, setSrc] = useState(img?.src);
+    const [_colors, setColors] = useImagePalette();
     useEffect(() => {
         console.log('loading', img?.src);
         if (!src) {
@@ -51,6 +54,7 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
         };
         // refactor me - consolidate these methods with the RGB methods and typescript that crap
         const colors = getPalette(img);
+        setColors(colors);
         if (colors?.length) {
             let primary = colorThiefColorToRGB(colors[0]);
             let secondary = colorThiefColorToRGB(colors[1]);
@@ -72,6 +76,7 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             const actualMode = getActualMode(mode, prefersDark);
             if (actualMode === 'dark') {
                 // if both colors are too dark, gray one out
+                // TODO: use double-this to keep color ratio
                 if (primaryRelative <= 350 && secondaryRelative <= 350) {
                     primary = "#EEEEEE";
                     primaryRGB = [238, 238, 238];
@@ -84,6 +89,7 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
                 }
             } else {
                 // if primary is bright on white, lets drop it down
+                // todo - use half-this to preserve ratio
                 if (primaryRelative >= 1350) {
                     primary = 'rgb(20,20,20)';
                 }
