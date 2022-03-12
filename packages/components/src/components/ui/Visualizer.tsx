@@ -25,7 +25,7 @@ export const Visualizer: React.FC<VisualizerProps> = (props) => {
             console.log('no canvas yet');
         }
         let colors: Array<string> = [];
-        console.warn(palette);
+        // console.warn(palette);
         if (palette?.length) {
             colors = palette.map(ctc => colorThiefColorToRGB(ctc));
         }

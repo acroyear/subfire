@@ -1,4 +1,4 @@
-type WaveTypes = 'bars' |
+type WaveTypeValues = 'bars' |
     'bars blocks' |
     'big bars' |
     'cubes' |
@@ -20,6 +20,7 @@ type WaveTypes = 'bars' |
     'web' |
     'wave';
 
+type WaveTypes = WaveTypeValues | Array<WaveTypeValues>;
 
 interface WaveOptions {
     stroke?: number;
