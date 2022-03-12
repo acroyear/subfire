@@ -7,7 +7,7 @@ import { FC, useEffect, useState } from 'react';
 import { createGlobalState, useMedia } from 'react-use';
 import { SubfireRouterParams, Tb1 } from '..';
 
-const useImagePalette = createGlobalState<ColorThiefColor[]>();
+export const useImagePalette = createGlobalState<ColorThiefColor[]>();
 
 // TODO migrate over use system dark mode 'auto' setting from the deprecated file
 

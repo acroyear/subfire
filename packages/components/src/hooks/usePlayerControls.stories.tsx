@@ -1,10 +1,12 @@
 import { SnackbarProvider } from 'notistack';
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@mui/material';
 import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 import { usePlayerControls } from './usePlayerControls';
 import { LoadingCard } from '../components/ui/loader/LoadingCard';
+import { Visualizer } from '../components/ui/Visualizer';
+import { useAdjustableImagePalette } from './useAdjustableTheme';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
     return (
@@ -26,9 +28,10 @@ const ThePlayerBasic = (): JSX.Element => {
     const onArtworkLoad = () => {
         console.log('artwork loaded');
     }
-    const components = usePlayerControls({ artworkSize: 100, onArtworkLoad });
+    const artworkRef = useRef<HTMLImageElement>();
+    const components = usePlayerControls({ artworkSize: 100, onArtworkLoad, artworkRef });
+    useAdjustableImagePalette(artworkRef.current);
     const { current } = components;
-
     return <>
         <p>The Player?: {current?.name || current?.title}</p>
         {components.playPauseButton}
@@ -40,6 +43,7 @@ const ThePlayerBasic = (): JSX.Element => {
         {components.slider}
         {current?.src}<br />
         {components.artwork}
+        <div style={{background: 'black', width: 100, height: 100}}><Visualizer id="the-player"></Visualizer></div>
     </>
 }
 
@@ -74,3 +78,7 @@ export const PlayerControlsHooksTest = (_props: any) => {
     </SubsonicWrapper>
     );
 }
+function seAdjustableImagePalette(artworkRef: React.Ref<HTMLImageElement>) {
+    throw new Error('Function not implemented.');
+}
+
