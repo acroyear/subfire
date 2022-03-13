@@ -8,14 +8,15 @@ interface VisualizerProps {
     canvasId: string;
     audioId?: string;
     type: WaveTypes;
+    stroke?: number;
 }
 
 export const Visualizer: React.FC<VisualizerProps> = (props) => {
     const [palette] = useImagePalette();
-    const { canvasId, type, audioId = 'html-media-element' } = props;
+    const { canvasId, type, stroke, audioId = 'html-media-element' } = props;
     let [wave] = useState(new Wave());
-    const audioTag = document.getElementById(audioId);
-    const canvasTag = document.getElementById(canvasId);
+    const audioTag = document.getElementById(audioId) as HTMLAudioElement;
+    const canvasTag = document.getElementById(canvasId) as HTMLCanvasElement;
 
     useEffect(() => {
         if (!audioTag) {
@@ -29,7 +30,7 @@ export const Visualizer: React.FC<VisualizerProps> = (props) => {
         if (palette?.length) {
             colors = palette.map(ctc => colorThiefColorToRGB(ctc));
         }
-        wave.fromElement(audioId, canvasId, { type: type, colors });
+        wave.fromElement(audioId, canvasId, { type: type, colors, stroke });
     }, [audioTag, canvasTag, type, palette]);
 
     return <canvas id={canvasId} style={{ width: '100%', height: '100%' }}></canvas>

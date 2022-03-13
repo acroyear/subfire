@@ -43,7 +43,7 @@ const ThePlayerBasic = (): JSX.Element => {
         {components.slider}
         {current?.src}<br />
         {components.artwork}
-        <div style={{background: 'black', width: 100, height: 100}}><Visualizer type={"shockwave"} canvasId="the-player"></Visualizer></div>
+        <div style={{padding: 5, background: 'rgba(0,0,0,.85)', width: 200, height: 100}}><Visualizer stroke={3} type={"shockwave"} canvasId="the-player"></Visualizer></div>
     </>
 }
 
@@ -57,7 +57,7 @@ export const PlayerControlsHooksTest = (_props: any) => {
     const { set, prev, next, skipAlbum, shuffle, ...state } = useSubsonicQueue();
 
     const reset = () => {
-        Subsonic.getAlbumSongs('3488').then(sl => {
+        Subsonic.getAlbumSongs('3056').then(sl => {
             set(sl, 0);
         })
     }
