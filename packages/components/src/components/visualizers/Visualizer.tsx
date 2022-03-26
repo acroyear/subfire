@@ -14,7 +14,7 @@ export interface VisualizerProps {
 
 export const Visualizer: React.FC<VisualizerProps> = (props) => {
     const [palette] = useImagePalette();
-    const { canvasId, audioId = 'html-media-element' } = props;
+    const { canvasId, audioId = 'html-media-element', viz = fourArcs } = props;
     const [wave, setWave] = useState<Wave>(null);
     const audioTag = document.getElementById(audioId) as HTMLAudioElement;
     const canvasTag = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -42,7 +42,7 @@ export const Visualizer: React.FC<VisualizerProps> = (props) => {
                 colors = palette.map(ctc => colorThiefColorToRGB(ctc));
                 console.log(colors);
             }
-            fourArcs(newwave, colors);
+            viz(newwave, colors);
         }
     }, [audioTag, canvasTag, wave, palette]);
 
