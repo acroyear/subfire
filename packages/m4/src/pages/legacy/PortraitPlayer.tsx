@@ -263,7 +263,7 @@ export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: 
           </Button>
         </B>
       </ListSubheader>
-      <CurrentSongList className={classes.songList} onSongClick={handleClose} />
+      <CurrentSongList stickyHeaderSize={48} className={classes.songList} onSongClick={handleClose} />
     </SwipeableDrawer>
   </>;
 }

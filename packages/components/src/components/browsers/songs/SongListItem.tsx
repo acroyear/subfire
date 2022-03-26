@@ -33,12 +33,13 @@ export interface SongLiteItemContentValues {
   idx: number
 }
 
-export interface SongLiteItemContentParams extends SongLiteItemContentValues, SongLiteItemContentsOptions {}
+export interface SongLiteItemContentParams extends SongLiteItemContentValues, SongLiteItemContentsOptions { }
 
 export interface SongListItemContentParams extends SongLiteItemContentsOptions {
   song: SubsonicTypes.Song,
   isCurrent: boolean,
-  idx: number
+  idx: number,
+  style?: React.CSSProperties
 }
 
 const SongLiteItemContents = ({
@@ -115,7 +116,7 @@ const SongLiteItemContents = ({
 );
 
 const SongListItem = (props: SongListItemContentParams) => {
-  const { onClick, song, idx, ...rest } = props;
+  const { onClick, song, idx, style, ...rest } = props;
   const { showCompressed, isCurrent } = rest;
   const alreadyScrolled = useRef(false);
   const handler = (node: HTMLElement) => {
@@ -126,12 +127,12 @@ const SongListItem = (props: SongListItemContentParams) => {
   };
 
   useEffect(() => {
-    return () => {alreadyScrolled.current = false;};
+    return () => { alreadyScrolled.current = false; };
   }, []);
 
   const [ref] = useRefCallbackHandler(handler);
   const { id } = song;
-  const styles = {} as React.CSSProperties;
+  const styles = {...style} as React.CSSProperties;
   if (showCompressed) {
     styles.paddingLeft = 8;
     styles.paddingRight = 8;

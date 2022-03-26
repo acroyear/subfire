@@ -14,9 +14,9 @@ export interface CurrentSongListProps extends SongListProps {
 }
 
 export const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props => {
-  const { style, classes, className, onSongClick, children, ...rest } = props; // eslint-disable-line
+  const { style, classes, className, onSongClick, children, stickyHeaderSize, ...rest } = props; // eslint-disable-line
   const { Subsonic } = useSubsonic();
-  const { queue =  [], idx = 0 , current, set } = useSubsonicQueue();
+  const { queue = [], idx = 0, current, set } = useSubsonicQueue();
 
   const onSongItemClick = (idx: number) => {
     set(queue, idx);
@@ -38,7 +38,8 @@ export const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props =>
     className,
     songItemProperties,
     coverSize: 32,
-    getCoverArtURL: Subsonic.getCoverArtURL
+    getCoverArtURL: Subsonic.getCoverArtURL,
+    stickyHeaderSize
   };
 
   return <SongList {...songListProperties} songs={queue} current={current}>{children}</SongList>;
