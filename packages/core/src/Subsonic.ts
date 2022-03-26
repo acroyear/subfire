@@ -1,4 +1,3 @@
-import URI from './utils/URI';
 import md5 from './utils/md5';
 import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from './utils/utils';
 import { SubsonicCache } from './SubsonicCache';
@@ -35,36 +34,38 @@ export class SubsonicClass {
     this.coverArtCache = s.coverArtCache;
   }
 
-  _buildURI = (method: string, params: any = {}): string => {
+  _buildURI = (method: string, params: Record<string, string> = {}): string => {
     const that = this;
     const uriString = this._s + '/rest/' + method + '.view';
-    const uri = URI(uriString);
-    uri.addQuery(params);
-    uri.addQuery({
+    const url = new URL(uriString);
+    const sp = url.searchParams;
+    for (const p in params) {
+      sp.set(p, params[p]);
+    }
+    const id: Record<string, string> = {
       v: that.serverAPIVersion,
       f: 'json',
       c: that._c,
       u: that._u
-    });
+    };
+    for (const p in id) {
+      sp.set(p, id[p]);
+    }
     if (that._p && versionCompare(that.serverAPIVersion, '1.13.0') >= 0) {
       const s = Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, '');
       const t = md5(that._p + s);
-      uri.addQuery({
-        s: s,
-        t: t
-      });
+      sp.set("s", s);
+      sp.set("t", t);
     } else {
       // currently unsupported
       that._encP = 'enc:' + hexEncode(that._p);
-      uri.addQuery({
-        p: that._encP
-      });
+      sp.set('p', that._encP);
     }
     // console.log(params);
     // uri = uri + $.param(params, traditional);
-    return uri.toString();
+    return url.toString();
   }
 
   // I hate that i'm having to add this last
@@ -83,9 +84,9 @@ export class SubsonicClass {
         });
       }
 
-      const uri = that._buildURI(method, params);
+      const url = that._buildURI(method, params);
       // console.log(uri);
-      fetch(uri.toString())
+      fetch(url.toString())
         .then((res) => {
           if (!res.ok) {
             rj(res);
@@ -1002,7 +1003,7 @@ export class SubsonicClass {
     return url;
   }
 
-  getHLSURL = (id: string, params?: object) => {
+  getHLSURL = (id: string, params?: Record<string, string>) => {
     params = Object.assign(
       {
         id: id,
@@ -1013,7 +1014,7 @@ export class SubsonicClass {
     return this._buildURI('hls', params);
   }
 
-  getStreamingURL = (id: string, params?: object) => {
+  getStreamingURL = (id: string, params?: Record<string, string>) => {
     params = Object.assign(
       {
         id: id,
