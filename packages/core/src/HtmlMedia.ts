@@ -49,6 +49,7 @@ export class HtmlMedia {
                 const a = document.createElement('audio');
                 a.id = "html-media-element";
                 a.autoplay = false;
+                a.crossOrigin = "anonymous";
                 document.body.appendChild(a);
                 this.e = a;
             }

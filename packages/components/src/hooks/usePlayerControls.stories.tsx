@@ -5,7 +5,7 @@ import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 import { usePlayerControls } from './usePlayerControls';
 import { LoadingCard } from '../components/ui/loader/LoadingCard';
-import { Visualizer } from '../components/ui/Visualizer';
+import { Visualizer } from '../components/visualizers/Visualizer';
 import { useAdjustableImagePalette } from './useAdjustableTheme';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
@@ -43,7 +43,7 @@ const ThePlayerBasic = (): JSX.Element => {
         {components.slider}
         {current?.src}<br />
         {components.artwork}
-        <div style={{padding: 5, background: 'rgba(0,0,0,.85)', width: 200, height: 100}}><Visualizer stroke={3} type={"shockwave"} canvasId="the-player"></Visualizer></div>
+        <div style={{padding: 5, background: 'rgba(0,0,0,.50)', width: 400, height: 100}}><Visualizer canvasId="the-player"></Visualizer></div>
     </>
 }
 
@@ -57,9 +57,11 @@ export const PlayerControlsHooksTest = (_props: any) => {
     const { set, prev, next, skipAlbum, shuffle, ...state } = useSubsonicQueue();
 
     const reset = () => {
-        Subsonic.getAlbumSongs('3056').then(sl => {
+        Subsonic.getPlayQueueSongs().then(sl => {
             set(sl, 0);
-        })
+        }).catch(e => {
+            debugger;
+        });
     }
 
     return (<SubsonicWrapper>
