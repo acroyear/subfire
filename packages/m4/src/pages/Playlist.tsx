@@ -18,7 +18,13 @@ export const Playlist: React.FC<any> = (p) => {
       coverSize={48}
       current={null}
       getCoverArtURL={getCoverArtURL}
-      songItemProperties={{}}
+      songItemProperties={{
+        showListIndex: true,
+        showCover: true,
+        showMeta: true,
+        showYear: true,
+        coverSize: 48
+      }}
       songs={pl.result.entry}
     ></SongList>
   );
