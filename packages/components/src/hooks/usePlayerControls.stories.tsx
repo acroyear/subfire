@@ -43,7 +43,7 @@ const ThePlayerBasic = (): JSX.Element => {
         {components.slider}
         {current?.src}<br />
         {components.artwork}
-        <div style={{padding: 5, background: 'rgba(0,0,0,.50)', width: 400, height: 100}}><Visualizer canvasId="the-player"></Visualizer></div>
+        <div style={{padding: 5, background: 'rgba(0,0,0,.50)', width: 400, height: 100}}><Visualizer /></div>
     </>
 }
 

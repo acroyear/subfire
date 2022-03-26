@@ -7,14 +7,14 @@ import { VisualizerFunction } from "./VisualizerFunction";
 import { fourArcs } from './fourArcs';
 
 export interface VisualizerProps {
-    canvasId: string;
+    canvasId?: string;
     audioId?: string;
     viz?: VisualizerFunction;
 }
 
 export const Visualizer: React.FC<VisualizerProps> = (props) => {
     const [palette] = useImagePalette();
-    const { canvasId, audioId = 'html-media-element', viz = fourArcs } = props;
+    const { canvasId = "the-visualizer-canvas", audioId = 'html-media-element', viz = fourArcs } = props;
     const [wave, setWave] = useState<Wave>(null);
     const audioTag = document.getElementById(audioId) as HTMLAudioElement;
     const canvasTag = document.getElementById(canvasId) as HTMLCanvasElement;
