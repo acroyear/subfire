@@ -11,7 +11,7 @@ export const colorThiefColorToHEX = (ctc: ColorThiefColor): string => {
   return "#" + (new RGB(ctc).toHexString());
 }
 
-export const colorThiefColorToRGB= (ctc: ColorThiefColor): string => {
+export const colorThiefColorToRGB = (ctc: ColorThiefColor): string => {
   return new RGB(ctc).toRGBString();
 }
 
@@ -143,7 +143,7 @@ export function getPalette(img: HTMLImageElement, colorCount = 6) {
 
 export const Gradients = {
   createLinearGradients: function (img: HTMLImageElement | ColorThiefColor[], colorCount = 6) {
-    let p: ColorThiefColor[]; 
+    let p: ColorThiefColor[];
     try {
       if ((img as HTMLImageElement).nodeName) {
         p = getPalette((img as HTMLImageElement), colorCount);
@@ -187,7 +187,7 @@ export const Gradients = {
   },
 
   createCenterGradients: function (img: HTMLImageElement | ColorThiefColor[], colorCount = 6) {
-    let p: ColorThiefColor[]; 
+    let p: ColorThiefColor[];
     try {
       if ((img as HTMLImageElement).nodeName) {
         p = getPalette((img as HTMLImageElement), colorCount);
@@ -219,8 +219,8 @@ export const Gradients = {
     "radial-gradient("
   ],
 
-  createRandomGradients: function (img: HTMLImageElement | ColorThiefColor[], colorCount = 6,count = 4, excludeRadial = false): GradientsPalette {
-    let p: ColorThiefColor[]; 
+  createRandomGradients: function (img: HTMLImageElement | ColorThiefColor[], colorCount = 6, count = 4, excludeRadial = false): GradientsPalette {
+    let p: ColorThiefColor[];
     try {
       if ((img as HTMLImageElement).nodeName) {
         p = getPalette((img as HTMLImageElement), colorCount);
@@ -230,7 +230,7 @@ export const Gradients = {
     } catch (e) {
       // usually caused by flipping "next" too fast
       console.warn(e);
-      return { gradients: [], palette: p};
+      return { gradients: [], palette: p };
     }
 
     var i,
@@ -254,7 +254,7 @@ export const Gradients = {
     } catch (e) {
       // usually caused by flipping "next" too fast
       console.warn(e);
-      return { gradients: [], palette: p};
+      return { gradients: [], palette: p };
     }
     var gradients = [];
     for (i = 0; i < count; ++i) {
@@ -322,3 +322,28 @@ export const Gradients = {
     return { gradients: gradients, palette: p };
   }
 };
+
+export const getContrastYIQ = (color: string | ColorThiefColor): 'white' | 'black' => {
+  const hex = '#';
+  let r: number, g: number, b: number;
+  if (typeof color === 'string') {
+    if (color.indexOf(hex) > -1) {
+      r = parseInt(color.substring(0, 2), 16);
+      g = parseInt(color.substring(2, 2 + 2), 16);
+      b = parseInt(color.substring(4, 4 + 2), 16);
+    } else {
+      const rgb = color.match(/\d+/g);
+      r = parseInt(rgb[0]);
+      g = parseInt(rgb[1]);
+      b = parseInt(rgb[2]);
+    }
+  }
+  else {
+    r = color[0];
+    g = color[1];
+    b = color[2];
+  }
+
+  const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  return (yiq >= 128) ? 'black' : 'white';
+}
