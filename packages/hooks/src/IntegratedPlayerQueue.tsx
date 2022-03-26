@@ -51,11 +51,13 @@ export const IntegratedPlayerQueue: React.FC<IntegratedPlayerQueuePlayerProps> =
         seekto: (details: any) => player.seek(details.seekTime)
     };
 
+    const coverArtUrl = Subsonic.connected ? Subsonic.getCoverArtURL(current.coverArt, 192) : null;
+
     useMediaSession({
         element: player?.e,
         mediaMetadata: current ? {
             ...current, artwork: [{
-                src: Subsonic.getCoverArtURL(current.coverArt, 192),
+                src: coverArtUrl,
                 sizes: '192x192', type: 'image/jpeg'
             }]
         } : null,
