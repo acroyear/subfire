@@ -25,7 +25,6 @@ export const useSubsonicQueue = (): SubsonicQueueHook => {
     useEffect(() => {
         console.log('init');
         const all1 =  (evt: SubsonicQueueTypes.SubsonicQueueEvent<Song>) => {
-            console.log('change event');
             setState(() => evt.data);
         }
         SubsonicQueue.addEventListener('change', all1);

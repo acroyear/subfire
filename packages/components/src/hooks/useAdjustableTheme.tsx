@@ -47,7 +47,6 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
     const [src, setSrc] = useState(img?.src);
     const [_colors, setColors] = useImagePalette();
     useEffect(() => {
-        console.log('loading', img?.src);
         if (!src) {
             setPaletteOptions(initial);
             return;
@@ -72,7 +71,6 @@ export const useAdjustableImagePalette = (img: HTMLImageElement) => {
             const secondaryRGB = parseRGB(secondary);
             let primaryRelative = getPerceptualBrightness(primaryRGB);
             const secondaryRelative = getPerceptualBrightness(secondaryRGB);
-            console.warn(primaryRelative, secondaryRelative);
             const actualMode = getActualMode(mode, prefersDark);
             if (actualMode === 'dark') {
                 // if both colors are too dark, gray one out
