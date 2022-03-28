@@ -74,3 +74,26 @@ export const shuffle = () => {
     </ImageList>
   );
 };
+
+export const without_list = () => {
+  let innerWidth = window.innerWidth;
+  const spacing = innerWidth > 360 ? 10 : 6;
+  const cellSize = innerWidth > 360 ? 192 : 164;
+  const cols = Math.floor(innerWidth / (cellSize + spacing));
+  const width = cols * (cellSize + spacing);
+  const props: CoverImageListItemProps = {
+    name: 'Basic',
+    subTitle: 'subTitle',
+    onIconClick: action('shuffle'),
+    onImageClick: action('image.shuffle'),
+    id: '1',
+    coverArt: 'pl-1',
+    Icon: Shuffle,
+    size: cellSize
+  };
+
+  return (
+      <CoverImageListItem {...props} />
+  );
+};
+

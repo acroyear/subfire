@@ -8,7 +8,7 @@ import { SubsonicGridList } from '../..';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
 
 export default {
-  title: 'ui/ImageList'
+  title: 'ui/SubsonicGridList'
 };
 
 function getSubTitle(pl: SubsonicTypes.Playlist) {
