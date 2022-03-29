@@ -24,7 +24,7 @@ export const CarouselCards = (_props: any) => {
     </div>
 }
 
-export const TestStyle = (_p) => {
+export const TestStyle = (_p: unknown) => {
     return <>
         <style>
             {`
