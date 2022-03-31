@@ -7,6 +7,7 @@ import { usePlayerControls } from './usePlayerControls';
 import { LoadingCard } from '../components/ui/loader/LoadingCard';
 import { Visualizer } from '../components/visualizers/Visualizer';
 import { useAdjustableImagePalette } from './useAdjustableTheme';
+import fourArcs from '../components/visualizers/fourArcs';
 
 const SubsonicWrapper: React.FC<any> = (props: any) => {
     return (
@@ -43,7 +44,7 @@ const ThePlayerBasic = (): JSX.Element => {
         {components.slider}
         {current?.src}<br />
         {components.artwork}
-        <div style={{padding: 5, background: 'rgba(0,0,0,.50)', width: 400, height: 100}}><Visualizer /></div>
+        <div style={{padding: 5, background: 'rgba(0,0,0,.50)', width: 400, height: 100}}><Visualizer viz={fourArcs}/></div>
     </>
 }
 
