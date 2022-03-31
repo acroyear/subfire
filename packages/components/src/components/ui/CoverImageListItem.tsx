@@ -35,16 +35,12 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
   const coverArt = props.coverArt || (useIdforArt ? props.id : null);
 
   const onIconClick: MouseEventHandler<HTMLButtonElement> = (evt) => {
-    if (props.onIconClick) {
-      props.onIconClick(props.id);
-    }
+    props.onIconClick?.(props.id);
     evt.stopPropagation();
   }
 
   const onImageClick: MouseEventHandler<HTMLLIElement> = (evt) => {
-    if (props.onImageClick) {
-      props.onImageClick(props.id);
-    }
+    props.onImageClick?.(props.id);
   }
 
   return (
@@ -70,7 +66,7 @@ export const CoverImageListItem: React.FC<CoverImageListItemProps> = (props: Cov
         title={props.name || props.title || ""}
         subtitle={props.subTitle || props.artist || ""}
         position="below"
-        actionIcon={
+        actionIcon={props.onIconClick && 
           <IconButton onClick={onIconClick} size="large">
             <Icon />
           </IconButton>

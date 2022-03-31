@@ -7,7 +7,7 @@ import { Subsonic, SubsonicTypes } from '@subfire/core';
 import { SubsonicGridList } from '../..';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
 import { ImageSlide } from './ImageSlide';
-// import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css';
+import '@splidejs/splide/dist/css/themes/splide-skyblue.min.css';
 
 export default {
   title: 'ui/CardLists'
@@ -73,9 +73,6 @@ export const ImageSplide = () => {
 
     const newContent = (
       <>
-      <style>{`
-      .splide__slide.is-active .MuiImageListItem-root { transform: scale(1.20); }
-      `}</style>
         <ImageSlide
           getSubTitle={getSubTitle}
           Icon={PlayArrow}
