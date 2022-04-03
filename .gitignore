@@ -66,6 +66,8 @@ lib
 
 lib-esm
 
+docs
+
 *.tsbuildinfo
 
 # v4 version upgrade additions:
