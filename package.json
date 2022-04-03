@@ -28,6 +28,6 @@
     "start": "lerna run start --stream",
     "comp-bundle": "cd packages/components/src && find ./components ./hooks -name \"*.*\" | grep -v .stories | grep -v '\\.d.ts' | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",
     "hooks-bundle": "cd packages/hooks/src && find . -name \"*.*\" | grep -v '^.$' | grep -v 'index' | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",
-    "docs": "typedoc --gitRemote github --excludeExternals --plugin typedoc-plugin-missing-exports --plugin typedoc-plugin-resolve-crossmodule-references --entryPointStrategy packages packages/core packages/hooks packages/components"
+    "docs": "typedoc --excludeInternal --gitRemote github --excludeExternals --plugin typedoc-plugin-missing-exports --plugin typedoc-plugin-resolve-crossmodule-references --entryPointStrategy packages packages/core packages/hooks packages/components"
   }
 }
