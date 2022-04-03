@@ -3,11 +3,10 @@ import Slider from '@mui/material/Slider';
 
 import {
   Subsonic,
-  SubsonicTypes,
   HtmlMedia,
-  PlayerState
+  PlayerState,
+  Song
 } from "@subfire/core";
-type Song = SubsonicTypes.Song;
 
 export default {
   title: "api/HtmlMedia",

@@ -1,12 +1,12 @@
 import React, { ReactEventHandler, Ref, useCallback, useEffect, useState } from 'react';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { PlayerState, SubsonicTypes } from '@subfire/core';
+import { BookmarkQueueRule, PlayerState } from '@subfire/core';
 import { useBookmarksService } from '../../hooks/useBookmarkService';
 
 export interface BookmarkButtonProps extends IconButtonProps {
     id: string;
     onePerRule?: boolean;
-    rule?: SubsonicTypes.BookmarkQueueRule;
+    rule?: BookmarkQueueRule;
     time?: React.RefObject<number>; // so time changes don't force a recreate of the function
 }
 

@@ -4,8 +4,6 @@ import { useLocalStorage } from 'react-use';
 import { PlayArrow, GridOn, ViewList } from '@mui/icons-material';
 import { List, Switch } from '@mui/material';
 
-import { SubsonicTypes } from '@subfire/core';
-
 import MusicFolderChooser from './MusicFolderChooser';
 import { useSubsonic, useAlbumList } from '@subfire/hooks';
 
@@ -15,6 +13,7 @@ import EntryListItem from '../ui/EntryListItem';
 
 import AlbumQueryChooser from '../controls/AlbumQueryChooser';
 import { EntryList } from '../..';
+import { Album, AlbumListCriteria, AlbumListCriteriaType, Generic } from '@subfire/core';
 
 export interface AlbumsBrowserPropTypes {
   native?: boolean
@@ -31,7 +30,7 @@ export const AlbumsBrowser: React.FC<any> = props => {
   const { native, list, grid, onAlbumClick, onAlbumSecondaryClick, scrollSelector } = props;
   const { SubsonicCache: cache, Subsonic: subsonic, musicFolderId, isLoggedIn } = useSubsonic();
 
-  const [albumQuery, setAlbumQuery] = useLocalStorage<SubsonicTypes.AlbumListCriteriaType>('initAlbumQuery', 'recent');
+  const [albumQuery, setAlbumQuery] = useLocalStorage<AlbumListCriteriaType>('initAlbumQuery', 'recent');
   const [albumID3, setAlbumID3] = useLocalStorage<boolean>('initAlbumID3', false);
   const [toggleList, setToggleList] = useState(list || false);
 
@@ -43,7 +42,7 @@ export const AlbumsBrowser: React.FC<any> = props => {
     onAlbumSecondaryClick(id, albumID3);
   }
 
-  const params: SubsonicTypes.AlbumListCriteria = {
+  const params: AlbumListCriteria = {
     type: albumQuery,
     size: isLoggedIn ? 60 : 0
   };
@@ -95,7 +94,7 @@ export const AlbumsBrowser: React.FC<any> = props => {
     musicFolderChooser
   };
 
-  const getSubTitle = (a: SubsonicTypes.Generic) => `${(a as SubsonicTypes.Album).artist}  (${(a as SubsonicTypes.Album).year})`;
+  const getSubTitle = (a: Generic) => `${(a as Album).artist}  (${(a as Album).year})`;
 
   return (
     <>
@@ -130,7 +129,7 @@ export default AlbumsBrowser;
 
 /* 
       (<List>{
-        albums.map(a => <EntryListItem key={a.id} item={a} index={{ name: 'albums' } as SubsonicTypes.Generic} subsonic={subsonic}
+        albums.map(a => <EntryListItem key={a.id} item={a} index={{ name: 'albums' } as Generic} subsonic={subsonic}
           onEntryClick={onClick}
           onEntrySecondaryClick={onSecondaryClick}
           secondaryActionLabel="Play"

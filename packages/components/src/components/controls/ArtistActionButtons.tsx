@@ -10,10 +10,9 @@ import {
 } from "@mui/icons-material";
 import Button from "../ui/TipButton";
 
-import { SubsonicTypes } from '@subfire/core';
 import { SxProps, Theme, useTheme } from "@mui/material/styles";
 import { Box } from "@mui/material";
-type Generic = SubsonicTypes.Generic;
+import { Generic } from "@subfire/core";
 
 const useSxStyles = ((theme: Theme): Record<string, SxProps<Theme>> => ({
   button: {

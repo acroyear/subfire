@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import {
+    Song,
     SubsonicQueue,
-    SubsonicQueueTypes,
-    SubsonicTypes
+    SubsonicQueueTypes
 } from "@subfire/core";
 console.log(SubsonicQueue);
-
-type Song = SubsonicTypes.Song;
 
 export default {
     title: "api/Queue",

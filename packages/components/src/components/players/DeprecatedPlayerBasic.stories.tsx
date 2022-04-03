@@ -1,7 +1,7 @@
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import { Button } from '@mui/material';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Song, SongList, Subsonic } from '@subfire/core';
 import { LoadingCard, DeprecatedPlayer, DeprecatedPlayerComponents, DeprecatedPlayerProps } from '../..';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 
@@ -22,7 +22,7 @@ export default {
     title: "players/ThePlayerDeprecated"
 }
 
-const ThePlayerBasic = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+const ThePlayerBasic = (components: DeprecatedPlayerComponents, current: Song, queue: SongList): JSX.Element => {
     const c = components;
     return <>
        <p>The Player?: {current?.name || current?.title}</p>

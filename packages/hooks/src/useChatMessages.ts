@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 
-import { SubsonicTypes } from '@subfire/core';
+import { ChatMessageEntities } from '@subfire/core';
 import { useSubsonic } from './SubsonicContext';
 import { createGlobalState, useInterval } from 'react-use';
 
 export const useChatMessagesLastFetchTime = createGlobalState<number>();
-export const useChatMessagesState = createGlobalState<SubsonicTypes.ChatMessageEntities>([]);
+export const useChatMessagesState = createGlobalState<ChatMessageEntities>([]);
 export const useChatMessagesScanner = createGlobalState<number>(5000);
 
-export const useChatMessages = (): [SubsonicTypes.ChatMessageEntities, (x: string) => Promise<any>, number, (i: number) => void] => {
+export const useChatMessages = (): [ChatMessageEntities, (x: string) => Promise<any>, number, (i: number) => void] => {
   const { isLoggedIn, Subsonic } = useSubsonic();
   const [np, setChatMessages] = useChatMessagesState();
   const [delay, setDelay] = useChatMessagesScanner();

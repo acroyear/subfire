@@ -1,4 +1,4 @@
-import { Subsonic, SubsonicLoader, SubsonicTypes } from "@subfire/core";
+import { SongList, Subsonic, SubsonicLoader } from "@subfire/core";
 import { useSubsonicQueue, useSubsonicLoader } from "@subfire/hooks";
 import { Redirect, Route, Switch, useHistory, useLocation, useParams } from "react-router-dom";
 import { SubfireRouterParams } from "../..";
@@ -14,7 +14,7 @@ export const RoutePlayerLoader = ({ targetRoute = "/player", remoteRoute = "/rem
     const o = Subsonic.constructFakeObject(type, id);
     const {
         state, card, result, error
-    } = useSubsonicLoader<SubsonicTypes.SongList>(() => SubsonicLoader(params), o);
+    } = useSubsonicLoader<SongList>(() => SubsonicLoader(params), o);
     const { set } = useSubsonicQueue();
 
     console.log(card, result, error, state);

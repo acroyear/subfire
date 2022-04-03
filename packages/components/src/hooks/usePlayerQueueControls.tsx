@@ -1,4 +1,4 @@
-import { HtmlMedia, SubsonicTypes } from "@subfire/core";
+import { HtmlMedia, Song } from "@subfire/core";
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
@@ -19,9 +19,9 @@ export interface PlayerQueueContents {
     prev: () => void
     skipAlbum: () => void
     shuffle: () => void
-    queue: Array<SubsonicTypes.Song>
+    queue: Array<Song>
     idx: number
-    current: SubsonicTypes.Song
+    current: Song
     player: HtmlMedia
     buttonClassNames?: string
 }

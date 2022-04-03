@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useAdjustableImagePalette } from '@subfire/components';
-import { SubsonicTypes } from '@subfire/core';
+import { Song, SongList } from '@subfire/core';
 
 // const useStyles = makeStyles(theme => ({
 //   portratPlayer: {
@@ -106,7 +106,7 @@ import { SubsonicTypes } from '@subfire/core';
 //   }
 // }));
 
-export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
+export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: Song, queue: SongList): JSX.Element => {
 
   const img = useRef<HTMLImageElement>();
   useAdjustableImagePalette(img.current);

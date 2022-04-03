@@ -5,7 +5,7 @@ export { default as debounce } from './utils/debounce';
 export * from './utils/material-color';
 export * from './utils/colors';
 export * from './utils/color-thief-types';
-export * as SubsonicTypes from './SubsonicTypes';
+export * from './SubsonicTypes';
 export { SubsonicCache } from './SubsonicCache';
 export { Subsonic } from './Subsonic';
 export { AuthExchangeActions } from './AuthExchangeActions';

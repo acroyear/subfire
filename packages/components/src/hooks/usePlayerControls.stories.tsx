@@ -1,7 +1,7 @@
 import { SnackbarProvider } from 'notistack';
 import React, { useRef } from 'react';
 import { Button } from '@mui/material';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Subsonic } from '@subfire/core';
 import { useSubsonicQueue, buildProcessEnvCredentials, SubsonicProvider, IntegratedPlayerQueue } from '@subfire/hooks';
 import { usePlayerControls } from './usePlayerControls';
 import { LoadingCard } from '../components/ui/loader/LoadingCard';

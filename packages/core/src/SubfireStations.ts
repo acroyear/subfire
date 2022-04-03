@@ -1,5 +1,5 @@
 import { Subsonic } from './Subsonic';
-import * as SubsonicTypes from './SubsonicTypes';
+import { SongList, SubfireStation, Playlist, CategorizedPlaylists } from './SubsonicTypes';
 import { getRandomIntInclusive, arrayShuffle, arrayRemove, format as f } from './utils/utils';
 
 interface GeneratorParams {
@@ -54,12 +54,12 @@ interface StationData {
 }
 
 interface SongListBucket {
-  songs: SubsonicTypes.SongList,
+  songs: SongList,
   g: Generator
 }
 
 type KeySongs = {
-  [key: string]: SubsonicTypes.SongList
+  [key: string]: SongList
 }
 
 export const GeneratorTypeMap = {} as { [key: string]: GeneratorType };
@@ -217,10 +217,10 @@ const grabSong = function (b: any) {
   return null;
 };
 
-export class Station implements SubsonicTypes.SubfireStation {
-  playlist: SubsonicTypes.Playlist;
+export class Station implements SubfireStation {
+  playlist: Playlist;
   stationData: StationData;
-  constructor(playlist: SubsonicTypes.Playlist) {
+  constructor(playlist: Playlist) {
     if (!playlist) {
       playlist = {
         id: "-1",
@@ -394,7 +394,7 @@ export class Station implements SubsonicTypes.SubfireStation {
     return g.gtm.render(g) + this.renderWeightLimit(g);
   }
 
-  getSongs(res: any): SubsonicTypes.SongList {
+  getSongs(res: any): SongList {
     if (Array.isArray(res)) return res;
     if (res.entry && Array.isArray(res.entry)) return res.entry;
     if (res.entry && !Array.isArray(res.entry)) return [res.entry];
@@ -412,7 +412,7 @@ export class Station implements SubsonicTypes.SubfireStation {
     return [];
   }
 
-  generate = async (g: Generator, forBucket: boolean): Promise<SubsonicTypes.SongList | SongListBucket> => {
+  generate = async (g: Generator, forBucket: boolean): Promise<SongList | SongListBucket> => {
     const gtm = g.gtm;
     const params = [];
     for (let i = 0; i < gtm.paramKeys.length; ++i) {
@@ -445,7 +445,7 @@ export class Station implements SubsonicTypes.SubfireStation {
     }
   }
 
-  generateAll = async (): Promise<SubsonicTypes.SongList> => {
+  generateAll = async (): Promise<SongList> => {
     const gs = await this.generators();
     const values = [];
     for (let g of gs) {
@@ -531,10 +531,10 @@ export class Station implements SubsonicTypes.SubfireStation {
 
   // block party mode
 
-  blockParty(songs: SubsonicTypes.SongList, block: number) {
+  blockParty(songs: SongList, block: number) {
     const keySongs: KeySongs = {};
     let keys: Array<string> = [];
-    const newSongs: SubsonicTypes.SongList = [];
+    const newSongs: SongList = [];
     songs.forEach(function (s: any) {
       const s1 = Array.isArray(s) ? s[0] : s;
       //console.log(s, s1);
@@ -602,7 +602,7 @@ export class Station implements SubsonicTypes.SubfireStation {
   // }
 }
 
-export const createStations = function (pls: SubsonicTypes.CategorizedPlaylists) {
+export const createStations = function (pls: CategorizedPlaylists) {
   pls.stations = (pls.stationPlaylists || []).map(pl => new Station(pl));
   return pls;
 };

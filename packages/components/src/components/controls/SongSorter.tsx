@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react'; // eslint-disab
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -10,10 +9,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 import { SortAscending, SortDescending } from 'mdi-material-ui';
-import { SubsonicTypes, utils } from '@subfire/core';
+import { Song, utils } from '@subfire/core';
 
 const { arrayShuffle } = utils;
-export type Song = SubsonicTypes.Song;
 
 export type Dir = 'asc' | 'desc' | 'unsorted';
 

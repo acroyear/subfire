@@ -1,6 +1,7 @@
+import { Song } from '@subfire/core';
 import { useState } from 'react';
 
-import { SongSorter, Dir, Song } from '../..';
+import { SongSorter, Dir } from '../..';
 
 export default {
   title: 'controls/SongSorter'

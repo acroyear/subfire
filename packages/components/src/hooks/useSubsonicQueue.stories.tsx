@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import {
-    SubsonicTypes
-} from "@subfire/core";
+import { Song } from "@subfire/core";
 
 import { useSubsonicQueue } from '@subfire/hooks';
-
-type Song = SubsonicTypes.Song;
 
 export default {
     title: "hooks/useSubsonicQueue",

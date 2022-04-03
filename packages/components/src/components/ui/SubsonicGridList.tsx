@@ -16,7 +16,7 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 
 import CoverImageListItem from './CoverImageListItem';
 import ScrollToTopFab from './ScrollToTopFab';
-import { SubsonicTypes } from '@subfire/core';
+import { Generic } from '@subfire/core';
 
 const scrollIntoView = (i: number) => {
   const next = 'grid-category-header' + (i * 1 + 1);
@@ -93,7 +93,7 @@ export const SubsonicGridList = (props: any) => {
         style={style}
         variant="standard"
       >
-        {content.map((n: SubsonicTypes.Generic & { artist: string }) => (
+        {content.map((n: Generic & { artist: string }) => (
 
           <CoverImageListItem
             onIconClick={onClick}

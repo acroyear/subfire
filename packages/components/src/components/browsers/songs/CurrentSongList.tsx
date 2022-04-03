@@ -1,12 +1,12 @@
 import React from 'react';
-import { SubsonicTypes } from '@subfire/core';
 import { useSubsonic, useSubsonicQueue } from '@subfire/hooks';
 
-import SongList, { SongListProps } from './SongList';
+import SongsList, { SongListProps } from './SongsList';
 import { SongLiteItemContentsOptions } from './SongListItem';
+import { Song } from '@subfire/core';
 
 interface CurrentSongClicked {
-  (s: SubsonicTypes.Song): void
+  (s: Song): void
 }
 
 export interface CurrentSongListProps extends SongListProps {
@@ -42,7 +42,7 @@ export const CurrentSongList: React.FC<Partial<CurrentSongListProps>> = props =>
     stickyHeaderSize
   };
 
-  return <SongList {...songListProperties} songs={queue} current={current}>{children}</SongList>;
+  return <SongsList {...songListProperties} songs={queue} current={current}>{children}</SongsList>;
 };
 
 export default CurrentSongList;

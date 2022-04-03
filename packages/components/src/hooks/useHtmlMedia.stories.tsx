@@ -3,12 +3,11 @@ import Slider from '@mui/material/Slider';
 
 import {
     Subsonic,
-    SubsonicTypes,
+    Song,
     HtmlMedia,
     PlayerState
 } from "@subfire/core";
 import { useHtmlMedia } from "@subfire/hooks";
-type Song = SubsonicTypes.Song;
 
 export default {
     title: "hooks/useHtmlMedia",

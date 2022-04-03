@@ -14,7 +14,7 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 import EntryListItem from './EntryListItem';
 
 import ScrollToTopFab from './ScrollToTopFab';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Generic, Subsonic } from '@subfire/core';
 import { IdItemClick } from '@subfire/hooks';
 import { useTheme } from '@mui/material/styles';
 
@@ -32,10 +32,10 @@ export interface EntryListProps {
   Icon?: any
   onEntryClick?: IdItemClick
   onEntrySecondaryClick?: IdItemClick
-  content: Array<SubsonicTypes.Generic>
+  content: Array<Generic>
   ScrollToTop?: boolean
   scrollSelector?: string
-  getSubTitle?: (g: SubsonicTypes.Generic) => string
+  getSubTitle?: (g: Generic) => string
   sectionHeaderLabel?: string
   sectionHeaderIndex?: number
   sectionHeaderCount?: number
@@ -97,7 +97,7 @@ export const EntryList: React.FC<EntryListProps> = (props) => {
       {sectionHeader}<List
         style={style}
       >
-        {content.map((n: SubsonicTypes.Generic) => (
+        {content.map((n: Generic) => (
           <EntryListItem 
             subsonic={Subsonic}
             item={n} index={n} key={n.id}

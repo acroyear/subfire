@@ -17,7 +17,7 @@ import Slider from '@mui/material/Slider';
 import { useKey } from 'react-use';
 import { Tb2 } from '../ui/TGB';
 import { VolumeButton } from '../ui/volume/VolumeButton';
-import { PlayerState, SubsonicTypes } from '@subfire/core';
+import { PlayerState, Song, SongList } from '@subfire/core';
 import { useHtmlMedia, useSubsonic, useSubsonicQueue } from '@subfire/hooks';
 import { BookmarkButton } from '../controls/BookmarkButton';
 import { SavePlayQueueButton } from '../controls/SavePlayQueueButton';
@@ -85,7 +85,7 @@ export interface DeprecatedPlayerComponents {
 }
 
 export interface DeprecatedPlayerProps {
-    render: (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList) => JSX.Element,
+    render: (components: DeprecatedPlayerComponents, current: Song, queue: SongList) => JSX.Element,
     stopMusicOnUnmount?: boolean,
     disposeOnUnmount?: boolean
 }

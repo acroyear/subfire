@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { action } from '@storybook/addon-actions';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Playlist, Subsonic } from '@subfire/core';
 import { SubsonicGridList } from '../..';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
 import { ImageSlide } from './ImageSlide';
@@ -13,7 +13,7 @@ export default {
   title: 'ui/CardLists'
 };
 
-function getSubTitle(pl: SubsonicTypes.Playlist) {
+function getSubTitle(pl: Playlist) {
   const rv = pl.songCount + ' songs';
   return rv;
 }

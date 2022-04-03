@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
 import { Select, MenuItem, Input, InputLabel, FormControl, Checkbox, SelectProps, SelectChangeEvent } from '@mui/material';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Playlist, PlaylistsType, Subsonic } from '@subfire/core';
 import { RvTruck } from 'mdi-material-ui';
 import { usePlaylistsScanner } from '@subfire/hooks';
 
 export interface PlaylistSelectPropTypes extends SelectProps<string> {
     onChange?: any
-    playlistType: SubsonicTypes.PlaylistsType,
+    playlistType: PlaylistsType,
     includeEmpty?: boolean,
     fullWidth?: boolean,
     label?: string
@@ -20,7 +20,7 @@ export const PlaylistSelect = (props: PlaylistSelectPropTypes) => {
     console.warn(value);
 
     const [pls, delay] = usePlaylistsScanner(); // eslint-disable-line
-    const pl = (pls ? pls[playlistType || 'playlists'] : []) as SubsonicTypes.Playlist[]
+    const pl = (pls ? pls[playlistType || 'playlists'] : []) as Playlist[]
 
     const onSelectChange = (event: SelectChangeEvent<string>) => {
         onChange(event.target.value);

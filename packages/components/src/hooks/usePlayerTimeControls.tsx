@@ -1,4 +1,4 @@
-import { HtmlMedia, SubsonicTypes } from "@subfire/core";
+import { HtmlMedia } from "@subfire/core";
 import { useState } from "react";
 import Slider from '@mui/material/Slider';
 import Replay10Icon from '@mui/icons-material/Replay10';

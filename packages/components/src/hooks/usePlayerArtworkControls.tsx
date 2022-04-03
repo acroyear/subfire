@@ -1,5 +1,5 @@
 import React, { ReactEventHandler, Ref, useEffect, useRef, useState } from 'react';
-import { HtmlMedia, PlayerState, Subsonic, SubsonicTypes } from '@subfire/core';
+import { HtmlMedia, PlayerState, Subsonic } from '@subfire/core';
 
 
 export interface PlayerArtworkControls {

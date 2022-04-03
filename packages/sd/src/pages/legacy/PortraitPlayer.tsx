@@ -15,8 +15,8 @@ import Toolbar from '@mui/material/Toolbar';
 import MenuIcon from '@mui/icons-material/FormatListBulleted';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
-import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorTheme } from '@subfire/components';
-import { SubsonicTypes } from '@subfire/core';
+import { CurrentSongList, DeprecatedPlayerComponents, Th6, Tb1, Tb2, Tc, B, Gc, Gi, useImageColorThemeDeprecated } from '@subfire/components';
+import { Song, SongList } from '@subfire/core';
 
 // const useStyles = makeStyles(theme => ({
 //   portratPlayer: {
@@ -106,8 +106,8 @@ import { SubsonicTypes } from '@subfire/core';
 //   }
 // }));
 
-export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: SubsonicTypes.Song, queue: SubsonicTypes.SongList): JSX.Element => {
-  const { setImageTag, resetTheme } = useImageColorTheme();
+export const PortraitPlayer = (components: DeprecatedPlayerComponents, current: Song, queue: SongList): JSX.Element => {
+  const { setImageTag, resetTheme } = useImageColorThemeDeprecated();
 
   useEffect(() => {
     // no-op

@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 import HollowCard from '../HollowCard';
 
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Subsonic } from '@subfire/core';
 import { LoadingCardPropsType } from '@subfire/hooks';
 import { Box } from '@mui/material';
 import { useLifecycles, useMount } from 'react-use';

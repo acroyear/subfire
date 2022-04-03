@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
 import { useRefCallbackHandler } from '@subfire/hooks';
-import { SubsonicTypes } from '@subfire/core';
+import { Song } from '@subfire/core';
 
 const overflow = (showCompressed: boolean): React.CSSProperties =>
   showCompressed ? { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } : {};
@@ -36,7 +36,7 @@ export interface SongLiteItemContentValues {
 export interface SongLiteItemContentParams extends SongLiteItemContentValues, SongLiteItemContentsOptions { }
 
 export interface SongListItemContentParams extends SongLiteItemContentsOptions {
-  song: SubsonicTypes.Song,
+  song: Song,
   isCurrent: boolean,
   idx: number,
   style?: React.CSSProperties

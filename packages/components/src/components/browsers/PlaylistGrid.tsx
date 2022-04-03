@@ -3,13 +3,13 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import { usePlaylistsScanner } from '@subfire/hooks';
 import SubsonicGridList from '../ui/SubsonicGridList';
-import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { SubfireRouterParams } from '../routing/RouterTypes';
 
 import { RadioGrid } from './RadioGrid';
+import { Playlist, PlaylistsType } from '@subfire/core';
 
-function getSubTitle(pl: SubsonicTypes.Playlist) {
+function getSubTitle(pl: Playlist) {
   const rv = pl.songCount + ' songs';
   return rv;
 }
@@ -17,7 +17,7 @@ function getSubTitle(pl: SubsonicTypes.Playlist) {
 export interface PlaylistGridPropTypes {
   onClick?: any
   onImageClick?: any
-  playlistType?: SubsonicTypes.PlaylistsType
+  playlistType?: PlaylistsType
   actionIcon: typeof PlayArrow
   scrollSelector?: string
 }
@@ -42,7 +42,7 @@ export const PlaylistGrid: FC<PlaylistGridPropTypes> = (props) => {
     console.warn('Warning: playlists are not being refreshed regularly.');
   }
 
-  const pl = (pls ? pls[playlistType || 'playlists'] : []) as SubsonicTypes.Playlist[]
+  const pl = (pls ? pls[playlistType || 'playlists'] : []) as Playlist[]
 
   return (
     <SubsonicGridList

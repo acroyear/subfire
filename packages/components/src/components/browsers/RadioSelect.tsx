@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Select, MenuItem, Input, InputLabel, FormControl, Checkbox, SelectProps, SelectChangeEvent, ListSubheader } from '@mui/material';
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { SubfireStation, Subsonic } from '@subfire/core';
 import { usePlaylistsScanner } from '@subfire/hooks';
 
 import { PlaylistSelectPropTypes } from './PlaylistSelect';
@@ -13,7 +13,7 @@ export const RadioSelect = (props: PlaylistSelectPropTypes) => {
     console.warn(value);
 
     const [pls, delay] = usePlaylistsScanner(); // eslint-disable-line
-    const pl = pls?.stations || [] as SubsonicTypes.SubfireStation[];
+    const pl = pls?.stations || [] as SubfireStation[];
 
     const onSelectChange = (event: SelectChangeEvent<string>) => {
         onChange(event.target.value);
@@ -29,7 +29,7 @@ export const RadioSelect = (props: PlaylistSelectPropTypes) => {
             rv.categoryStations[thisCat].push(n);
             return rv;
         },
-        { categories: [] as string[], categoryStations: {} as { [key: string]: SubsonicTypes.SubfireStation[] } }
+        { categories: [] as string[], categoryStations: {} as { [key: string]: SubfireStation[] } }
     );
 
     console.log(sortedStations);

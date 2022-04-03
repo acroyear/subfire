@@ -2,7 +2,7 @@ import { useAsyncRetry } from 'react-use';
 import { useCounter, useDeepCompareEffect } from 'react-use';
 import { singletonHook } from 'react-singleton-hook';
 
-import { SubsonicTypes, Subsonic } from '@subfire/core';
+import { AlbumListCriteria, AlbumListType, Bookmarks, Generic, SearchCriteria, Subsonic } from '@subfire/core';
 
 import { AsyncStateRetry } from 'react-use/lib/useAsyncRetry';
 import { LoadingCardPropsType } from './SubfireTypes';
@@ -43,7 +43,7 @@ const CheapLoadingCard: React.FC<LoadingCardPropsType> = (props) => {
     </>);
 }
 
-export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial<SubsonicTypes.Generic>, top?: number): SubsonicLoaderResult<T> {
+export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial<Generic>, top?: number): SubsonicLoaderResult<T> {
   const [_fetchCount, { inc: reload }] = useCounter(1);
   let S = useSubsonic();
   const LoadingCardComponent = S?.LoadingCardComponent || CheapLoadingCard;
@@ -52,7 +52,7 @@ export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial
     id: "-1",
     coverArt: "-1",
     title: "Something..."
-  } as SubsonicTypes.Generic;
+  } as Generic;
   top = top | 0;
   console.debug('id', o.id);
   const state = useAsyncRetry(actualLoader, [o.id]);
@@ -67,13 +67,13 @@ export function useSubsonicLoader<T>(actualLoader: () => Promise<T>, o?: Partial
 
 interface _IdPartialPair {
   id: string,
-  v: Partial<SubsonicTypes.Generic>
+  v: Partial<Generic>
 }
 
-type _SubsonicFetchObject = string | Partial<SubsonicTypes.Generic>;
+type _SubsonicFetchObject = string | Partial<Generic>;
 
 function genIdPartialPair(o: _SubsonicFetchObject, coverArtPrefix?: string): _IdPartialPair {
-  let id: string, v: Partial<SubsonicTypes.Generic>;
+  let id: string, v: Partial<Generic>;
   if (typeof o === 'string') {
     id = o;
     v = { id, coverArt: (coverArtPrefix || '') + id, title: "" };
@@ -152,7 +152,7 @@ export function useStarred(id: number = -1) {
   return useSubsonicLoader(() => Subsonic.getStarred(id), v);
 }
 
-export function useSearch(s: string, params: SubsonicTypes.SearchCriteria, id: number = -1) {
+export function useSearch(s: string, params: SearchCriteria, id: number = -1) {
   const v = {
     id: "" + id,
     coverArt: '-1',
@@ -161,7 +161,7 @@ export function useSearch(s: string, params: SubsonicTypes.SearchCriteria, id: n
   return useSubsonicLoader(() => Subsonic.search(s, params, id), v);
 }
 
-export function useAlbumList(id3: boolean, params: SubsonicTypes.AlbumListCriteria): SubsonicLoaderResult<SubsonicTypes.AlbumListType[]> {
+export function useAlbumList(id3: boolean, params: AlbumListCriteria): SubsonicLoaderResult<AlbumListType[]> {
   const [count, { inc: inc }] = useCounter(0);
   useDeepCompareEffect(() => {
     console.log("changed", count);
@@ -175,7 +175,7 @@ export function useBookmarksImpl() {
   return useSubsonicLoader(() => Subsonic.getBookmarks(), { id: "-1", coverArt: '-1', title: 'Bookmarks' });
 }
 
-const initBookmarkState: SubsonicLoaderResult<SubsonicTypes.Bookmarks> = {
+const initBookmarkState: SubsonicLoaderResult<Bookmarks> = {
   state: {
     loading: true,
     retry: () => {}

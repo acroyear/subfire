@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 
-import { SubsonicTypes } from '@subfire/core';
 import { useSubsonic } from './SubsonicContext';
 import { createGlobalState, useInterval } from 'react-use';
+import { NowPlayingEntries } from '@subfire/core';
 
-export const useNowPlayingState = createGlobalState<SubsonicTypes.NowPlayingEntries>([]);
+export const useNowPlayingState = createGlobalState<NowPlayingEntries>([]);
 export const useNowPlayingScanner = createGlobalState<number>(5000);
 
-export const useNowPlaying = (): [SubsonicTypes.NowPlayingEntries, number, (i: number) => void] => {
+export const useNowPlaying = (): [NowPlayingEntries, number, (i: number) => void] => {
     const { isLoggedIn, Subsonic } = useSubsonic();
     const [np, setNowPlaying] = useNowPlayingState();
     const [delay, setDelay] = useNowPlayingScanner();

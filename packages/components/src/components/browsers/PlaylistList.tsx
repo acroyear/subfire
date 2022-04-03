@@ -3,14 +3,14 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import { usePlaylistsScanner } from '@subfire/hooks';
 import EntryList from '../ui/EntryList';
-import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { SubfireRouterParams } from '../routing/RouterTypes';
 
 import { RadioList } from './RadioList';
+import { Generic, Playlist, PlaylistsType } from '@subfire/core';
 
-function getSubTitle(g: SubsonicTypes.Generic) {
-    const pl = g as SubsonicTypes.Playlist;
+function getSubTitle(g: Generic) {
+    const pl = g as Playlist;
     const rv = pl.songCount + ' songs';
     return rv;
 }
@@ -18,7 +18,7 @@ function getSubTitle(g: SubsonicTypes.Generic) {
 export interface PlaylistListPropTypes {
     onClick?: any
     onImageClick?: any
-    playlistType?: SubsonicTypes.PlaylistsType
+    playlistType?: PlaylistsType
     actionIcon: typeof PlayArrow
     scrollSelector?: string
 }
@@ -43,7 +43,7 @@ export const PlaylistList: FC<PlaylistListPropTypes> = (props) => {
         console.warn('Warning: playlists are not being refreshed regularly.');
     }
 
-    const pl = (pls ? pls[playlistType || 'playlists'] : []) as SubsonicTypes.Playlist[]
+    const pl = (pls ? pls[playlistType || 'playlists'] : []) as Playlist[]
 
     return (
         <EntryList

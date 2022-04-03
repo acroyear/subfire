@@ -1,5 +1,5 @@
 import { sizeHeight } from "@mui/system";
-import { HtmlMedia, PlayerState, SubsonicTypes } from "@subfire/core";
+import { BookmarkQueueRule, HtmlMedia, PlayerState, Song } from "@subfire/core";
 import { useHtmlMedia, useSubsonicQueue } from "@subfire/hooks";
 import { ReactEventHandler, Ref, useRef } from "react";
 import { usePlayerArtworkControls, PlayerArtworkControls } from "./usePlayerArtworkControls";
@@ -8,11 +8,11 @@ import { usePlayerStateControls, PlayerStateControls } from "./usePlayerStateCon
 import { usePlayerTimeControls, PlayerTimeControls } from "./usePlayerTimeControls";
 
 export type PlayerControls = PlayerArtworkControls & PlayerQueueControls & PlayerStateControls & PlayerTimeControls & {
-    queue: Array<SubsonicTypes.Song>;
+    queue: Array<Song>;
     idx: number;
-    current: SubsonicTypes.Song;
+    current: Song;
     queueName: string;
-    rule: SubsonicTypes.BookmarkQueueRule;
+    rule: BookmarkQueueRule;
     player: HtmlMedia;
     state: PlayerState;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import { LoadingCard, useImageColorTheme, useLoginSnacker } from "@subfire/components";
+import { LoadingCard, useImageColorThemeDeprecated, useLoginSnacker } from "@subfire/components";
 import { SnackbarProvider, SnackbarKey } from "notistack";
 import { Button, Paper } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -19,7 +19,7 @@ function App() {
   const onClickDismiss = (key: SnackbarKey) => {
     notistackRef.current.closeSnackbar(key);
   };
-  let { theme, resetTheme, mode, _mode } = useImageColorTheme();
+  let { theme, resetTheme, mode, _mode } = useImageColorThemeDeprecated();
   if (!theme) {
     theme = createTheme({
       palette: {

@@ -1,4 +1,4 @@
-import { SubsonicTypes } from "@subfire/core";
+import { Generic } from "@subfire/core";
 
 export interface IdItemClick {
   (id: string): void
@@ -11,6 +11,6 @@ export enum LoginStates {
 }
 
 export interface LoadingCardPropsType {
-  object: Partial<SubsonicTypes.Generic>,
+  object: Partial<Generic>,
   top: number
 }

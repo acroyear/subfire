@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useSubsonic } from './SubsonicContext';
 import { createGlobalState, useInterval } from 'react-use';
-import { createStations, SubsonicTypes } from '@subfire/core';
+import { CategorizedPlaylists, createStations } from '@subfire/core';
 
-export const usePlaylists = createGlobalState<SubsonicTypes.CategorizedPlaylists>();
+export const usePlaylists = createGlobalState<CategorizedPlaylists>();
 export const usePlaylistScannerDelay = createGlobalState<number>();
 
-export const usePlaylistsScanner = (): [SubsonicTypes.CategorizedPlaylists, number, (i: number) => void] => {
+export const usePlaylistsScanner = (): [CategorizedPlaylists, number, (i: number) => void] => {
   const { isLoggedIn, Subsonic } = useSubsonic();
   const [pl, setPlaylists] = usePlaylists();
   const [delay, setDelay] = usePlaylistScannerDelay();

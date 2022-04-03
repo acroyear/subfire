@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSnackbar } from 'notistack';
-import { SubsonicTypes, Subsonic } from '@subfire/core';
+import { Bookmark, Bookmarks, Song, BookmarkQueueRule, Subsonic } from '@subfire/core';
 import { Bookmark as BookmarkIcon, BookmarkBorder as BookmarkBorderIcon } from '@mui/icons-material';
 
 import { useCounter } from 'react-use';
 import { useBookmarks } from '@subfire/hooks';
-
-type Bookmark = SubsonicTypes.Bookmark;
-type Bookmarks = SubsonicTypes.Bookmarks;
-type Song = SubsonicTypes.Song;
-type QueueRule = SubsonicTypes.BookmarkQueueRule;
 
 export const useBookmarksService = (onePerRule?: boolean) => {
   const bookmarkStatus = useBookmarks();
@@ -37,10 +32,10 @@ export const useBookmarksService = (onePerRule?: boolean) => {
     });
   };
 
-  const deleteBookmarkByQueueRule = (qr: QueueRule) => {
+  const deleteBookmarkByQueueRule = (qr: BookmarkQueueRule) => {
     for (const b of bookmarks || []) {
       try {
-        const bq = JSON.parse(b.comment) as QueueRule;
+        const bq = JSON.parse(b.comment) as BookmarkQueueRule;
         if (!bq?.bookmarkSource || !bq?.type) {
           continue;
         }
@@ -54,7 +49,7 @@ export const useBookmarksService = (onePerRule?: boolean) => {
     }
   };
 
-  const createSubfireBookmark = (id: string, position: number, queueRule: QueueRule) => {
+  const createSubfireBookmark = (id: string, position: number, queueRule: BookmarkQueueRule) => {
     if (replaceType) {
       deleteBookmarkByQueueRule(queueRule);
     }

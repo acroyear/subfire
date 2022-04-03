@@ -7,16 +7,16 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 
-import { SubsonicTypes } from '@subfire/core';
 import { useSubsonic } from '@subfire/hooks';
 import { NativeSelect } from '@mui/material';
+import { MusicFolder } from '@subfire/core';
 
 export interface MusicFolderChooserPropTypes {
   caption?: string
   native?: boolean
   musicFolderId?: number
   musicFolderChanged?: (id: number) => void
-  musicFolders?: Array<SubsonicTypes.MusicFolder>
+  musicFolders?: Array<MusicFolder>
   selectId?: string
 }
 

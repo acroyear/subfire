@@ -2,8 +2,8 @@ import {
   Subsonic,
   SubsonicLoader,
   SubsonicCache,
-  SubsonicTypes,
-  createStations
+  createStations,
+  SubfireStation
 } from "@subfire/core";
 import { useEffect } from "react";
 
@@ -19,7 +19,7 @@ const credentials = {
   clientName: "SubFire4Storybook",
 };
 
-let subfireStations: SubsonicTypes.SubfireStation[] = null;
+let subfireStations: SubfireStation[] = null;
 
 export const loader_test = () => {
   function f() {
@@ -68,7 +68,7 @@ export const loader_test = () => {
       id: (document.getElementById('loader_id') as HTMLInputElement).value,
       mode: (document.getElementById('loader_mode') as HTMLInputElement).value,
       bookmarkId: (document.getElementById('loader_bookmark') as HTMLInputElement).value,
-      station: null as SubsonicTypes.SubfireStation
+      station: null as SubfireStation
     };
     if (params.type === 'station' || params.type === 'radiostation') {
       params.station = subfireStations.find(x => x.id === params.id);

@@ -6,17 +6,16 @@ import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 
 import { TipIconButton as IconButton } from './TipButton';
 
-import { Subsonic } from '@subfire/core';
+import { Generic, Subsonic } from '@subfire/core';
 import { IdItemClick } from '@subfire/hooks';
-import { SubsonicTypes } from "@subfire/core";
 import { SvgIcon } from '@mui/material';
 
 export interface EntryListItemProps {
   useAvatar?: boolean
   subsonic: typeof Subsonic
   classes?: object,
-  item: SubsonicTypes.Generic
-  index: SubsonicTypes.Generic
+  item: Generic
+  index: Generic
   subtitle?: string
   showIndexText?: boolean
   onEntryClick?: IdItemClick

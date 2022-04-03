@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { action } from '@storybook/addon-actions';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 
-import { Subsonic, SubsonicTypes } from '@subfire/core';
+import { Generic, Playlist, Subsonic } from '@subfire/core';
 import EntryList from './EntryList';
 import { buildProcessEnvCredentials } from '@subfire/hooks';
 
@@ -11,8 +11,8 @@ export default {
   title: 'ui/EntryList'
 };
 
-function getSubTitle(g: SubsonicTypes.Generic): string {
-  const pl = g as SubsonicTypes.Playlist
+function getSubTitle(g: Generic): string {
+  const pl = g as Playlist
   const rv = pl.songCount + ' songs';
   return rv;
 }

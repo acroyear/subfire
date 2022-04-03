@@ -1,32 +1,32 @@
-import { SubsonicTypes } from '.';
+import { Album, Artist, ArtistsIndex, Bookmark, Channel, Genres, MusicDirectory, MusicDirectoryIndex, MusicFolders, Playlist } from "./SubsonicTypes";
 
 export const SubsonicCache = {
-  MusicFolders: [] as SubsonicTypes.MusicFolders,
+  MusicFolders: [] as MusicFolders,
 
   // map of id to indexes as string of the number, cached as you go, -1 for all
-  MusicDirectoryIndexes: {} as { [key: number]: SubsonicTypes.MusicDirectoryIndex[] },
+  MusicDirectoryIndexes: {} as { [key: number]: MusicDirectoryIndex[] },
 
-  MusicPaths: {} as { [key: string]: SubsonicTypes.MusicDirectory }, // full path for id
+  MusicPaths: {} as { [key: string]: MusicDirectory }, // full path for id
 
   // map of id to indexes as string of the number, cached as you go, -1 for all
-  ArtistIndexes: {} as { [key: number]: SubsonicTypes.ArtistsIndex[] },
+  ArtistIndexes: {} as { [key: number]: ArtistsIndex[] },
 
-  ArtistsById: {} as { [key: string]: SubsonicTypes.Artist },
-  ArtistsByName: {} as { [key: string]: SubsonicTypes.Artist },
+  ArtistsById: {} as { [key: string]: Artist },
+  ArtistsByName: {} as { [key: string]: Artist },
   ArtistNames: [] as string[],
 
-  Albums: {} as { [key: string]: SubsonicTypes.Album },
+  Albums: {} as { [key: string]: Album },
 
   // fetch on demand at the view layer but still cache
   ArtistInfoById: {} as { [key: string]: any },
   AlbumInfoById: {} as { [key: string]: any },
 
-  Playlists: {} as { [key: string]: SubsonicTypes.Playlist },
+  Playlists: {} as { [key: string]: Playlist },
 
-  Genres: [] as SubsonicTypes.Genres,
+  Genres: [] as Genres,
 
-  Podcasts: [] as SubsonicTypes.Channel[],
-  Bookmarks: [] as SubsonicTypes.Bookmark[],
+  Podcasts: [] as Channel[],
+  Bookmarks: [] as Bookmark[],
 
   reset: function () {
     // just an array of them, unsorted (view can sort)

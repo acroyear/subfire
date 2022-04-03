@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 
 import {
   Subsonic,
-  SubsonicTypes,
   SubsonicCache,
   createStations,
 } from "@subfire/core";

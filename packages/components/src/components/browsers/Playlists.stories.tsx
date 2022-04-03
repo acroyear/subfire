@@ -16,9 +16,9 @@ import {
     PlaylistSelectPropTypes,
     RadioSelect
 } from "../..";
-import { SubsonicTypes } from '@subfire/core';
 import { buildProcessEnvCredentials, SubsonicProvider } from "@subfire/hooks";
 import { action } from "@storybook/addon-actions";
+import { PlaylistsType } from "@subfire/core";
 
 export default {
     title: "browsers/Playlists",
@@ -39,7 +39,7 @@ const SubsonicWrapper: React.FC<any> = (props) => {
 
 const PlaylistGridInner = (_props: any) => {
     const [shuffle, toggleShuffle] = useToggle(false);
-    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
+    const [plType, setPlType] = useState<PlaylistsType>('playlists');
     console.log(plType)
     const Icon = shuffle ? Shuffle : PlayArrow;
     return (
@@ -47,7 +47,7 @@ const PlaylistGridInner = (_props: any) => {
             Shuffle: <Switch checked={shuffle} onChange={toggleShuffle} />
             <br />
             <Select value={plType} onChange={(evt) => {
-                const t = evt.target.value as SubsonicTypes.PlaylistsType;
+                const t = evt.target.value as PlaylistsType;
                 console.log('hi mom', t);
                 setPlType(() => t);
             }}>
@@ -79,7 +79,7 @@ export const PlaylistGridsDemo = (_props: any) => {
 
 const PlaylistListsInner = (_props: any) => {
     const [shuffle, toggleShuffle] = useToggle(false);
-    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
+    const [plType, setPlType] = useState<PlaylistsType>('playlists');
     console.log(plType)
     const Icon = shuffle ? Shuffle : PlayArrow;
 
@@ -96,7 +96,7 @@ const PlaylistListsInner = (_props: any) => {
             Shuffle: <Switch checked={shuffle} onChange={toggleShuffle} />
             <br />
             <Select value={plType} onChange={(evt) => {
-                const t = evt.target.value as SubsonicTypes.PlaylistsType;
+                const t = evt.target.value as PlaylistsType;
                 console.log('hi mom', t);
                 setPlType(() => t);
             }}>
@@ -132,7 +132,7 @@ export const PlaylistListsDemo = (_props: any) => {
 
 const PlaylistSelectInner = (_props: any) => {
     const [native, toggleNative] = useToggle(false);
-    const [plType, setPlType] = useState<SubsonicTypes.PlaylistsType>('playlists');
+    const [plType, setPlType] = useState<PlaylistsType>('playlists');
     const [playlistId, setPlaylistId] = useState<string>('');
 
     const Component: React.FC<any> = plType === 'stations' ? RadioSelect : PlaylistSelect;
@@ -157,7 +157,7 @@ const PlaylistSelectInner = (_props: any) => {
             Native: <Switch checked={native} onChange={toggleNative} />
             <br />
             <Select value={plType} onChange={(evt) => {
-                const t = evt.target.value as SubsonicTypes.PlaylistsType;
+                const t = evt.target.value as PlaylistsType;
                 console.log('hi mom', t);
                 setPlType(() => t);
             }}>

@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import { useSubsonic } from '@subfire/hooks';
 import { useTheme } from '@mui/material/styles';
 
-
-
 export interface SubsonicAvatarProps {
   user?: string
 }

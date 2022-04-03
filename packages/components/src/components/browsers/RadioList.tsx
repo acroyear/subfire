@@ -3,13 +3,13 @@ import { FC, useRef } from 'react';
 
 import { usePlaylistsScanner } from '@subfire/hooks';
 import SubsonicGridList from '../ui/SubsonicGridList';
-import { SubsonicTypes } from '@subfire/core';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { PlaylistListPropTypes } from './PlaylistList';
 import { EntryList } from '../ui/EntryList';
+import { Generic, Playlist, SubfireStation } from '@subfire/core';
 
-function getSubTitle(g: SubsonicTypes.Generic) {
-  const pl = g as SubsonicTypes.Playlist;
+function getSubTitle(g: Generic) {
+  const pl = g as Playlist;
   const rv = pl.songCount + ' songs';
   return rv;
 }
@@ -24,7 +24,7 @@ export const RadioList: FC<PlaylistListPropTypes> = (props) => {
     console.warn('Warning: stations are not being refreshed regularly.');
   }
 
-  const pl = pls?.stations || [] as SubsonicTypes.SubfireStation[];
+  const pl = pls?.stations || [] as SubfireStation[];
 
   const sortedStations = pl.reduce(
     (rv, n, _i, _ss) => {
@@ -36,7 +36,7 @@ export const RadioList: FC<PlaylistListPropTypes> = (props) => {
       rv.categoryStations[thisCat].push(n);
       return rv;
     },
-    { categories: [] as string[], categoryStations: {} as { [key: string]: SubsonicTypes.SubfireStation[] } }
+    { categories: [] as string[], categoryStations: {} as { [key: string]: SubfireStation[] } }
   );
 
   return (

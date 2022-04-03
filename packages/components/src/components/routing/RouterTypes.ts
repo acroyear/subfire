@@ -1,4 +1,4 @@
-import { SubsonicTypes } from "@subfire/core";
+import { PlaylistsType } from "@subfire/core";
 
 export type SubfireRouterParams = {
     id: string,
@@ -6,5 +6,5 @@ export type SubfireRouterParams = {
     mode: string,
     bookmarkId: string,
     position: string,
-    pltype: SubsonicTypes.PlaylistsType
+    pltype: PlaylistsType
 }
