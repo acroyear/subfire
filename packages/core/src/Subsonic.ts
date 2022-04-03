@@ -1,4 +1,4 @@
-import md5 from './utils/md5';
+import { md5 } from './utils/md5';
 import { versionCompare, arrayUnique, hexEncode, empty, arrayShuffle } from './utils/utils';
 import { SubsonicCache } from './SubsonicCache';
 import { SubsonicTypes } from '.';
@@ -57,7 +57,7 @@ export class SubsonicClass {
         .replace(/[^a-z]+/g, '');
       const t = md5(that._p + s);
       sp.set("s", s);
-      sp.set("t", t);
+      sp.set("t", t as string);
     } else {
       // currently unsupported
       that._encP = 'enc:' + hexEncode(that._p);
