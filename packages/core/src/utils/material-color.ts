@@ -1291,19 +1291,19 @@ var materialDataRGB = [
   'rgb(255,255,255)'
 ];
 
-export function parseRGB(s) {
+export function parseRGB(s: string): number[] {
   var rgb = s.match(/\d+/g);
   return rgb.map(x => parseInt(x, 10));
 }
 
-export function getPerceptualBrightness(colorArray) {
+export function getPerceptualBrightness(colorArray: number[]) {
   const r = colorArray[0];
   const g = colorArray[1];
   const b = colorArray[2];
   return r*2 + g*3 + b;
 }
 
-export function hexToRgb(hex) {
+export function hexToRgb(hex: string) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   hex = hex.replace(shorthandRegex, function (m, r, g, b) {
@@ -1320,7 +1320,7 @@ export function hexToRgb(hex) {
     : null;
 }
 
-export function hexColorToMaterial(color) {
+export function hexColorToMaterial(color: string) {
   var rgb = hexToRgb(color);
   if (!rgb) {
     console.warn('???', color);
@@ -1331,7 +1331,7 @@ export function hexColorToMaterial(color) {
   return colorToMaterial(red, green, blue);
 }
 
-export function colorToMaterial(red, green, blue) {
+export function colorToMaterial(red: number, green: number, blue: number) {
   console.debug("colorToMaterial", red, green, blue);
   var compareResult = [];
   for (let i = 0; i < materialData.length; i++) {

@@ -136,7 +136,13 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			$2[i] = s.charCodeAt(I) + (s.charCodeAt(I + 1) << 8) + (s.charCodeAt(I + 2) << 16) + (s.charCodeAt(I + 3) << 24);
 		}
 	}
-
+/**
+ * 
+ * @param {string} data 
+ * @param {boolean} [ascii] 
+ * @param {boolean} [arrayOutput] 
+ * @returns Array<string> | string
+ */
 	function md5(data, ascii, arrayOutput) {
 		md5_update(ascii ? data : encode(data));
 

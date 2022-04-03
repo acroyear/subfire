@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param {(any)=>void} func 
+ * @param {number} wait 
+ * @param {boolean} immediate 
+ * @returns 
+ */
 export default function debounce(func, wait, immediate) {
   var timeout;
 
