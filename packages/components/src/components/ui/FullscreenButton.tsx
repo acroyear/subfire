@@ -22,9 +22,9 @@ export const closeFullscreen = () => {
 }
 
 export interface FullscreenButtonProps {
-    iconClassName: string,
-    buttonClassName: string,
-    fab: boolean
+    iconClassName?: string,
+    buttonClassName?: string,
+    fab?: boolean
 }
 
 export const FullscreenButton: FC<FullscreenButtonProps> = (props: FullscreenButtonProps) => {
