@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useLocalStorage, useMedia } from 'react-use';
 import { singletonHook } from 'react-singleton-hook';
 
-import { MaterialColor, Colors } from '@subfire/core';
 import { createTheme, useTheme } from '@mui/material/styles';
 
 import {
@@ -12,6 +11,7 @@ import {
 } from '@mui/material/colors';
 import { PaletteMode } from '@mui/material';
 import { Tv } from '@mui/icons-material';
+import { colorToMaterial, getPalette, RGB } from '@subfire/core';
 
 /** these are all deprecated in favor of useAdjustableTheme */
 
@@ -32,8 +32,6 @@ interface MaterialColorStandardShades {
   A700: string;
   [key: string | number]: string;
 };
-
-const { colorToMaterial } = MaterialColor;
 
 export interface ImageElementTag {
   tag: HTMLImageElement
@@ -102,7 +100,7 @@ function parseColor(cname: string): string[] {
 
 type ThemeModes = PaletteMode | 'auto';
 
-function genThemePaletteFromColor(c: Colors.RGB | number[], _p: unknown) {
+function genThemePaletteFromColor(c: RGB | number[], _p: unknown) {
   console.warn("genThemePaletteFromColor", c);
   const mc = Array.isArray(c) ? colorToMaterial(c[0], c[1], c[2]) : colorToMaterial(c.r, c.g, c.b);
   let colorName = mc.closestMaterialName;
@@ -162,7 +160,7 @@ export function useImageColorThemeImplDeprecated() {
   useEffect(() => {
     console.warn(imageTag); 
     if (!imageTag?.tag) return;
-    const p = Colors.getPalette(imageTag.tag);
+    const p = getPalette(imageTag.tag);
     setPalette(p);
   }, [setPalette, imageTag]);
 

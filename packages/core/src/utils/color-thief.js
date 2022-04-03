@@ -17,6 +17,9 @@
  * @license
  */
 
+/**
+ * @type { import("./color-thief-types").ColorThiefLib }
+ */
 const ColorThief = function () { };
 
 /*

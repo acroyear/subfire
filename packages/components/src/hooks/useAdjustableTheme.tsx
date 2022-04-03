@@ -1,8 +1,7 @@
 import { hexToRgb, PaletteMode, Paper, StyledEngineProvider } from '@mui/material';
 import { green } from '@mui/material/colors';
 import { createTheme, ThemeProvider, styled, PaletteOptions } from '@mui/material/styles';
-import { getPalette, colorThiefColorToRGB, ColorThiefColor, colorThiefColorToHEX } from '@subfire/core/lib/utils/colors';
-import { getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core/lib/utils/material-color';
+import { ColorThiefColor, colorThiefColorToHEX, getPalette, getPerceptualBrightness, hexColorToMaterial, parseRGB } from '@subfire/core';
 import { FC, useEffect, useState } from 'react';
 import { createGlobalState, useMedia } from 'react-use';
 import { SubfireRouterParams, Tb1 } from '..';

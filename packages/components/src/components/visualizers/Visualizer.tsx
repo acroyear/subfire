@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useMount } from "react-use";
-import { useImagePalette } from "../../hooks/useAdjustableTheme";
 import { Wave } from "@foobar404/wave";
-import { ColorThiefColor, colorThiefColorToRGB } from "@subfire/core/lib/utils/colors";
 import { VisualizerFunction } from "./VisualizerFunction";
 import { fourArcs } from './fourArcs';
+import { ColorThiefColor, colorThiefColorToRGB } from "@subfire/core";
+import { useImagePalette } from "../../hooks/useAdjustableTheme";
 
 export interface VisualizerProps {
     canvasId?: string;

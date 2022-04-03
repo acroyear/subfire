@@ -1,11 +1,5 @@
-import ColorThief1 from './color-thief';
-const ColorThief2 = ColorThief1 as unknown;
-export type ColorThiefColor = [number, number, number];
-export interface ColorThiefLib {
-  new(): ColorThiefLib;
-  getColor: (img: HTMLImageElement | null) => ColorThiefColor;
-  getPalette: (img: HTMLImageElement | null, quantity?: number, quality?: number) => ColorThiefColor[];
-}
+import { ColorThiefColor } from "./color-thief-types";
+import ColorThief from './color-thief';
 
 export const colorThiefColorToHEX = (ctc: ColorThiefColor): string => {
   return "#" + (new RGB(ctc).toHexString());
@@ -19,9 +13,6 @@ interface GradientsPalette {
   gradients: string[],
   palette: ColorThiefColor[];
 }
-
-// stupid module crap don't work
-const ColorThief = ColorThief2 as ColorThiefLib;
 
 export class CanvasImage {
   canvas: HTMLCanvasElement;
