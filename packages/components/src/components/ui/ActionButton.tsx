@@ -29,8 +29,8 @@ const ActionButton = (props: any) => {
   if (props.fab) {
     // coreProps.variant = "fab";
     Component = Fab;
-    if (props.standalone) coreProps.classes = { root: props.classes.standalone };
-  } else coreProps.classes = { root: props.classes.root };
+    if (props.standalone) coreProps.classes = { root: props.classes?.standalone };
+  } else coreProps.classes = { root: props.classes?.root };
   if (props.is) {
     // eslint-disable-next-line
     coreProps.component = ({ className = '', ...coreProps }) => <button {...coreProps} className={className} is={props.is} />;

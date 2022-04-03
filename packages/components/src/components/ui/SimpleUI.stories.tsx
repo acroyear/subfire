@@ -4,6 +4,7 @@ import {
 } from "@mui/icons-material";
 import { Button, Fab, IconButton, Switch } from "@mui/material";
 import { useToggle } from "react-use";
+import FullscreenButton from "./FullscreenButton";
 
 export default {
     title: 'ui/SimpleUI'
@@ -21,6 +22,7 @@ export const ButtonRowDemo = (_args: any) => {
                 <Fab><Radio /></Fab>
                 <IconButton><Radio /></IconButton>
                 <Button><Radio /></Button>
+                <FullscreenButton />
             </ButtonRow>
         </>);
 }
