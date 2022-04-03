@@ -7,7 +7,7 @@ export * from './utils/colors';
 export * from './utils/color-thief-types';
 export * from './SubsonicTypes';
 export { SubsonicCache } from './SubsonicCache';
-export { Subsonic } from './Subsonic';
+export { Subsonic, SubsonicClass } from './Subsonic';
 export { AuthExchangeActions } from './AuthExchangeActions';
 export { createStations } from './SubfireStations';
 export { SubsonicQueue, persistCurrentPlayingTime } from './SubsonicQueue';

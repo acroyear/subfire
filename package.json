@@ -13,8 +13,9 @@
   "devDependencies": {
     "lerna": "^3.22.1",
     "typedoc": "^0.22.13",
-    "typescript": "^4.6.3",
-    "typedoc-plugin-resolve-crossmodule-references": "^0.1.1"
+    "typedoc-plugin-resolve-crossmodule-references": "^0.1.1",
+    "typedoc-plugin-missing-exports": "^0.22.6",
+    "typescript": "^4.6.3"
   },
   "resolutions": {
     "babel-loader": "8.1.0",
@@ -27,6 +28,6 @@
     "start": "lerna run start --stream",
     "comp-bundle": "cd packages/components/src && find ./components ./hooks -name \"*.*\" | grep -v .stories | grep -v '\\.d.ts' | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",
     "hooks-bundle": "cd packages/hooks/src && find . -name \"*.*\" | grep -v '^.$' | grep -v 'index' | grep -v .stories | sed \"s/^/export * from \\\"/\" | sed \"s/$/\\\"/\" | sed \"s/\\.[jt]sx*//\" > index.ts",
-    "docs": "typedoc --plugin typedoc-plugin-resolve-crossmodule-references --entryPointStrategy packages packages/core packages/hooks packages/components"
+    "docs": "typedoc --plugin typedoc-plugin-missing-exports --plugin typedoc-plugin-resolve-crossmodule-references --entryPointStrategy packages packages/core packages/hooks packages/components"
   }
 }
