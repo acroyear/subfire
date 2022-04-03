@@ -3,7 +3,6 @@
   "version": "4.0.9",
   "description": "Hooks from subfire for react/preact w/out material",
   "author": "Joe Shelby <jws.fbmm@gmail.com>",
-  "homepage": "https://bitbucket.org/jcc70/subfire4#readme",
   "license": "MIT",
   "main": "./lib/index.js",
   "module": "./lib-ems/index.js",
@@ -36,9 +35,5 @@
   },
   "files": [
     "lib"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/jcc70/subfire4.git"
-  }
+  ]
 }
