@@ -20,6 +20,8 @@ export class SubsonicClass {
   _b: string = '0'
   _c: string = 'SubFire4'
   _encP: string = ''
+  _cs: string = ''
+  _ct: string = ''
   connected: boolean = false
   coverArtCache: CoverArtCache = {}
 
@@ -50,7 +52,10 @@ export class SubsonicClass {
     for (const p in id) {
       sp.set(p, id[p]);
     }
-    if (that._p && versionCompare(that.serverAPIVersion, '1.13.0') >= 0) {
+    if (that._ct && that._cs) {
+      sp.set('s', that._cs);
+      sp.set('t', that._ct);
+    } else if (that._p && versionCompare(that.serverAPIVersion, '1.13.0') >= 0) {
       const s = Math.random()
         .toString(36)
         .replace(/[^a-z]+/g, '');
@@ -112,6 +117,18 @@ export class SubsonicClass {
     });
   }
 
+  configureFixed = (server: string, username: string, seed: string, token: string, bitrate: string, clientName: string, doReset = true) => {
+    this.serverAPIVersion = '1.13.0';
+    this._u = username;
+    this._s = server;
+    this._b = bitrate || '0';
+    this._cs = seed;
+    this._ct = token;
+    // fix this
+    this._c = clientName || 'SubFireLibDemoIncomplete';
+    if (doReset) { SubsonicCache.reset(); }
+  }
+
   configure = (server: string, username: string, password: string, bitrate: string, clientName: string, doReset = true) => {
     this.serverAPIVersion = '1.13.0';
     this._u = username;
@@ -123,13 +140,27 @@ export class SubsonicClass {
     if (doReset) { SubsonicCache.reset(); }
   }
 
-  open = (server: string, username: string, password: string, bitrate: string, clientName: string) => {
+  openFixed = (server: string, username: string, seed: string, token: string, bitrate: string, clientName: string): Promise<any> => {
+    this.connected = false;
+    this.coverArtCache = {};
+
+    // reset capabilities
+    this.configureFixed(server, username, seed, token, bitrate, clientName);
+
+    return this._finishOpen();
+  }
+
+  open = (server: string, username: string, password: string, bitrate: string, clientName: string): Promise<any> => {
     this.connected = false;
     this.coverArtCache = {};
 
     // reset capabilities
     this.configure(server, username, password, bitrate, clientName);
 
+    return this._finishOpen();
+  }
+
+  _finishOpen = () => {
     const that = this;
     return new Promise((rs, rj) => {
       that

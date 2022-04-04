@@ -1,14 +1,25 @@
 import React, { createContext, useContext } from 'react';
 import { useLocalStorage } from "react-use";
 import { v4 as uuidv4 } from "uuid";
+import {Merge, MergeExclusive} from 'type-fest';
 
-export interface SubfireCredentials {
+interface SCBaseline {
   name: string,
   server: string,
   username: string,
-  password: string,
-  bitrate: string
+  bitrate: string,
+  clientName?: string
+};
+
+interface SCPassword {
+  password: string
+};
+
+interface SCToken {
+  seed: string, token: string
 }
+
+export type SubfireCredentials = Merge<SCBaseline, MergeExclusive<SCPassword, SCToken>>;
 
 interface SubfireCredentialsCollection {
   [key: string]: SubfireCredentials
@@ -20,13 +31,13 @@ export interface SubfireCredentialsSet {
 }
 
 function createDemo(): SubfireCredentialsSet {
-  const SubFireDemo = {
+  const SubFireDemo: SubfireCredentials = {
     name: "SubFire Demo",
     server: "https://subfiresuite.com/ampache",
     username: "guest",
     password: "guest1",
     bitrate: "0",
-  } as SubfireCredentials;
+  };
   const demo = uuidv4();
   const creds = {} as SubfireCredentialsCollection;
   creds[demo] = SubFireDemo;

@@ -27,13 +27,13 @@ export interface SubsonicContextContent {
 }
 
 export function buildProcessEnvCredentials(): SubfireCredentials {
-  const credentials = {
+  const credentials: SubfireCredentials = {
     server: process.env.sf_server,
     username: process.env.sf_username,
     password: process.env.sf_password,
     bitrate: process.env.sf_bitrate,
     name: "SubFire4Storybook"
-  } as SubfireCredentials;
+  };
   return credentials;
 }
 
